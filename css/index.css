@@ -1,0 +1,170 @@
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-tap-highlight-color:rgba(0,0,0,0)}body,div,p,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h5,h6{font-size:100%;font-weight:500}img{border:0}a{color:#000;text-decoration:none}.wrap{max-width:16rem;margin:0 auto 0 auto;overflow:hidden}.article{margin:0 15px 0 15px}.article h1{padding:.3rem 0 .15rem 0;font-size:25px;line-height:34px;font-weight:700;text-align:justify}.article strong{font-weight:700}.article blockquote{margin:0}.article .info{height:1.05rem;line-height:1.05rem;font-size:.5rem;color:#999}.article .content{position:relative;overflow:hidden;font-size:19px;line-height:29px;color:#1a1a1a}.article .content p{margin:0 auto 17px auto;text-align:justify}.article .content img{visibility:show}.article .content center{padding:.125rem 0 .125rem 0;text-align:center}.article img{width:100%;display:block;margin:0 auto 0 auto}
+        /*body>*:not([ahw]){display: none;}*/
+
+        /*新增样式*/
+        .article .info {
+        	float: left;
+        	width: 24%;
+        }
+        .article .content {
+        	width: 100%;
+        }
+		.go_download {
+			position: relative;
+			float: left;
+			width: 62%;
+			height: 1.05rem;
+			line-height: .8rem;
+		}
+			.go_download a {
+				color: #dc4b29;
+			}
+			.go_download span {
+				font-size: 4vw;
+			}
+			.go_download img {
+				position: absolute;
+				right: 2vw;
+				top: 1vw;
+				width: 38%;
+			}
+
+		.title_ad {
+			width: 100%;
+			height: 10vw;
+			margin: 1vw 0; 
+			background: red;
+		}
+		.article_ad {
+			width: 92%;
+			height: 25vw;
+			margin: 2vw auto;
+			background: red;
+		}
+		.copyright {
+			font-size: 4.5vw;
+			width: 92%;
+			color: #ccc;
+			margin: auto;
+		}
+		
+		/*猜你喜欢*/
+		.guss_like {
+			width: 92%;
+			margin: auto;
+			font-size: 4.5vw;
+			padding-bottom: 5vw;
+			/*background: red;*/
+		}
+			.guss_title {
+				width: 70%;
+				text-indent: 10px;
+				margin-bottom: 3vw;
+				border-left: 4px solid blue;
+			}
+				.guss_like ul li {
+					list-style: none;
+					height: 30vw;
+					border-bottom: 1px solid #EFEFEF;
+				}
+				.guss_like ul li:nth-of-type(1) {
+					border-top: 1px solid #EFEFEF; 
+				}
+					.guss_like ul li img {
+						height: 22vw;
+						margin-top: 4vw;
+						float: right;
+					}
+				.guss_font {
+					position: relative;
+					float: left;
+					width: 64%;
+					height: 100%;
+				}
+					.guss_list_title {
+						margin-top: 3vw;
+						height: 18vw;
+						float: left;
+						font-size: 4vw;
+						color: #252525;
+						font-weight: bold;
+					}
+					.guss_list_source {
+						position: absolute;
+						font-size: 3.7vw;
+						color: #A7A7A7;
+						width: 100%;
+						bottom: 2.5vw;
+					}
+		/*底部悬浮样式*/
+		.block_div {
+			width: 100%;
+			height: 23vw;
+		}
+		.footer{ 
+       		position: fixed;
+       		width: 100%;
+       		height: 20vw;
+       		z-index: 900;
+       		bottom: 0;
+       		background: white;
+    		box-shadow: 0px -3px 2px 0px rgba(0, 0, 0, 0.15);
+       	}
+       .wrap-page{ 
+       		top: 18vw; 
+       		bottom: 18vw; 
+       		overflow-y: auto; 
+       		-webkit-overflow-scrolling:touch;
+       	}
+		
+       .logo {
+       		float: left;
+			width: 12vw;
+			height: 12vw;
+			margin-top: 4vw;
+			margin-left: 5vw;
+			border-radius: 90px;
+		}
+
+		.text-div {
+			float: left;
+			color: black;
+			height: 16vw;
+			width: 50%;
+			margin-top: 2vw;
+			margin-left: 4vw;
+			/*background: red;*/
+		}
+		.text-div .title {
+			font-size: 4.5vw;
+		}
+		.text-div .detail {
+			display: block;
+			margin-top: 2vw;
+			font-size: 3.7vw;
+			color: #9F9F9F;
+		}
+
+		.download-btn {
+			float: right;
+			margin-right: 3vw;
+			width: 20vw;
+			height: 8vw;
+			margin-top: 6vw;
+			text-align: center;
+			line-height: 8vw;
+			font-size: 4vw;
+			border-radius: 90px;
+			color: white;
+			background-color: #fe7800;
+		}
+		.download-btn a:link {   
+			font-size: 0.9rem;   
+			color: #fff;   
+			text-decoration: none;   
+		}   
+		.download-btn a:visited {   
+			font-size: 0.9rem;   
+			color: #fff;   
+			text-decoration: none;   
+		}
