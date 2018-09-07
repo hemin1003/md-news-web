@@ -31,16 +31,20 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 
 		.title_ad {
 			width: 100%;
-			height: 10vw;
+			/*height: 10vw;*/
 			margin: 1vw 0; 
-			background: red;
 		}
+			.title_ad img {
+				width: 100%;
+			}
 		.article_ad {
 			width: 92%;
-			height: 25vw;
+			/*height: 25vw;*/
 			margin: 2vw auto;
-			background: red;
 		}
+			.article_ad img {
+				width: 100%;
+			}
 		.copyright {
 			font-size: 4.5vw;
 			width: 92%;
@@ -72,6 +76,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				}
 					.guss_like ul li img {
 						height: 22vw;
+						width: 30%;
 						margin-top: 4vw;
 						float: right;
 					}
@@ -108,6 +113,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
        		z-index: 900;
        		bottom: 0;
        		background: white;
+       		display: none;
     		box-shadow: 0px -3px 2px 0px rgba(0, 0, 0, 0.15);
        	}
        .wrap-page{ 
