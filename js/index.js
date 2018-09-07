@@ -2,15 +2,18 @@ $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
 			this.adHostname = "http://182.92.82.188:8084";
-			this.Url;
+			this.Urls;
 			this.page = 1;
 		}
 		outSideFn.prototype = {
 			Init() {
 				var that = this;
-				this.ajaxFn(1);
 				this.ajaxDomain();
+				this.ajaxFn(1);
 				this.ajaxAdFn();
+
+				// 配置go_download文件
+				$(".go_download span").text('现在干什么能赚钱');
 				// 滚动事件
 				$(window).scroll(function() {
 					var doc_height = $(document).height();
@@ -18,11 +21,12 @@ $(function() {
         			var window_height = $(window).height();
         			if(scroll_top + window_height >= doc_height) {
         				that.page++
-        				setTimeout(that.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
+        				setTimeout(that.LazyFn,10); // 由于数据是api插入的，所以需要延迟加载
         				that.ajaxFn(that.page);
         			}
 					$(".footer").slideDown(500);
 				});
+				console.log(that);
 				setTimeout(this.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
 
 				
@@ -33,8 +37,9 @@ $(function() {
 				var that = this;
 				$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideConfig",function(res) {
 					if(res.code == 200) {
+						console.log('6666');
 						$(".go_download a").attr("href",res.data.outSideAppDownloadUrl);
-						that.Url = res.data.outSideAppDownloadUrl;
+						that.Urls = res.data.outSideAppDownloadUrl;
 					}else {
 						console.error(that.adHostname+"请求出错！");
 					}
@@ -50,7 +55,6 @@ $(function() {
 							switch(res.data[i].outsidePosition){
 								case 1:
 									// 置顶
-								  // console.log(res.data[i].outsidePosition);
 								  break;
 								case 5:
 									// 文顶广告
@@ -77,21 +81,21 @@ $(function() {
 					curPage: page,
 					title: t
 				};
+				console.log(that.Urls);
 				$.ajax({
                     type:"get",
 					url: this.hostname,
 					data: datas,
-					async: false,
                     success: function(res) {
                     	console.log(res);
-
                     	for(var i = 0, L = res.data.entityList.length; i < L; i++) {
                     		var Title = res.data.entityList[i].title,
                     			Url = res.data.entityList[i].url,
                     			category = res.data.entityList[i].category,
-                    			Img = res.data.entityList[i].imageList[0];
+                    			Img = res.data.entityList[i].imageList[0],
+                    			u = that.Urls || "http://url.cn/5fEeGsL";
                     		
-                    		$(".guss_like ul").append('<a href="'+that.Url+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img data-src="'+Img+'" alt="ads"></li></a>');
+                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img data-src="'+Img+'" alt="ads"></li></a>');
                     	}
                      },
                      error:function(res) {

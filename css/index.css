@@ -152,6 +152,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 		}
 
 		.download-btn {
+			display: inline-block;
 			float: right;
 			margin-right: 3vw;
 			width: 20vw;
