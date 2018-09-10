@@ -2,7 +2,6 @@ $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
 			this.adHostname = "http://182.92.82.188:8084";
-			this.Urls;
 			this.page = 1;
 		}
 		outSideFn.prototype = {
@@ -35,11 +34,11 @@ $(function() {
 					if(that.getQueryString("from") == "ytt") {
 						// 站内
 						$(".footer").hide();
-						that.outTurn = 1;  //outTurn  1=>站内  0=>站外
+						// that.outTurn = 1;  //outTurn  1=>站内  0=>站外
 					}else {
 						// 站外
 						$(".footer").slideDown(500);
-						that.outTurn = 0;
+						// that.outTurn = 0;
 					}
 
 					
@@ -86,7 +85,7 @@ $(function() {
 								  break;
 								case 6:
 									// 文末
-									$(".article_ad").html('<img data-src="'+res.data[i].imgUrlOutside+'"/>');
+									$(".article_ad").html('<img src="'+res.data[i].imgUrlOutside+'"/>');
 									$(".article_ad").parent().attr("href",res.data[i].url);
 							  		break;
 							}
@@ -110,6 +109,7 @@ $(function() {
 					data: datas,
                     success: function(res) {
                     	console.log(res);
+                    	console.log(that.Urls);
                     	that.L = res.data.entityList.length;
                     	if(res.data.entityList.length > 0) {
                     		for(var i = 0, L = res.data.entityList.length; i < L; i++) {
@@ -118,9 +118,9 @@ $(function() {
 	                    			category = res.data.entityList[i].category,
 	                    			Img = res.data.entityList[i].imageList[0],
 	                    			u;
-	                    			if(that.outTurn == 1) {
+	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
-	                    				u = Url;
+	                    				u = Url+"?from=ytt";
 	                    			}else {
 	                    				// 站外
 	                    				u = that.Urls || "http://url.cn/5fEeGsL";
