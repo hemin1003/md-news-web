@@ -25,7 +25,7 @@ $(function() {
         				// 有内容才处理
         				if(that.L > 0) {
         					that.page++
-        					setTimeout(that.LazyFn,10); // 由于数据是api插入的，所以需要延迟加载
+        					setTimeout(that.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
         					that.ajaxFn(that.page);
         				}
         			}
