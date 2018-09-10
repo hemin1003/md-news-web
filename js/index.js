@@ -14,30 +14,53 @@ $(function() {
 
 				// 配置go_download文件
 				$(".go_download span").text('现在干什么能赚钱');
+				// 配置title
+				$("title").text($(".article h1").text());
+
 				// 滚动事件
 				$(window).scroll(function() {
 					var doc_height = $(document).height();
         			var scroll_top = $(document).scrollTop(); 
         			var window_height = $(window).height();
         			if(scroll_top + window_height >= doc_height) {
-        				that.page++
-        				setTimeout(that.LazyFn,10); // 由于数据是api插入的，所以需要延迟加载
-        				that.ajaxFn(that.page);
+        				// 有内容才处理
+        				if(that.L > 0) {
+        					that.page++
+        					setTimeout(that.LazyFn,10); // 由于数据是api插入的，所以需要延迟加载
+        					that.ajaxFn(that.page);
+        				}
         			}
-					$(".footer").slideDown(500);
+
+        			// 判断站内还是站外
+					if(that.getQueryString("from") == "ytt") {
+						// 站内
+						$(".footer").hide();
+						that.outTurn = 1;  //outTurn  1=>站内  0=>站外
+					}else {
+						// 站外
+						$(".footer").slideDown(500);
+						that.outTurn = 0;
+					}
+
+					
 				});
-				console.log(that);
+
 				setTimeout(this.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
-
-				
-
+			},
+			// 获取参数fn
+			getQueryString:function(name) {
+			    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+			    var r = window.location.search.substr(1).match(reg);
+			    if (r != null) {
+			        return unescape(r[2]);
+			    }
+			    return null;
 			},
 			// 站外app下载链接url
 			ajaxDomain() {
 				var that = this;
 				$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideConfig",function(res) {
 					if(res.code == 200) {
-						console.log('6666');
 						$(".go_download a").attr("href",res.data.outSideAppDownloadUrl);
 						that.Urls = res.data.outSideAppDownloadUrl;
 					}else {
@@ -58,7 +81,7 @@ $(function() {
 								  break;
 								case 5:
 									// 文顶广告
-									$(".title_ad").html('<img data-src="'+res.data[i].imgUrlOutside+'"/>');
+									$(".title_ad").html('<img src="'+res.data[i].imgUrlOutside+'"/>');
 									$(".title_ad").parent().attr("href",res.data[i].url);
 								  break;
 								case 6:
@@ -81,21 +104,31 @@ $(function() {
 					curPage: page,
 					title: t
 				};
-				console.log(that.Urls);
 				$.ajax({
                     type:"get",
 					url: this.hostname,
 					data: datas,
                     success: function(res) {
                     	console.log(res);
-                    	for(var i = 0, L = res.data.entityList.length; i < L; i++) {
-                    		var Title = res.data.entityList[i].title,
-                    			Url = res.data.entityList[i].url,
-                    			category = res.data.entityList[i].category,
-                    			Img = res.data.entityList[i].imageList[0],
-                    			u = that.Urls || "http://url.cn/5fEeGsL";
-                    		
-                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img data-src="'+Img+'" alt="ads"></li></a>');
+                    	that.L = res.data.entityList.length;
+                    	if(res.data.entityList.length > 0) {
+                    		for(var i = 0, L = res.data.entityList.length; i < L; i++) {
+	                    		var Title = res.data.entityList[i].title,
+	                    			Url = res.data.entityList[i].url,
+	                    			category = res.data.entityList[i].category,
+	                    			Img = res.data.entityList[i].imageList[0],
+	                    			u;
+	                    			if(that.outTurn == 1) {
+	                    				// 站内
+	                    				u = Url;
+	                    			}else {
+	                    				// 站外
+	                    				u = that.Urls || "http://url.cn/5fEeGsL";
+	                    			}
+	                    			
+	                    		
+	                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img data-src="'+Img+'" alt="ads"></li></a>');
+	                    	}
                     	}
                      },
                      error:function(res) {
@@ -109,6 +142,7 @@ $(function() {
 				$("img").lazyload({ 
 		          	placeholder : "images/loading.gif",
 		            effect: "fadeIn",
+		            threshold: 100,
 		            data_attribute: "src",
 		        }); 
 			},
