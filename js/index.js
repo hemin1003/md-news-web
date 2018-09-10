@@ -25,7 +25,7 @@ $(function() {
         				// 有内容才处理
         				if(that.L > 0) {
         					that.page++
-        					setTimeout(that.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
+        					// setTimeout(that.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
         					that.ajaxFn(that.page);
         				}
         			}
@@ -111,25 +111,37 @@ $(function() {
                     	console.log(res);
                     	console.log(that.Urls);
                     	that.L = res.data.entityList.length;
-                    	if(res.data.entityList.length > 0) {
-                    		for(var i = 0, L = res.data.entityList.length; i < L; i++) {
-	                    		var Title = res.data.entityList[i].title,
-	                    			Url = res.data.entityList[i].url,
-	                    			category = res.data.entityList[i].category,
-	                    			Img = res.data.entityList[i].imageList[0],
+                    	that.ads = res.data.entityList;
+                    	
+                    	// 调用新闻
+                    	$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
+                    		console.log(adres);
+                    		
+                    		that.ads.splice(1,0,adres.data[0]);
+                    		console.log(that.ads.length);
+                    	});
+                    	if(that.ads.length > 0) {
+                    		console.log(that.ads.length);
+                    		for(var i = 0, L = that.ads.length; i < L; i++) {
+	                    		var Title = that.ads[i].title,
+	                    			Url = that.ads[i].url,
+	                    			category = that.ads[i].category,
+	                    			Img = that.ads[i].imageList[0],
 	                    			u;
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
 	                    				u = Url+"?from=ytt";
+	                    				$(".go_download").hide();
 	                    			}else {
 	                    				// 站外
 	                    				u = that.Urls || "http://url.cn/5fEeGsL";
 	                    			}
 	                    			
 	                    		
-	                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img data-src="'+Img+'" alt="ads"></li></a>');
+	                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
 	                    	}
                     	}
+                    	// });
                      },
                      error:function(res) {
                      	console.log('66666');
