@@ -102,6 +102,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 					}
 					.guss_like ul .typeMuch img {
 						width: 32%;
+						height: 20vw;
 						float: left;
 					}
 					.guss_like ul .typeMuch img:nth-of-type(2) {
