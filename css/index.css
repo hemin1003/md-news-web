@@ -68,17 +68,48 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 			}
 				.guss_like ul li {
 					list-style: none;
-					height: 30vw;
 					border-bottom: 1px solid #EFEFEF;
 				}
-				.guss_like ul li:nth-of-type(1) {
+				.guss_like ul .typeRight {
+					height: 30vw;
+				}
+				.guss_like ul a {
+					display: block;
+				}
+				.guss_like ul a:nth-of-type(1) {
 					border-top: 1px solid #EFEFEF; 
 				}
-					.guss_like ul li img {
+					.guss_like ul .typeRight img {
 						height: 22vw;
 						width: 30%;
 						margin-top: 4vw;
 						float: right;
+					}
+
+					.typeBig_title,.typeMuch {
+						margin-top: 2vw;
+						margin-bottom: 2vw; 
+						font-size: 4vw;
+						font-weight: bold;
+					}
+					.guss_like ul .typeBig img {
+						width: 100%;
+					}
+					.typeBig_source,.typeMuch_source {
+						color: #A7A7A7;
+						font-size: 3.7vw;
+						margin: 3vw 0;
+					}
+					.guss_like ul .typeMuch img {
+						width: 32%;
+						float: left;
+					}
+					.guss_like ul .typeMuch img:nth-of-type(2) {
+						margin: 0 1.2%;
+					}
+					.typeMuch_source {
+						width: 100%;
+						padding-top: 21vw;
 					}
 				.guss_font {
 					position: relative;

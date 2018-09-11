@@ -115,33 +115,60 @@ $(function() {
                     	
                     	// 调用新闻
                     	$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
-                    		console.log(adres);
+							console.log(adres);
+							console.log(adres.data.entityList.length);
                     		
-                    		that.ads.splice(1,0,adres.data[0]);
-                    		console.log(that.ads.length);
-                    	});
+                    		for(var j = 1,g = 0; j < adres.data.entityList.length*2; j=j+2,g++) {
+								that.ads.splice(j,0,adres.data.entityList[g]);
+                    		}
+                    	// });
                     	if(that.ads.length > 0) {
-                    		console.log(that.ads.length);
+							console.log(that.ads);
                     		for(var i = 0, L = that.ads.length; i < L; i++) {
 	                    		var Title = that.ads[i].title,
 	                    			Url = that.ads[i].url,
 	                    			category = that.ads[i].category,
-	                    			Img = that.ads[i].imageList[0],
+									Img = that.ads[i].imageList[0],
+									Img2 = that.ads[i].imageList[1],
+									Img3 = that.ads[i].imageList[2],
+									Type = that.ads[i].type,
+									Flag = that.ads[i].flag,
 	                    			u;
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
 	                    				u = Url+"?from=ytt";
 	                    				$(".go_download").hide();
 	                    			}else {
-	                    				// 站外
-	                    				u = that.Urls || "http://url.cn/5fEeGsL";
+										// 站外
+										if(Flag == 1) {
+											u = that.Urls || "http://url.cn/5fEeGsL";
+										}else {
+											u = Url;
+										}
+	                    				
 	                    			}
-	                    			
+									if(Type == undefined) {
+										Type = 1;
+									}
+									switch(Type){
+										case 0:
+											// 大图
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source">'+category+'</div></li></a>');
+										  break;
+										case 1:
+											// 单图
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
+										  break;
+										case 2:
+											// 三图
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"><div class="typeMuch_source">'+category+'</div></li></a>');
+											break;
+									}
+	                    		console.log(Type);
 	                    		
-	                    		$(".guss_like ul").append('<a href="'+u+'"><li><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
 	                    	}
                     	}
-                    	// });
+                    	});
                      },
                      error:function(res) {
                      	console.log('66666');

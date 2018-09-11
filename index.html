@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>outsideH5</title>
+<title>#{dynamicTitle}</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,85 +12,21 @@
 <script>        window.addEventListener('orientationchange' in window ? 'orientationchange' : 'resize', (function () {            function f() {                var d = document.documentElement;                var cw = d.clientWidth || 640;                var fs = 0;                if (cw <= 320) {                    fs = 24;                } else if (cw <= 416) {                    fs = 26;                } else {                    fs = 20 * (cw / 320) > 40 ? 40 : 20 * (cw / 320);                }                d.style.fontSize = fs + 'px';            }            f();            return f;        })());    </script>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.lazyload.min.js"></script>
-<!-- 百度ad -->
 <!-- <script data-product="20035" data-android-channal="h5a20180523ban223" data-ios-channal="h5a20180523ban223" src="//cdn.ipadview.com/jssdk/combo.bundle.js"></script> -->
 <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
 	<section ahw="1" class="wrap">
 		<div class="article">
-			<h1>2岁男童总爱哭喊“屁屁难受”，去医院检查完，宝妈当场欲哭无泪</h1>
-			<!-- 13:39:47 爱东方 -->
-			<div class="info">
-				  2018-08-30
-			</div>
-			<!-- 插入跳转下载页 -->
-			<div class="go_download">
-				<a href="http:///www.baidu.com"><span></span></a>
-				<img src="images/1.png" alt="title_logo">
-			</div>
-			
-			<div class="content">
-				<!-- title 广告位 -->
-				<a href=""><div class="title_ad">title广告</div></a>
-
-				<p>
-					一个两岁的小男孩总跟妈妈说屁屁不舒服，起初妈妈以为孩子是患了蛔虫病，知道真相后，妈妈后悔不已，到底是什么原因呢，让我们一起来看看吧。
-				</p>
-				<p>
-					<img data-src="http://img.ytoutiao.net/0cdb3bfb18b822d2a8e5a0e65483fb33" data-size="640,480">
-				</p>
-				<p>
-					家住在山东省的强强，今年已经两岁了，不过却还是一直穿着纸尿裤，因为妈妈觉得穿纸尿裤很方便，自己也能整夜睡好觉。但最近一段时间，强强总跟妈妈说自己的屁屁不舒服。
-				</p>
-				<p>
-					<img data-src="http://img.ytoutiao.net/0bbfc1835b87ea984ec4d8ee2c135fc0" data-size="660,495">
-				</p>
-				<p>
-					起初妈妈以为强强是患了蛔虫病，于是给强强吃了两片打虫药，但是在这之后强强仍然对妈妈说屁屁不舒服，这引起了妈妈的重视。妈妈查看了强强的屁屁之后，才发现强强的屁股很红，而且上面还有一些类似疹子的小点。
-				</p>
-				<p>
-					<img data-src="http://img.ytoutiao.net/f8364baed716e6026a946f71587a7fc0" data-size="1200,900">
-				</p>
-				<p>
-					于是妈妈带强强去了医院，才知道，原来强强得了尿布疹。因为妈妈太忙，有的时候给强强穿上了纸尿裤，就忘了换下来。再加上强强比较好动，经常出汗，纸尿裤又不透气，屁屁经常处在潮湿的环境当中，自然就容易得上尿布疹。
-				</p>
-				<p>
-					<img data-src="http://img.ytoutiao.net/6864fc2a261509066bc4b4e9d33efc78" data-size="1576,915">
-				</p>
-				<p>
-					医生告诉强强的妈妈，回家之后多给强强洗澡，注意屁屁通风就可以了。听了医生说的话，强强的妈妈很是后悔，怪自己一时懒惰才让强强受了这么多罪。
-				</p>
-				<p>
-					<img data-src="http://img.ytoutiao.net/9140bef9dc406143ab1d5b590a867867" data-size="800,533">
-				</p>
-				<p>
-					小编提醒各位宝妈，在照顾宝宝的时候，一定要非常细心，才能让宝宝健康快乐的成长，你还知道在照顾宝宝的时候有哪些问题是需要注意的吗？欢迎把你知道的写在下面与大家分享一下。
-				</p>
-			</div>
+			#{dynamicContent}
 		</div>
 	</section>
 	<!-- 版权固定 -->
 	<p class="copyright">版权声明:本文及配图均为自媒体用户上传，不代表平台观点。如有侵权，请联系我们删除。</p>
-	<!-- 文章末尾广告 -->
-	<a href=""><div class="article_ad">文章末尾广告</div></a>
-	<!-- 猜你喜欢 -->
+	<a href=""><div class="article_ad"></div></a>
 	<div class="guss_like">
 		<div class="guss_title">猜你喜欢</div>
 		<ul>
-			<!-- <a href="#">
-				<li>
-					<div class="guss_font">
-						<div class="guss_list_title">比蒙古国海军还要惨？这国海军刚刚造出一艘军舰，突然发现海没了</div>
-						<div class="guss_list_source">军情堡</div>
-					</div>
-					
-					<img src="http://img.ytoutiao.net/99206fb306434a5bc98e0ceb26ba6ee0" alt="ads">
-				</li>
-			</a>
-			<li>2</li>
-			<li>3</li> -->
 		</ul>
 	</div>
 	<!-- 底部悬浮 -->
