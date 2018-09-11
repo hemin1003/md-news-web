@@ -80,12 +80,12 @@ $(function() {
 								  break;
 								case 5:
 									// 文顶广告
-									$(".title_ad").html('<img src="'+res.data[i].imgUrlOutside+'"/>');
+									$(".title_ad").html('<img src="'+res.data[i].imageList[0]+'"/>');
 									$(".title_ad").parent().attr("href",res.data[i].url);
 								  break;
 								case 6:
 									// 文末
-									$(".article_ad").html('<img src="'+res.data[i].imgUrlOutside+'"/>');
+									$(".article_ad").html('<img src="'+res.data[i].imageList[0]+'"/>');
 									$(".article_ad").parent().attr("href",res.data[i].url);
 							  		break;
 							}
