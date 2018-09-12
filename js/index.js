@@ -25,12 +25,13 @@ $(function() {
 			Init() {
 				var that = this;
 				this.ajaxDomain();
-				this.ajaxFn(1);
+				// this.ajaxFn(1);
 				this.ajaxAdFn();
 				this.contentFn();
 
 				setTimeout(function() {
 					// 配置go_download文件
+					that.ajaxFn(1);
 					$(".go_download span").text('现在干什么能赚钱');
 				},200);
 
@@ -185,8 +186,16 @@ $(function() {
 	                    			}else {
 										// 站外
 										// var hostDomin = window.location.href.split("articleUrl")[0];
-										var hostDomin = window.location.host;
+										// var hostDomin = window.location.host;
+										var hostDomin;
 										if(Flag == 1) {
+											if (parent !== window) { 
+												try {
+													hostDomin = parent.location.host; 
+												}catch (e) { 
+													hostDomin = document.referrer; 
+												} 
+											 }
 											// 非广告
 											u = hostDomin+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
