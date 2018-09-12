@@ -191,16 +191,15 @@ $(function() {
 										if(Flag == 1) {
 											if (parent !== window) { 
 												try {
-													hostDomin = parent.location.host; 
-													var hostDomin2 = parent.location.href;
-													console.log(hostDomin2);
+													hostDomin = parent.location.href; 
 												}catch (e) { 
-													hostDomin = document.referrer.splice('/share')[0]; 
+													hostDomin = document.referrer; 
 												} 
 											 }
-											 console.log(hostDomin)
+											console.log(hostDomin)
+											console.log(hostDomin.split('/share')[0]);
 											// 非广告
-											u = hostDomin+"/share/newsShare/pre-share.html?articleUrl="+Url;
+											u = hostDomin.split('/share')[0]+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
 											// 广告
 											u = Url;
