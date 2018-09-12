@@ -2,17 +2,38 @@ $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
 			this.adHostname = "http://182.92.82.188:8084";
+			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
 		}
 		outSideFn.prototype = {
+			contentFn() {
+				var that = this;
+				var ids = that.getQueryString("id");
+				console.log(ids);
+				var datas = {
+					id: ids
+				}
+				$.get(that.hostname2+"/yfax-news-api/api/htt/getDetailById",datas,function(res) {
+					console.log(res.data.content);
+					if(res.code == 200) {
+						$(".article").html(res.data.content);
+					}else {
+						console.error(that.hostname2+"请求出错！");
+					}
+				});
+			},
 			Init() {
 				var that = this;
 				this.ajaxDomain();
 				this.ajaxFn(1);
 				this.ajaxAdFn();
+				this.contentFn();
 
-				// 配置go_download文件
-				$(".go_download span").text('现在干什么能赚钱');
+				setTimeout(function() {
+					// 配置go_download文件
+					$(".go_download span").text('现在干什么能赚钱');
+				},200);
+
 				// 配置title
 				$("title").text($(".article h1").text());
 				
@@ -28,14 +49,15 @@ $(function() {
 					for(var i = 0;i < $(".category").length; i++) {
 						if($(".category").eq(i).text() == "广告") {
 							// console.log($(".category").eq(i).offset().top-scroll_top-window_height);
-							if($(".category").eq(i).offset().top-scroll_top-window_height <= -100) {
+							if(($(".category").eq(i).offset().top-scroll_top <= window_height-100) && ($(".category").eq(i).offset().top-scroll_top > window_height-120)) {
+								
 								console.log(i);
 								adArray.push(i);
 								// console.log(that.ads[i].id);
-								console.log(adArray);
 							}
 						}
 					}
+					console.log(adArray);
 					// if(DomH-scroll_top-window_height <= -100) {
 					// 	console.log(DomH-scroll_top-window_height);
 					// }
@@ -161,14 +183,15 @@ $(function() {
 	                    				u = Url+"?from=ytt";
 	                    				$(".go_download").hide();
 	                    			}else {
-										var hostDomin = window.location.href.split("articleUrl")[0];
-										u = hostDomin+"articleUrl="+Url;
 										// 站外
-										// if(Flag == 1) {
-										// 	u = that.Urls || "http://url.cn/5fEeGsL";
-										// }else {
-										// 	u = Url;
-										// }
+										var hostDomin = window.location.href.split("articleUrl")[0];
+										if(Flag == 1) {
+											// 非广告
+											u = hostDomin+"?articleUrl="+Url;
+										}else {
+											// 广告
+											u = Url;
+										}
 	                    				
 	                    			}
 									if(Type == undefined) {
