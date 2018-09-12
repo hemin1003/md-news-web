@@ -184,10 +184,11 @@ $(function() {
 	                    				$(".go_download").hide();
 	                    			}else {
 										// 站外
-										var hostDomin = window.location.href.split("articleUrl")[0];
+										// var hostDomin = window.location.href.split("articleUrl")[0];
+										var hostDomin = window.location.host;
 										if(Flag == 1) {
 											// 非广告
-											u = hostDomin+"?articleUrl="+Url;
+											u = hostDomin+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
 											// 广告
 											u = Url;
