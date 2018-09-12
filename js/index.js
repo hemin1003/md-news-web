@@ -15,12 +15,32 @@ $(function() {
 				$(".go_download span").text('现在干什么能赚钱');
 				// 配置title
 				$("title").text($(".article h1").text());
-
+				
+				var adArray = [];
 				// 滚动事件
 				$(window).scroll(function() {
-					var doc_height = $(document).height();
-        			var scroll_top = $(document).scrollTop(); 
-        			var window_height = $(window).height();
+					
+					var doc_height = $(document).height(); //页面总高度
+        			var scroll_top = $(document).scrollTop(); //滚动高度
+					var window_height = $(window).height(); //窗口高度
+					// var DomH = $(".category").eq(1).offset().top;
+					// console.log($(".category").eq(1).text());
+					for(var i = 0;i < $(".category").length; i++) {
+						if($(".category").eq(i).text() == "广告") {
+							// console.log($(".category").eq(i).offset().top-scroll_top-window_height);
+							if($(".category").eq(i).offset().top-scroll_top-window_height <= -100) {
+								console.log(i);
+								adArray.push(i);
+								// console.log(that.ads[i].id);
+								console.log(adArray);
+							}
+						}
+					}
+					// if(DomH-scroll_top-window_height <= -100) {
+					// 	console.log(DomH-scroll_top-window_height);
+					// }
+
+					//滑动底部
         			if(scroll_top + window_height >= doc_height) {
         				// 有内容才处理
         				if(that.L > 0) {
@@ -134,18 +154,21 @@ $(function() {
 									Img3 = that.ads[i].imageList[2],
 									Type = that.ads[i].type,
 									Flag = that.ads[i].flag,
-	                    			u;
+									u;
+									// console.log(that.ads[i].id);
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
 	                    				u = Url+"?from=ytt";
 	                    				$(".go_download").hide();
 	                    			}else {
+										var hostDomin = window.location.href.split("articleUrl")[0];
+										u = hostDomin+"articleUrl="+Url;
 										// 站外
-										if(Flag == 1) {
-											u = that.Urls || "http://url.cn/5fEeGsL";
-										}else {
-											u = Url;
-										}
+										// if(Flag == 1) {
+										// 	u = that.Urls || "http://url.cn/5fEeGsL";
+										// }else {
+										// 	u = Url;
+										// }
 	                    				
 	                    			}
 									if(Type == undefined) {
@@ -154,19 +177,17 @@ $(function() {
 									switch(Type){
 										case 0:
 											// 大图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
 										  break;
 										case 1:
 											// 单图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
 										  break;
 										case 2:
 											// 三图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
 											break;
-									}
-	                    		console.log(Type);
-	                    		
+									}	                    		
 	                    	}
                     	}
                     	});
