@@ -71,6 +71,7 @@ $(function() {
 			ajaxAdFn() {
 				var that = this;
 				$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",function(res) {
+					// console.log(res);
 					if(res.code == 200) {
 						console.log(res);
 						for(var i = 0, L = res.data.length; i < L; i++) {
@@ -161,7 +162,7 @@ $(function() {
 										  break;
 										case 2:
 											// 三图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"><div class="typeMuch_source">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source">'+category+'</div></li></a>');
 											break;
 									}
 	                    		console.log(Type);
