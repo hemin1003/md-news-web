@@ -195,10 +195,7 @@ $(function() {
 													var hostDomin2 = parent.location.href;
 													console.log(hostDomin2);
 												}catch (e) { 
-													// hostDomin = document.referrer; 
-													hostDomin = parent.location.host; 
-													var hostDomin2 = parent.location.href;
-													console.log(hostDomin2);
+													hostDomin = document.referrer.splice('/share')[0]; 
 												} 
 											 }
 											 console.log(hostDomin)
