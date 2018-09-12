@@ -192,10 +192,13 @@ $(function() {
 											if (parent !== window) { 
 												try {
 													hostDomin = parent.location.host; 
+													var hostDomin2 = parent.location.href;
+													console.log(hostDomin2);
 												}catch (e) { 
 													hostDomin = document.referrer; 
 												} 
 											 }
+											 console.log(hostDomin)
 											// 非广告
 											u = hostDomin+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
