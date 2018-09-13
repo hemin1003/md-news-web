@@ -261,7 +261,12 @@ $(function() {
 									aClass;
 									// console.log(that.ads[i].id);
 	                    			if(that.getQueryString("from") == "ytt") {
-	                    				// 站内
+										// 站内
+										if(Flag == 1) {
+											aClass = "lafite_news"
+										}else {
+											aClass = "lafite_ad"
+										}
 	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei");
 	                    			}else {
 										// 站外
