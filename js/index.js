@@ -37,7 +37,7 @@ $(function() {
 					that.ajaxAdFn();
 					
 					$(".go_download span").text('现在干什么能赚钱');
-				},200);
+				},100);
 
 				// 配置title
 				$("title").text($(".article h1").text());
@@ -63,6 +63,7 @@ $(function() {
 									if(that.getQueryString("from") == "ytt") {
 										// 站内
 										console.log('站内上报');
+										that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}else {
 										// 站外
 										console.log('站外上报')
@@ -75,7 +76,8 @@ $(function() {
 								// 展示上报
 								if(that.getQueryString("from") == "ytt") {
 									// 站内
-									console.log('站内上报');
+									// that.getQueryString("phoneNum")
+									that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 								}else {
 									// 站外
 									that.adRecordFn('','',99,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1);
@@ -131,7 +133,7 @@ $(function() {
 					}		
 				});
 
-				setTimeout(this.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
+				setTimeout(this.LazyFn,200); // 由于数据是api插入的，所以需要延迟加载
 			},
 			// 获取参数fn
 			getQueryString:function(name) {
@@ -168,11 +170,11 @@ $(function() {
 					var Cindex = $(this).index();
 					if(that.getQueryString("from") == "ytt") {
 						// 站内
+						that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 					}else {
 						// 站外
 						that.adRecordFn('','',99,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2);
 					}
-					
 				});
 			},
 			// 站外app下载链接url
@@ -260,7 +262,7 @@ $(function() {
 									// console.log(that.ads[i].id);
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
-	                    				u = Url+"&from=ytt";
+	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei");
 	                    			}else {
 										// 站外
 										$(".go_download").show();
@@ -318,7 +320,7 @@ $(function() {
 				$("img").lazyload({ 
 		          	placeholder : "images/loading.gif",
 		            effect: "fadeIn",
-		            threshold: 100,
+		            threshold: 150,
 		            data_attribute: "src",
 		        }); 
 			},
