@@ -15,6 +15,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 			width: 62%;
 			height: 1.05rem;
 			line-height: .8rem;
+			display: none;
 		}
 			.go_download a {
 				color: #dc4b29;
