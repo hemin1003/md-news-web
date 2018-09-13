@@ -170,7 +170,7 @@ $(function() {
 					var Cindex = $(this).index();
 					if(that.getQueryString("from") == "ytt") {
 						// 站内
-						that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+						that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 					}else {
 						// 站外
 						that.adRecordFn('','',99,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2);
