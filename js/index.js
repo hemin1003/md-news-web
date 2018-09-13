@@ -256,7 +256,7 @@ $(function() {
 									// console.log(that.ads[i].id);
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
-	                    				u = Url+"?from=ytt";
+	                    				u = Url+"&from=ytt";
 	                    			}else {
 										// 站外
 										$(".go_download").show();
