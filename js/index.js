@@ -7,6 +7,7 @@ $(function() {
 			this.allList = [];
 		}
 		outSideFn.prototype = {
+			// 新闻内容
 			contentFn() {
 				var that = this;
 				var ids = that.getQueryString("id");
@@ -28,11 +29,13 @@ $(function() {
 				// this.ajaxFn(1);
 				// this.ajaxAdFn();
 				this.contentFn();
+				this.clickAdsFn();
 
 				setTimeout(function() {
 					// 配置go_download文件
 					that.ajaxFn(1);
 					that.ajaxAdFn();
+					
 					$(".go_download span").text('现在干什么能赚钱');
 				},200);
 
@@ -48,7 +51,7 @@ $(function() {
 					console.log((startTime-endTime)/1000);
 
 					// 停留时间大于1.5s
-					if((startTime-endTime)/1000 > 0) {
+					if((startTime-endTime)/1000 > 0.5) {
 						if(adArray.length > 0) {
 							var indexs = adArray[adArray.length-1];
 							if(adIndex.length > 0) {
@@ -63,22 +66,7 @@ $(function() {
 									}else {
 										// 站外
 										console.log('站外上报')
-										var adData = {
-											phoneNum: '',
-											adsSource: '',
-											adsType: 99,
-											adsId: that.allList[indexs].id,
-											title: that.allList[indexs].title,
-											url: that.allList[indexs].url,
-											actionType: 1,
-											ip: '',
-											appVersion: '',
-											appChannel: '',
-											appImei: ''
-										};
-										$.post(that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",adData,function(result){
-											console.log(result);
-										});
+										that.adRecordFn('','',99,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1);
 									}
 								}
 							}else {
@@ -90,23 +78,7 @@ $(function() {
 									console.log('站内上报');
 								}else {
 									// 站外
-									console.log('站外上报')
-									var adData = {
-										phoneNum: '',
-										adsSource: '',
-										adsType: 99,
-										adsId: that.allList[indexs].id,
-										title: that.allList[indexs].title,
-										url: that.allList[indexs].url,
-										actionType: 1,
-										ip: '',
-										appVersion: '',
-										appChannel: '',
-										appImei: ''
-									};
-									$.post(that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",adData,function(result){
-										console.log(result);
-									});
+									that.adRecordFn('','',99,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1);
 								}
 							}
 							console.log(adArray);
@@ -130,7 +102,7 @@ $(function() {
 					for(var i = 0;i < $(".category").length; i++) {
 						if($(".category").eq(i).text() == "广告") {
 							// console.log($(".category").eq(i).offset().top-scroll_top-window_height);
-							if(($(".category").eq(i).offset().top-scroll_top <= window_height-100) && ($(".category").eq(i).offset().top-scroll_top > window_height-120)) {
+							if(($(".category").eq(i).offset().top-scroll_top <= window_height+50) && ($(".category").eq(i).offset().top-scroll_top > window_height)) {
 								
 								adArray.push(i);
 								// console.log(that.ads[i].id);
@@ -156,9 +128,7 @@ $(function() {
 						// 站外
 						$(".footer").slideDown(500);
 						// that.outTurn = 0;
-					}
-
-					
+					}		
 				});
 
 				setTimeout(this.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
@@ -171,6 +141,39 @@ $(function() {
 			        return unescape(r[2]);
 			    }
 			    return null;
+			},
+			// ad上报
+			adRecordFn(phoneNum,adsSource,adsType,adsId,title,url,actionType,ip,appVersion,appChannel,appImei) {
+				var adData = {
+					phoneNum: phoneNum,
+					adsSource: adsSource,
+					adsType: adsType,
+					adsId: adsId,
+					title: title,
+					url: url,
+					actionType: actionType,
+					ip: ip,
+					appVersion: appVersion,
+					appChannel: appChannel,
+					appImei: appImei
+				};
+				$.post(this.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",adData,function(result){
+					console.log(result);
+				});
+			},
+			// ad点击上报
+			clickAdsFn() {
+				var that = this;
+				$(".guss_like ul").delegate(".lafite_ad","click",function(){
+					var Cindex = $(this).index();
+					if(that.getQueryString("from") == "ytt") {
+						// 站内
+					}else {
+						// 站外
+						that.adRecordFn('','',99,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2);
+					}
+					
+				});
 			},
 			// 站外app下载链接url
 			ajaxDomain() {
@@ -252,7 +255,8 @@ $(function() {
 									Img3 = that.ads[i].imageList[2],
 									Type = that.ads[i].type,
 									Flag = that.ads[i].flag,
-									u;
+									u,
+									aClass;
 									// console.log(that.ads[i].id);
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
@@ -264,6 +268,7 @@ $(function() {
 										// var hostDomin = window.location.host;
 										var hostDomin;
 										if(Flag == 1) {
+											aClass = "lafite_news"
 											if (parent !== window) { 
 												try {
 													hostDomin = parent.location.href; 
@@ -276,6 +281,7 @@ $(function() {
 											u = hostDomin.split('/share')[0]+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
 											// 广告
+											aClass = "lafite_ad"
 											u = Url;
 										}
 	                    				
@@ -286,15 +292,15 @@ $(function() {
 									switch(Type){
 										case 0:
 											// 大图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
 										  break;
 										case 1:
 											// 单图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
 										  break;
 										case 2:
 											// 三图
-											$(".guss_like ul").append('<a href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
 											break;
 									}	                    		
 	                    	}
