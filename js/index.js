@@ -4,17 +4,17 @@ $(function() {
 			this.adHostname = "http://182.92.82.188:8084";
 			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
+			this.allList = [];
 		}
 		outSideFn.prototype = {
 			contentFn() {
 				var that = this;
 				var ids = that.getQueryString("id");
-				console.log(ids);
 				var datas = {
 					id: ids
 				}
 				$.get(that.hostname2+"/yfax-news-api/api/htt/getDetailById",datas,function(res) {
-					console.log(res.data.content);
+					// console.log(res.data.content);
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
 					}else {
@@ -26,18 +26,100 @@ $(function() {
 				var that = this;
 				this.ajaxDomain();
 				// this.ajaxFn(1);
-				this.ajaxAdFn();
+				// this.ajaxAdFn();
 				this.contentFn();
 
 				setTimeout(function() {
 					// 配置go_download文件
 					that.ajaxFn(1);
+					that.ajaxAdFn();
 					$(".go_download span").text('现在干什么能赚钱');
 				},200);
 
 				// 配置title
 				$("title").text($(".article h1").text());
 				
+				var startTime;
+				var endTime;
+				var adIndex = []; //已上报ad下标
+				// 计算滑动时间
+				$(window).on('touchstart',function(e) {
+					startTime = new Date().getTime();
+					console.log((startTime-endTime)/1000);
+
+					// 停留时间大于1.5s
+					if((startTime-endTime)/1000 > 0) {
+						if(adArray.length > 0) {
+							var indexs = adArray[adArray.length-1];
+							if(adIndex.length > 0) {
+								var Turn = adIndex.indexOf(indexs);  //判断adIndex数组中有没有indexs,没有则为-1
+								if(Turn == -1) {
+									adIndex.push(indexs);
+									console.log(that.allList[indexs].id);
+									// 展示上报
+									if(that.getQueryString("from") == "ytt") {
+										// 站内
+										console.log('站内上报');
+									}else {
+										// 站外
+										console.log('站外上报')
+										var adData = {
+											phoneNum: '',
+											adsSource: '',
+											adsType: 99,
+											adsId: that.allList[indexs].id,
+											title: that.allList[indexs].title,
+											url: that.allList[indexs].url,
+											actionType: 1,
+											ip: '',
+											appVersion: '',
+											appChannel: '',
+											appImei: ''
+										};
+										$.post(that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",adData,function(result){
+											console.log(result);
+										});
+									}
+								}
+							}else {
+								adIndex.push(indexs);
+								console.log(that);
+								// 展示上报
+								if(that.getQueryString("from") == "ytt") {
+									// 站内
+									console.log('站内上报');
+								}else {
+									// 站外
+									console.log('站外上报')
+									var adData = {
+										phoneNum: '',
+										adsSource: '',
+										adsType: 99,
+										adsId: that.allList[indexs].id,
+										title: that.allList[indexs].title,
+										url: that.allList[indexs].url,
+										actionType: 1,
+										ip: '',
+										appVersion: '',
+										appChannel: '',
+										appImei: ''
+									};
+									$.post(that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",adData,function(result){
+										console.log(result);
+									});
+								}
+							}
+							console.log(adArray);
+						}
+					}
+					console.log(adIndex);
+				});
+
+				$(window).on('touchend',function(e) {
+					endTime = new Date().getTime();
+					// console.log(new Date().getTime()-startTime);
+				});
+
 				var adArray = [];
 				// 滚动事件
 				$(window).scroll(function() {
@@ -45,24 +127,16 @@ $(function() {
 					var doc_height = $(document).height(); //页面总高度
         			var scroll_top = $(document).scrollTop(); //滚动高度
 					var window_height = $(window).height(); //窗口高度
-					// var DomH = $(".category").eq(1).offset().top;
-					// console.log($(".category").eq(1).text());
 					for(var i = 0;i < $(".category").length; i++) {
 						if($(".category").eq(i).text() == "广告") {
 							// console.log($(".category").eq(i).offset().top-scroll_top-window_height);
 							if(($(".category").eq(i).offset().top-scroll_top <= window_height-100) && ($(".category").eq(i).offset().top-scroll_top > window_height-120)) {
 								
-								console.log(i);
 								adArray.push(i);
 								// console.log(that.ads[i].id);
 							}
 						}
 					}
-					console.log(adArray);
-					// if(DomH-scroll_top-window_height <= -100) {
-					// 	console.log(DomH-scroll_top-window_height);
-					// }
-
 					//滑动底部
         			if(scroll_top + window_height >= doc_height) {
         				// 有内容才处理
@@ -153,14 +227,14 @@ $(function() {
 					data: datas,
                     success: function(res) {
                     	console.log(res);
-                    	console.log(that.Urls);
+                    	// console.log(that.Urls);
                     	that.L = res.data.entityList.length;
                     	that.ads = res.data.entityList;
                     	
                     	// 调用新闻
                     	$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
 							console.log(adres);
-							console.log(adres.data.entityList.length);
+							// console.log(adres.data.entityList.length);
                     		
                     		for(var j = 1,g = 0; j < adres.data.entityList.length*2; j=j+2,g++) {
 								that.ads.splice(j,0,adres.data.entityList[g]);
@@ -168,6 +242,7 @@ $(function() {
                     	// });
                     	if(that.ads.length > 0) {
 							console.log(that.ads);
+							that.allList.push.apply(that.allList,that.ads); //将列表合并
                     		for(var i = 0, L = that.ads.length; i < L; i++) {
 	                    		var Title = that.ads[i].title,
 	                    			Url = that.ads[i].url,
@@ -182,9 +257,9 @@ $(function() {
 	                    			if(that.getQueryString("from") == "ytt") {
 	                    				// 站内
 	                    				u = Url+"?from=ytt";
-	                    				$(".go_download").hide();
 	                    			}else {
 										// 站外
+										$(".go_download").show();
 										// var hostDomin = window.location.href.split("articleUrl")[0];
 										// var hostDomin = window.location.host;
 										var hostDomin;
@@ -196,8 +271,7 @@ $(function() {
 													hostDomin = document.referrer; 
 												} 
 											 }
-											console.log(hostDomin)
-											console.log(hostDomin.split('/share')[0]);
+											// console.log(hostDomin.split('/share')[0]);
 											// 非广告
 											u = hostDomin.split('/share')[0]+"/share/newsShare/pre-share.html?articleUrl="+Url;
 										}else {
