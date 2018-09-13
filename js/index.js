@@ -63,11 +63,11 @@ $(function() {
 									if(that.getQueryString("from") == "ytt") {
 										// 站内
 										console.log('站内上报');
-										that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,that.getQueryString("tabName"),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}else {
 										// 站外
 										console.log('站外上报')
-										that.adRecordFn('','',99,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1);
+										that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
 									}
 								}
 							}else {
@@ -77,10 +77,10 @@ $(function() {
 								if(that.getQueryString("from") == "ytt") {
 									// 站内
 									// that.getQueryString("phoneNum")
-									that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,that.getQueryString("tabName"),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 								}else {
 									// 站外
-									that.adRecordFn('','',99,that.allList[indexs].id,that.allList[indexs].title,that.allList[indexs].url,1);
+									that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
 								}
 							}
 							console.log(adArray);
@@ -145,12 +145,13 @@ $(function() {
 			    return null;
 			},
 			// ad上报
-			adRecordFn(phoneNum,adsSource,adsType,adsId,title,url,actionType,ip,appVersion,appChannel,appImei) {
+			adRecordFn(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei) {
 				var adData = {
 					phoneNum: phoneNum,
 					adsSource: adsSource,
 					adsType: adsType,
 					adsId: adsId,
+					tabName: tabName,
 					title: title,
 					url: url,
 					actionType: actionType,
@@ -170,10 +171,10 @@ $(function() {
 					var Cindex = $(this).index();
 					if(that.getQueryString("from") == "ytt") {
 						// 站内
-						that.adRecordFn(that.getQueryString("phoneNum"),'',4,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,that.getQueryString("tabName"),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 					}else {
 						// 站外
-						that.adRecordFn('','',99,that.allList[Cindex].id,that.allList[Cindex].title,that.allList[Cindex].url,2);
+						that.adRecordFn('','',99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
 					}
 				});
 			},
@@ -267,7 +268,7 @@ $(function() {
 										}else {
 											aClass = "lafite_ad"
 										}
-	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei");
+	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+that.getQueryString("tabName")+"&"+that.getQueryString("adsSource");
 	                    			}else {
 										// 站外
 										$(".go_download").show();
