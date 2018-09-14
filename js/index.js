@@ -305,15 +305,15 @@ $(function() {
 									switch(Type){
 										case 0:
 											// 大图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
 										  break;
 										case 1:
 											// 单图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
 										  break;
 										case 2:
 											// 三图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
+											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
 											break;
 									}	                    		
 	                    	}
