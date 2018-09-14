@@ -21,6 +21,7 @@ $(function() {
 						// 配置title
 						$("title").text($(".article h1").text());
 						$(".go_download span").text('现在干什么能赚钱');
+						that.ajaxDomain();
 						that.ajaxFn(1);
 						that.ajaxAdFn();
 						that.LazyFn();
@@ -31,7 +32,7 @@ $(function() {
 			},
 			Init() {
 				var that = this;
-				this.ajaxDomain();
+				// this.ajaxDomain();
 				// this.ajaxFn(1);
 				// this.ajaxAdFn();
 				this.contentFn();
