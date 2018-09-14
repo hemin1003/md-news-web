@@ -132,7 +132,7 @@ $(function() {
 						// that.outTurn = 1;  //outTurn  1=>站内  0=>站外
 					}else {
 						// 站外
-						$(".footer").slideDown(500);
+						// $(".footer").slideDown(500);
 						// that.outTurn = 0;
 					}		
 				});
