@@ -18,6 +18,10 @@ $(function() {
 					// console.log(res.data.content);
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
+						that.ajaxFn(1);
+						that.ajaxAdFn();
+						that.LazyFn();
+						// setTimeout(this.LazyFn,200); // 由于数据是api插入的，所以需要延迟加载
 					}else {
 						console.error(that.hostname2+"请求出错！");
 					}
@@ -33,8 +37,8 @@ $(function() {
 
 				setTimeout(function() {
 					// 配置go_download文件
-					that.ajaxFn(1);
-					that.ajaxAdFn();
+					// that.ajaxFn(1);
+					// that.ajaxAdFn();
 					
 					$(".go_download span").text('现在干什么能赚钱');
 				},100);
@@ -63,7 +67,7 @@ $(function() {
 									if(that.getQueryString("from") == "ytt") {
 										// 站内
 										console.log('站内上报');
-										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,that.getQueryString("tabName"),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}else {
 										// 站外
 										console.log('站外上报')
@@ -77,7 +81,7 @@ $(function() {
 								if(that.getQueryString("from") == "ytt") {
 									// 站内
 									// that.getQueryString("phoneNum")
-									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,that.getQueryString("tabName"),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 								}else {
 									// 站外
 									that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
@@ -133,7 +137,7 @@ $(function() {
 					}		
 				});
 
-				setTimeout(this.LazyFn,200); // 由于数据是api插入的，所以需要延迟加载
+				// setTimeout(this.LazyFn,200); // 由于数据是api插入的，所以需要延迟加载
 			},
 			// 获取参数fn
 			getQueryString:function(name) {
@@ -171,7 +175,7 @@ $(function() {
 					var Cindex = $(this).index();
 					if(that.getQueryString("from") == "ytt") {
 						// 站内
-						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,that.getQueryString("tabName"),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,decodeURI(that.getQueryString('tabName')),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 					}else {
 						// 站外
 						that.adRecordFn('','',99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
@@ -268,7 +272,8 @@ $(function() {
 										}else {
 											aClass = "lafite_ad"
 										}
-	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+that.getQueryString("tabName")+"&"+that.getQueryString("adsSource");
+										// console.log(encodeURI(that.getQueryString('tabName')));
+	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource");
 	                    			}else {
 										// 站外
 										$(".go_download").show();
