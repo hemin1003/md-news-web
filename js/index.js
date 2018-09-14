@@ -18,10 +18,12 @@ $(function() {
 					// console.log(res.data.content);
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
+						// 配置title
+						$("title").text($(".article h1").text());
+						$(".go_download span").text('现在干什么能赚钱');
 						that.ajaxFn(1);
 						that.ajaxAdFn();
 						that.LazyFn();
-						// setTimeout(this.LazyFn,200); // 由于数据是api插入的，所以需要延迟加载
 					}else {
 						console.error(that.hostname2+"请求出错！");
 					}
@@ -35,16 +37,13 @@ $(function() {
 				this.contentFn();
 				this.clickAdsFn();
 
-				setTimeout(function() {
-					// 配置go_download文件
-					// that.ajaxFn(1);
-					// that.ajaxAdFn();
+				// setTimeout(function() {
+				// 	// 配置go_download文件
+				// 	that.ajaxFn(1);
+				// 	that.ajaxAdFn();
 					
-					$(".go_download span").text('现在干什么能赚钱');
-				},100);
-
-				// 配置title
-				$("title").text($(".article h1").text());
+				// 	$(".go_download span").text('现在干什么能赚钱');
+				// },100);
 				
 				var startTime;
 				var endTime;
