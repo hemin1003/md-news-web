@@ -12,11 +12,13 @@
 <script>        window.addEventListener('orientationchange' in window ? 'orientationchange' : 'resize', (function () {            function f() {                var d = document.documentElement;                var cw = d.clientWidth || 640;                var fs = 0;                if (cw <= 320) {                    fs = 24;                } else if (cw <= 416) {                    fs = 26;                } else {                    fs = 20 * (cw / 320) > 40 ? 40 : 20 * (cw / 320);                }                d.style.fontSize = fs + 'px';            }            f();            return f;        })());    </script>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.lazyload.min.js"></script>
+<script src="js/onload.js"></script>
 <!-- <script data-product="20035" data-android-channal="h5a20180523ban223" data-ios-channal="h5a20180523ban223" src="//cdn.ipadview.com/jssdk/combo.bundle.js"></script> -->
 <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 	<section ahw="1" class="wrap">
+		<div class="top_ads"></div>
 		<div class="article">
 		</div>
 	</section>
