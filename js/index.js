@@ -14,19 +14,26 @@ $(function() {
 				var datas = {
 					id: ids
 				}
-				$.get(that.hostname2+"/yfax-news-api/api/htt/getDetailById",datas,function(res) {
-					// console.log(res.data.content);
-					if(res.code == 200) {
-						$(".article").html(res.data.content);
-						// 配置title
-						$("title").text($(".article h1").text());
-						$(".go_download span").text('现在干什么能赚钱');
-						that.ajaxDomain();
-						that.ajaxFn(1);
-						that.ajaxAdFn();
-						that.LazyFn();
-					}else {
-						console.error(that.hostname2+"请求出错！");
+				$.ajax({
+					type: "get",
+					url: that.hostname2+"/yfax-news-api/api/htt/getDetailById",
+					data: datas,
+					beforeSend:function(XMLHttpRequest){ 
+					// 　　$("html").html('<div class="cover">加载中</div>');
+					}, 
+					success:function(res) {
+						if(res.code == 200) {
+							$(".article").html(res.data.content);
+							// 配置title
+							$("title").text($(".article h1").text());
+							$(".go_download span").text('现在干什么能赚钱');
+							that.ajaxDomain();
+							that.ajaxFn(1);
+							that.ajaxAdFn();
+							that.LazyFn();
+						}else {
+							console.error(that.hostname2+"请求出错！");
+						}
 					}
 				});
 			},
@@ -194,6 +201,10 @@ $(function() {
 					}
 				});
 			},
+			// 判断广告类型，返回相应样式
+			adsTypeFn() {
+
+			},
 			// 广告位接口
 			ajaxAdFn() {
 				var that = this;
@@ -205,16 +216,64 @@ $(function() {
 							switch(res.data[i].outsidePosition){
 								case 1:
 									// 置顶
+									switch(res.data[i].type){
+										case 0:
+											// 大图
+											$(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+										  break;
+										case 1:
+											// 单图
+
+											// 大图
+											// $(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+											
+											// 单图
+											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+
+											// 三图
+											// $(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											break;
+										case 2:
+											// 三图
+											$(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											break;
+									}
 								  break;
 								case 5:
-									// 文顶广告
-									$(".title_ad").html('<img src="'+res.data[i].imageList[0]+'"/>');
-									$(".title_ad").parent().attr("href",res.data[i].url);
+									// res.data[i].type
+									// 文顶广告	
+									switch(res.data[i].type){
+										case 0:
+											// 大图
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+										  break;
+										case 1:
+											// 单图
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+											break;
+										case 2:
+											// 三图
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											break;
+									}
 								  break;
 								case 6:
-									// 文末
-									$(".article_ad").html('<img src="'+res.data[i].imageList[0]+'"/>');
-									$(".article_ad").parent().attr("href",res.data[i].url);
+									// 文末res.data[i].type
+									// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+									switch(res.data[i].type){
+										case 0:
+											// 大图
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+										  break;
+										case 1:
+											// 单图
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+											break;
+										case 2:
+											// 三图
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											break;
+									}
 							  		break;
 							}
 						}
@@ -245,10 +304,14 @@ $(function() {
                     	$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
 							console.log(adres);
 							// console.log(adres.data.entityList.length);
+							// 处理无广告特殊情况
+
+                    		if(adres.data != null) {
+								for(var j = 1,g = 0; j < adres.data.entityList.length*2; j=j+2,g++) {
+									that.ads.splice(j,0,adres.data.entityList[g]);
+								}
+							}
                     		
-                    		for(var j = 1,g = 0; j < adres.data.entityList.length*2; j=j+2,g++) {
-								that.ads.splice(j,0,adres.data.entityList[g]);
-                    		}
                     	// });
                     	if(that.ads.length > 0) {
 							console.log(that.ads);
