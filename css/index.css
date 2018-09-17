@@ -59,8 +59,26 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				width: 100%;
 			}
 			.lafite_news_ad {
+				position: relative;
 				display: inline-block;
-				border: 1px solid gray;
+				border: 1px solid rgb(185, 184, 184);
+				
+			}
+				.lafite_news_ad .fixed_ads {
+					position: absolute;
+					right: 1vw;
+					bottom: 1vw;
+					width: 8vw;
+					height: 5vw;
+					line-height: 5vw;
+					font-size: 3vw;
+					color: white;
+					text-align: center;
+					background: #999;
+				}
+			.lafite_news_ad .guss_list_title {
+				font-weight: normal;
+				margin-left: 1vw;
 			}
 			.lafite_top_ads {
 				width: 92%;
@@ -75,7 +93,12 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				margin: 0 2%;
 			}
 			.lafite_news_ad .typeMuch_pic {
-				margin-bottom: 1vw;
+				margin-top: 2vw;
+				width: 96%;
+				margin-left: 2%;
+			}
+			.lafite_news_ad .typeMuch {
+				font-weight: normal;
 			}
 			.lafite_news_ad .right_pics {
 				/* height: 22vw; */
@@ -83,6 +106,12 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				margin-top: 1.5vw;
 				margin-right: 1vw;
 				float: right;
+			}
+			.lafite_news_ad .typeBig_title {
+				font-weight: normal;
+			}
+			.lafite_news_ad .lafite_BigPic img {
+				height: 30vw;
 			}
 		.article_ad {
 			width: 92%;
