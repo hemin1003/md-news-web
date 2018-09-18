@@ -234,7 +234,7 @@ $(function() {
 						console.log(res);
 						for(var i = 0, L = res.data.length; i < L; i++) {
 							// 抽离公共部分
-							function selectType(dom,top,report) {
+							function selectType(dom,top,report,index) {
 								var Class_top;
 								if(top == 1) {
 									Class_top = "lafite_top_ads";
@@ -264,20 +264,28 @@ $(function() {
 										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 									}
 								}
-								
+								dom.delegate(".lafite_news_ad","click",function(){
+									if(that.getQueryString("from") == "ytt") {
+										// 站内
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+									}else {
+										// 站外
+										that.adRecordFn('','',99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
+									}
+								})
 							}
 							switch(res.data[i].outsidePosition){
 								case 1:
 									// 置顶res.data[i].type top_ads
-									selectType($(".top_ads"),1,1);
+									selectType($(".top_ads"),1,1,i);
 								  break;
 								case 5:
 									// 文顶广告	title_ad
-									selectType($(".title_ad"),"",1);
+									selectType($(".title_ad"),"",1,i);
 								  break;
 								case 6:
 									// 文末res.data[i].type article_ad
-									selectType($(".article_ad"),"",0);
+									selectType($(".article_ad"),"",0,i);
 							  		break;
 							}
 						}
