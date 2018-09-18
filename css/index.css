@@ -78,6 +78,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				}
 			.lafite_news_ad .guss_list_title {
 				font-weight: normal;
+				height: 20vw;
 				margin-left: 1vw;
 			}
 			.lafite_top_ads {
@@ -101,9 +102,8 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 				font-weight: normal;
 			}
 			.lafite_news_ad .right_pics {
-				/* height: 22vw; */
 				width: 30%;
-				margin-top: 1.5vw;
+				margin-top: 2vw;
 				margin-right: 1vw;
 				float: right;
 			}
@@ -205,8 +205,9 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 						margin-top: 3vw;
 						height: 18vw;
 						float: left;
-						font-size: 4vw;
+						font-size: 4.5vw;
 						color: #252525;
+						overflow: hidden;
 						font-weight: bold;
 					}
 					.guss_list_source {
@@ -289,5 +290,13 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 			font-size: 0.9rem;   
 			color: #fff;   
 			text-decoration: none;   
+		}
+
+		/* 我也是有底线的 */
+		.bottom_tips {
+			color: #A7A7A7;
+			font-size: 3.7vw;
+			text-align: center;
+			display: none;
 		}
 		
