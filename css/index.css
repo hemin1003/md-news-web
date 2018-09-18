@@ -211,6 +211,7 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 3;  
 						overflow: hidden;
+						padding-bottom: 1vw;
 						/* font-weight: bold; */
 					}
 					.guss_list_source {
