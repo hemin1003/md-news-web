@@ -61,8 +61,29 @@ $(function() {
 					startTime = new Date().getTime();
 					console.log((startTime-endTime)/1000);
 
-					// 停留时间大于1.5s
+					// 停留时间大于0.5s
 					if((startTime-endTime)/1000 > 0.5) {
+						// 判断文末广告是否展示
+						if(that.bottomAd == 1) {
+							that.bottomAd = 0;
+							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",function(res) {
+								if(res.code == 200) {
+									for(var i = 0; i < res.data.length; i++) {
+										if(res.data[i].outsidePosition == 6) {
+											if(that.getQueryString("from") == "ytt") {
+												// 站内
+												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+											}else {
+												// 站外
+												that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+											}
+										}
+									}
+								}else {
+									console.error(that.adHostname+"错误");
+								}
+							})
+						}
 						if(adArray.length > 0) {
 							var indexs = adArray[adArray.length-1];
 							if(adIndex.length > 0) {
@@ -122,6 +143,9 @@ $(function() {
 							}
 						}
 					}
+					if(($(".article_ad").offset().top-scroll_top <= window_height-100) && ($(".article_ad").offset().top-scroll_top > window_height-200)) {
+						that.bottomAd = 1;
+					}
 					//滑动底部
         			if(scroll_top + window_height >= doc_height) {
         				// 有内容才处理
@@ -175,7 +199,7 @@ $(function() {
 					console.log(result);
 				});
 			},
-			// ad点击上报
+			// ad-list点击上报
 			clickAdsFn() {
 				var that = this;
 				$(".guss_like ul").delegate(".lafite_ad","click",function(){
@@ -201,10 +225,6 @@ $(function() {
 					}
 				});
 			},
-			// 判断广告类型，返回相应样式
-			adsTypeFn() {
-
-			},
 			// 广告位接口
 			ajaxAdFn() {
 				var that = this;
@@ -213,60 +233,51 @@ $(function() {
 					if(res.code == 200) {
 						console.log(res);
 						for(var i = 0, L = res.data.length; i < L; i++) {
+							// 抽离公共部分
+							function selectType(dom,top,report) {
+								var Class_top;
+								if(top == 1) {
+									Class_top = "lafite_top_ads";
+								}else {
+									Class_top = "";
+								}
+								switch(res.data[i].type){
+									case 0:
+										// 大图
+										dom.html('<a class="lafite_news_ad '+Class_top+'" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+									  break;
+									case 1:
+										// 单图
+										dom.html('<a class="lafite_news_ad '+Class_top+'" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+										break;
+									case 2:
+										// 三图
+										dom.html('<a class="lafite_news_ad '+Class_top+'" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
+										break;
+								}
+								if(report == 1) {
+									if(that.getQueryString("from") == "ytt") {
+										// 站内
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
+									}else {
+										// 站外
+										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+									}
+								}
+								
+							}
 							switch(res.data[i].outsidePosition){
 								case 1:
-									// 置顶res.data[i].type
-									switch(res.data[i].type){
-										case 0:
-											// 大图
-											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
-										  break;
-										case 1:
-											// 单图
-											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
-											break;
-										case 2:
-											// 三图
-											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
-											break;
-									}
+									// 置顶res.data[i].type top_ads
+									selectType($(".top_ads"),1,1);
 								  break;
 								case 5:
-									// res.data[i].type
-									// 文顶广告	
-									switch(res.data[i].type){
-										case 0:
-											// 大图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
-										  break;
-										case 1:
-											// 单图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
-											break;
-										case 2:
-											// 三图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>')
-											break;
-									}
+									// 文顶广告	title_ad
+									selectType($(".title_ad"),"",1);
 								  break;
 								case 6:
-									// 文末res.data[i].type
-									// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
-									switch(res.data[i].type){
-										case 0:
-											// 大图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
-										  break;
-										case 1:
-											// 单图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
-											break;
-										case 2:
-											// 三图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
-											// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
-											break;
-									}
+									// 文末res.data[i].type article_ad
+									selectType($(".article_ad"),"",0);
 							  		break;
 							}
 						}
@@ -330,7 +341,7 @@ $(function() {
 											// 站内
 											if(Flag == 1) {
 												aClass = "lafite_news";
-												u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource")+"&title="+Title;
+												u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
 											}else {
 												aClass = "lafite_ad";
 												u = Url;
