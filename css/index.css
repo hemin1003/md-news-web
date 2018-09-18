@@ -168,8 +168,8 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 					.typeBig_title,.typeMuch {
 						margin-top: 2vw;
 						margin-bottom: 2vw; 
-						font-size: 4vw;
-						font-weight: bold;
+						font-size: 4.5vw;
+						/* font-weight: bold; */
 					}
 					.guss_like ul .typeBig img {
 						width: 100%;
@@ -207,8 +207,11 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 						float: left;
 						font-size: 4.5vw;
 						color: #252525;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 3;  
 						overflow: hidden;
-						font-weight: bold;
+						/* font-weight: bold; */
 					}
 					.guss_list_source {
 						position: absolute;
