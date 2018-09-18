@@ -1,7 +1,7 @@
 $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
-			this.adHostname = "http://news.ytoutiao.net";
+			this.adHostname = "http://and.ytoutiao.net";
 			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
 			this.allList = [];
