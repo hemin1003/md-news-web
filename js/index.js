@@ -266,7 +266,7 @@ $(function() {
 										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 									}
 								}
-								dom.delegate(".lafite_news_ad","click",function(){
+								dom.click(function() {
 									if(that.getQueryString("from") == "ytt") {
 										// 站内
 										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
