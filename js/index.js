@@ -329,12 +329,14 @@ $(function() {
 										if(that.getQueryString("from") == "ytt") {
 											// 站内
 											if(Flag == 1) {
-												aClass = "lafite_news"
+												aClass = "lafite_news";
+												u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource")+"&title="+Title;
 											}else {
-												aClass = "lafite_ad"
+												aClass = "lafite_ad";
+												u = Url;
 											}
 											// console.log(encodeURI(that.getQueryString('tabName')));
-											u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource");
+											
 										}else {
 											// 站外
 											$(".go_download").show();
