@@ -153,7 +153,9 @@ $(function() {
         					that.page++
         					// setTimeout(that.LazyFn,100); // 由于数据是api插入的，所以需要延迟加载
         					that.ajaxFn(that.page);
-        				}
+        				}else {
+							$(".bottom_tips").text("我也是有底线的...").slideDown(100);
+						}
         			}
 
         			// 判断站内还是站外
@@ -306,6 +308,9 @@ $(function() {
                     type:"get",
 					url: this.hostname,
 					data: datas,
+					beforeSend:function(XMLHttpRequest){ 
+						$(".bottom_tips").text("加载中...").show();
+					}, 
                     success: function(res) {
                     	console.log(res);
                     	that.L = res.data.entityList.length;
