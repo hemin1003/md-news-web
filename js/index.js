@@ -215,27 +215,19 @@ $(function() {
 						for(var i = 0, L = res.data.length; i < L; i++) {
 							switch(res.data[i].outsidePosition){
 								case 1:
-									// 置顶
+									// 置顶res.data[i].type
 									switch(res.data[i].type){
 										case 0:
 											// 大图
-											$(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
 										  break;
 										case 1:
 											// 单图
-
-											// 大图
-											// $(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
-											
-											// 单图
-											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
-
-											// 三图
-											// $(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
 											break;
 										case 2:
 											// 三图
-											$(".top_ads").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											$(".top_ads").html('<a class="lafite_news_ad lafite_top_ads" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
 											break;
 									}
 								  break;
@@ -245,33 +237,34 @@ $(function() {
 									switch(res.data[i].type){
 										case 0:
 											// 大图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
 										  break;
 										case 1:
 											// 单图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
 											break;
 										case 2:
 											// 三图
-											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											$(".title_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>')
 											break;
 									}
 								  break;
 								case 6:
 									// 文末res.data[i].type
-									// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+									// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
 									switch(res.data[i].type){
 										case 0:
 											// 大图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_BigPic"><div class="typeBig_title">'+res.data[i].title+'</div><img src="'+res.data[i].imageList[0]+'" alt="big"></div></a>')
 										  break;
 										case 1:
 											// 单图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_right"><div class="guss_font"><div class="guss_list_title">'+res.data[i].title+'</div></div><img class="right_pics" src="'+res.data[i].imageList[0]+'" alt="ads"></div></a>');
 											break;
 										case 2:
 											// 三图
-											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
+											$(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
+											// $(".article_ad").html('<a class="lafite_news_ad" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>')
 											break;
 									}
 							  		break;
@@ -296,92 +289,98 @@ $(function() {
 					data: datas,
                     success: function(res) {
                     	console.log(res);
-                    	// console.log(that.Urls);
                     	that.L = res.data.entityList.length;
                     	that.ads = res.data.entityList;
-                    	
-                    	// 调用新闻
-                    	$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
-							console.log(adres);
-							// console.log(adres.data.entityList.length);
-							// 处理无广告特殊情况
-
-                    		if(adres.data != null) {
-								for(var j = 1,g = 0; j < adres.data.entityList.length*2; j=j+2,g++) {
-									that.ads.splice(j,0,adres.data.entityList[g]);
+						
+						// 没有新闻，则不插入广告
+						if(res.data.count > 0) {
+							// 调用广告接口
+							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
+								console.log(adres);
+								// 处理无广告特殊情况
+								if(adres.data != null) {
+									var adsL;
+									// 当广告数 > 新闻数 兼容处理
+									if(that.L < adres.data.entityList.length) {
+										adsL = that.L
+									}else {
+										adsL = adres.data.entityList.length
+									}
+									for(var j = 1,g = 0; j < adsL*2; j=j+2,g++) {
+										that.ads.splice(j,0,adres.data.entityList[g]);
+									}
+								}
+								
+							if(that.ads.length > 0) {
+								console.log(that.ads);
+								that.allList.push.apply(that.allList,that.ads); //将列表合并
+								for(var i = 0, L = that.ads.length; i < L; i++) {
+									var Title = that.ads[i].title,
+										Url = that.ads[i].url,
+										category = that.ads[i].category,
+										Img = that.ads[i].imageList[0],
+										Img2 = that.ads[i].imageList[1],
+										Img3 = that.ads[i].imageList[2],
+										Type = that.ads[i].type,
+										Flag = that.ads[i].flag,
+										u,
+										aClass;
+										// console.log(that.ads[i].id);
+										if(that.getQueryString("from") == "ytt") {
+											// 站内
+											if(Flag == 1) {
+												aClass = "lafite_news"
+											}else {
+												aClass = "lafite_ad"
+											}
+											// console.log(encodeURI(that.getQueryString('tabName')));
+											u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource");
+										}else {
+											// 站外
+											$(".go_download").show();
+											// var hostDomin = window.location.href.split("articleUrl")[0];
+											// var hostDomin = window.location.host;
+											var hostDomin;
+											if(Flag == 1) {
+												aClass = "lafite_news"
+												if (parent !== window) { 
+													try {
+														hostDomin = parent.location.href; 
+													}catch (e) { 
+														hostDomin = document.referrer; 
+													} 
+												 }
+												// console.log(hostDomin.split('/share')[0]);
+												// 非广告
+												u = hostDomin.split('/share')[0]+"/share/readShare/pre-share.html?articleUrl="+Url;
+											}else {
+												// 广告
+												aClass = "lafite_ad"
+												u = Url;
+											}
+											
+										}
+										if(Type == undefined) {
+											Type = 1;
+										}
+										switch(Type){
+											case 0:
+												// 大图
+												$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
+											  break;
+											case 1:
+												// 单图
+												$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
+											  break;
+											case 2:
+												// 三图
+												$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
+												break;
+										}	                    		
 								}
 							}
-                    		
-                    	// });
-                    	if(that.ads.length > 0) {
-							console.log(that.ads);
-							that.allList.push.apply(that.allList,that.ads); //将列表合并
-                    		for(var i = 0, L = that.ads.length; i < L; i++) {
-	                    		var Title = that.ads[i].title,
-	                    			Url = that.ads[i].url,
-	                    			category = that.ads[i].category,
-									Img = that.ads[i].imageList[0],
-									Img2 = that.ads[i].imageList[1],
-									Img3 = that.ads[i].imageList[2],
-									Type = that.ads[i].type,
-									Flag = that.ads[i].flag,
-									u,
-									aClass;
-									// console.log(that.ads[i].id);
-	                    			if(that.getQueryString("from") == "ytt") {
-										// 站内
-										if(Flag == 1) {
-											aClass = "lafite_news"
-										}else {
-											aClass = "lafite_ad"
-										}
-										// console.log(encodeURI(that.getQueryString('tabName')));
-	                    				u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource");
-	                    			}else {
-										// 站外
-										$(".go_download").show();
-										// var hostDomin = window.location.href.split("articleUrl")[0];
-										// var hostDomin = window.location.host;
-										var hostDomin;
-										if(Flag == 1) {
-											aClass = "lafite_news"
-											if (parent !== window) { 
-												try {
-													hostDomin = parent.location.href; 
-												}catch (e) { 
-													hostDomin = document.referrer; 
-												} 
-											 }
-											// console.log(hostDomin.split('/share')[0]);
-											// 非广告
-											u = hostDomin.split('/share')[0]+"/share/readShare/pre-share.html?articleUrl="+Url;
-										}else {
-											// 广告
-											aClass = "lafite_ad"
-											u = Url;
-										}
-	                    				
-	                    			}
-									if(Type == undefined) {
-										Type = 1;
-									}
-									switch(Type){
-										case 0:
-											// 大图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeBig"><div class="typeBig_title">'+Title+'</div><img src="'+Img+'" alt="big"><div class="typeBig_source category">'+category+'</div></li></a>');
-										  break;
-										case 1:
-											// 单图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeRight"><div class="guss_font"><div class="guss_list_title">'+Title+'</div><div class="guss_list_source category">'+category+'</div></div><img src="'+Img+'" alt="ads"></li></a>');
-										  break;
-										case 2:
-											// 三图
-											$(".guss_like ul").append('<a class="'+aClass+'" href="'+u+'" target="_blank"><li class="typeMuch"><div class="typeMuch">'+Title+'</div><div class="typeMuch_pic"><img src="'+Img+'" alt="list1"><img src="'+Img2+'" alt="list2"><img src="'+Img3+'" alt="list3"></div><div class="typeMuch_source category">'+category+'</div></li></a>');
-											break;
-									}	                    		
-	                    	}
-                    	}
-                    	});
+							});
+						}
                      },
                      error:function(res) {
                      	console.log('66666');
@@ -394,7 +393,7 @@ $(function() {
 				$("img").lazyload({ 
 		          	placeholder : "images/loading.gif",
 		            effect: "fadeIn",
-		            threshold: 150,
+		            threshold: 300,
 		            data_attribute: "src",
 		        }); 
 			},
