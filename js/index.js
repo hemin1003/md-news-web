@@ -354,7 +354,7 @@ $(function() {
 											// 站内
 											if(Flag == 1) {
 												aClass = "lafite_news";
-												u = Url+"&from=ytt&"+that.getQueryString("phoneNum")+"&"+that.getQueryString("ip")+"&"+that.getQueryString("appVersion")+"&"+that.getQueryString("appChannel")+"&"+that.getQueryString("appImei")+"&"+encodeURI(that.getQueryString('tabName'))+"&"+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
+												u = Url+"&from=ytt&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
 											}else {
 												aClass = "lafite_ad";
 												u = Url;
