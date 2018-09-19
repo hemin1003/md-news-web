@@ -71,11 +71,11 @@ $(function() {
 									for(var i = 0; i < res.data.length; i++) {
 										if(res.data[i].outsidePosition == 6) {
 											if(that.getQueryString("from") == "ytt") {
-												// 站内
-												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-											}else {
 												// 站外
 												that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+											}else {
+												// 站内
+												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 											}
 										}
 									}
@@ -93,13 +93,13 @@ $(function() {
 									console.log(that.allList[indexs].id);
 									// 展示上报
 									if(that.getQueryString("from") == "ytt") {
-										// 站内
-										console.log('站内上报');
-										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-									}else {
 										// 站外
 										console.log('站外上报')
 										that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
+									}else {
+										// 站内
+										console.log('站内上报');
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}
 								}
 							}else {
@@ -107,12 +107,11 @@ $(function() {
 								console.log(that);
 								// 展示上报
 								if(that.getQueryString("from") == "ytt") {
-									// 站内
-									// that.getQueryString("phoneNum")
-									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-								}else {
 									// 站外
 									that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
+								}else {
+									// 站内
+									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 								}
 							}
 							console.log(adArray);
@@ -160,13 +159,13 @@ $(function() {
 
         			// 判断站内还是站外
 					if(that.getQueryString("from") == "ytt") {
-						// 站内
-						$(".footer").hide();
-						// that.outTurn = 1;  //outTurn  1=>站内  0=>站外
-					}else {
 						// 站外
 						// $(".footer").slideDown(500);
 						// that.outTurn = 0;
+					}else {
+						// 站内
+						$(".footer").hide();
+						// that.outTurn = 1;  //outTurn  1=>站内  0=>站外
 					}		
 				});
 
@@ -207,11 +206,11 @@ $(function() {
 				$(".guss_like ul").delegate(".lafite_ad","click",function(){
 					var Cindex = $(this).index();
 					if(that.getQueryString("from") == "ytt") {
-						// 站内
-						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,decodeURI(that.getQueryString('tabName')),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-					}else {
 						// 站外
 						that.adRecordFn('','',99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
+					}else {
+						// 站内
+						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,decodeURI(that.getQueryString('tabName')),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 					}
 				});
 			},
@@ -259,20 +258,20 @@ $(function() {
 								}
 								if(report == 1) {
 									if(that.getQueryString("from") == "ytt") {
-										// 站内
-										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-									}else {
 										// 站外
 										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+									}else {
+										// 站内
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}
 								}
 								dom.click(function() {
 									if(that.getQueryString("from") == "ytt") {
-										// 站内
-										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
-									}else {
 										// 站外
 										that.adRecordFn('','',99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
+									}else {
+										// 站内
+										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"));
 									}
 								})
 							}
@@ -351,17 +350,6 @@ $(function() {
 										aClass;
 										// console.log(that.ads[i].id);
 										if(that.getQueryString("from") == "ytt") {
-											// 站内
-											if(Flag == 1) {
-												aClass = "lafite_news";
-												u = Url+"&from=ytt&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
-											}else {
-												aClass = "lafite_ad";
-												u = Url;
-											}
-											// console.log(encodeURI(that.getQueryString('tabName')));
-											
-										}else {
 											// 站外
 											$(".go_download").show();
 											// var hostDomin = window.location.href.split("articleUrl")[0];
@@ -384,7 +372,16 @@ $(function() {
 												aClass = "lafite_ad"
 												u = Url;
 											}
-											
+										}else {
+											// 站内
+											if(Flag == 1) {
+												aClass = "lafite_news";
+												u = Url+"&from=ytt&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
+											}else {
+												aClass = "lafite_ad";
+												u = Url;
+											}
+											// console.log(encodeURI(that.getQueryString('tabName')));
 										}
 										if(Type == undefined) {
 											Type = 1;
