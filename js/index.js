@@ -29,7 +29,7 @@ $(function() {
 							$(".go_download span").text('现在干什么能赚钱');
 							$(".more").click(function() {
 								$(this).hide();
-								$(".content").css("height","auto");
+								$(".wrap").css("height","auto");
 							});
 							that.ajaxDomain();
 							that.ajaxFn(1);
