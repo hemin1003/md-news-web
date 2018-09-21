@@ -255,6 +255,7 @@ $(function() {
 			ajaxAdFn() {
 				var that = this;
 				var newData;
+				console.log(that.getQueryString("from"));
 				if(that.getQueryString("from") == "ytt") {
 					// 站外
 					newData = {
