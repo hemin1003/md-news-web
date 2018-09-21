@@ -1,7 +1,7 @@
 $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
-			this.adHostname = "http://182.92.82.188:8084"; //182.92.82.188:8084
+			this.adHostname = "http://182.92.82.188:8084"; //http://182.92.82.188:8084
 			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
 			this.allList = [];
@@ -70,7 +70,25 @@ $(function() {
 						// 判断文末广告是否展示
 						if(that.bottomAd == 1) {
 							that.bottomAd = 0;
-							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",function(res) {
+							var newData;
+							if(that.getQueryString("from") == "ytt") {
+								// 站外
+								newData = {
+									ua: that.getQueryString('ua'),
+									device: that.getQueryString('device'),
+									dynamicParam: that.getQueryString('dynamicParam'),
+									isOut: 1
+								}
+							}else {
+								// 站内
+								newData = {
+									ua: that.getQueryString('ua'),
+									device: that.getQueryString('device'),
+									dynamicParam: that.getQueryString('dynamicParam'),
+									isOut: 0
+								}
+							}
+							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",newData,function(res) {
 								if(res.code == 200) {
 									for(var i = 0; i < res.data.length; i++) {
 										if(res.data[i].outsidePosition == 6) {
@@ -236,7 +254,25 @@ $(function() {
 			// 广告位接口
 			ajaxAdFn() {
 				var that = this;
-				$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",function(res) {
+				var newData;
+				if(that.getQueryString("from") == "ytt") {
+					// 站外
+					newData = {
+						ua: that.getQueryString('ua'),
+						device: that.getQueryString('device'),
+						dynamicParam: that.getQueryString('dynamicParam'),
+						isOut: 1
+					}
+				}else {
+					// 站内
+					newData = {
+						ua: that.getQueryString('ua'),
+						device: that.getQueryString('device'),
+						dynamicParam: that.getQueryString('dynamicParam'),
+						isOut: 0
+					}
+				}
+				$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutside",newData,function(res) {
 					// console.log(res);
 					if(res.code == 200) {
 						console.log(res);
@@ -325,7 +361,25 @@ $(function() {
 						// 没有新闻，则不插入广告
 						if(res.data.count > 0) {
 							// 调用广告接口
-							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",function(adres) {
+							var newDataList;
+							if(that.getQueryString("from") == "ytt") {
+								// 站外
+								newDataList = {
+									ua: that.getQueryString('ua'),
+									device: that.getQueryString('device'),
+									dynamicParam: that.getQueryString('dynamicParam'),
+									isOut: 1
+								}
+							}else {
+								// 站内
+								newDataList = {
+									ua: that.getQueryString('ua'),
+									device: that.getQueryString('device'),
+									dynamicParam: that.getQueryString('dynamicParam'),
+									isOut: 0
+								}
+							}
+							$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideCustom",newDataList,function(adres) {
 								console.log(adres);
 								// 处理无广告特殊情况
 								if(adres.data != null) {
@@ -373,7 +427,7 @@ $(function() {
 												 }
 												// console.log(hostDomin.split('/share')[0]);
 												// 非广告
-												u = hostDomin.split('/share')[0]+"/share/readShare/pre-share.html?articleUrl="+Url;
+												u = hostDomin.split('articleUrl=')[0]+"articleUrl="+Url;
 											}else {
 												// 广告
 												aClass = "lafite_ad"
@@ -383,7 +437,8 @@ $(function() {
 											// 站内
 											if(Flag == 1) {
 												aClass = "lafite_news";
-												u = Url+"&from=ytt&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
+												// &from=ytt
+												u = Url+"&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
 											}else {
 												aClass = "lafite_ad";
 												u = Url;
