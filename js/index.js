@@ -1,12 +1,49 @@
 $(function() {
 		function outSideFn() {
 			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
-			this.adHostname = "http://182.92.82.188:8084"; //http://182.92.82.188:8084
+			this.adHostname = "http://callback.ytoutiao.net"; //http://callback.ytoutiao.net
 			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
 			this.allList = [];
 		}
 		outSideFn.prototype = {
+			// 初始化配置
+			configFn() {
+				var that = this;
+				// 配置title
+				$("title").text($(".article h1").text());
+				$(".go_download span").text('现在干什么能赚钱');
+				$(".more").click(function() {
+					$(this).hide();
+					$(".wrap").css("height","auto");
+				});
+				// 判断站内还是站外
+				if(that.getQueryString("froms") == "ytt") {
+					// 站外
+					// 判断是否是iframe
+					if (parent === window) { 
+						var o = document.getElementsByTagName("script");
+						var c = o[o.length-1].parentNode;
+						var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+						ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
+						ta.onload = function() {
+							new TuiSDK({
+							container: "#red_btn",
+							appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
+							slotId: '197490',
+							local: "right: 0vw; top: 60%"
+							});
+						}
+						var s = document.querySelector('head'); s.appendChild(ta);
+					}
+				}else {
+					// 站内
+				}
+				// 推啊点击上报
+				$(".fubiao-dialog").click(function() {
+					tuiA(2);
+				});
+			},
 			// 新闻内容
 			contentFn() {
 				var that = this;
@@ -24,34 +61,7 @@ $(function() {
 					success:function(res) {
 						if(res.code == 200) {
 							$(".article").html(res.data.content);
-							// 配置title
-							$("title").text($(".article h1").text());
-							$(".go_download span").text('现在干什么能赚钱');
-							$(".more").click(function() {
-								$(this).hide();
-								$(".wrap").css("height","auto");
-							});
-							// 判断是否是iframe
-							if (parent === window) { 
-								var o = document.getElementsByTagName("script");
-								var c = o[o.length-1].parentNode;
-								var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
-								ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
-								ta.onload = function() {
-									new TuiSDK({
-									container: "#red_btn",
-									appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
-									slotId: '197490',
-									local: "right: 0vw; top: 60%"
-									});
-								}
-								var s = document.querySelector('head'); s.appendChild(ta);
-							}
-
-							// 推啊点击上报
-							$(".fubiao-dialog").click(function() {
-								tuiA(2);
-							});
+							that.configFn();
 							that.ajaxDomain();
 							that.tuiAFn(1); // 推啊展示上报
 							that.ajaxFn(1);
@@ -481,7 +491,7 @@ $(function() {
 											if(Flag == 1) {
 												aClass = "lafite_news";
 												// &froms=ytt
-												u = Url+"&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
+												u = Url+"&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title+"&ua="+that.getQueryString("ua")+"&device="+that.getQueryString("device")+"&dynamicParam="+that.getQueryString("dynamicParam");
 											}else {
 												aClass = "lafite_ad";
 												u = Url;
