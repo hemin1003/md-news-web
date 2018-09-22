@@ -93,7 +93,7 @@ $(function() {
 						if(that.bottomAd == 1) {
 							that.bottomAd = 0;
 							var newData;
-							if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+							if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 								// 站外
 								newData = {
 									ua: that.getQueryString('ua'),
@@ -114,7 +114,7 @@ $(function() {
 								if(res.code == 200) {
 									for(var i = 0; i < res.data.length; i++) {
 										if(res.data[i].outsidePosition == 6) {
-											if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+											if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 												// 站外
 												that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 											}else {
@@ -136,7 +136,7 @@ $(function() {
 									adIndex.push(indexs);
 									console.log(that.allList[indexs].id);
 									// 展示上报
-									if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
 										console.log('站外上报')
 										that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
@@ -150,7 +150,7 @@ $(function() {
 								adIndex.push(indexs);
 								console.log(that);
 								// 展示上报
-								if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+								if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 									// 站外
 									that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
 								}else {
@@ -202,7 +202,7 @@ $(function() {
         			}
 
         			// 判断站内还是站外
-					if(that.getQueryString("from") == "ytt") {
+					if(that.getQueryString("froms") == "ytt") {
 						// 站外
 						if (parent === window) { 
 							$(".footer").slideDown(500);
@@ -254,7 +254,7 @@ $(function() {
 				var that = this;
 				$(".guss_like ul").delegate(".lafite_ad","click",function(){
 					var Cindex = $(this).index();
-					if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+					if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 						// 站外
 						that.adRecordFn('','',99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
 					}else {
@@ -297,8 +297,8 @@ $(function() {
 			ajaxAdFn() {
 				var that = this;
 				var newData;
-				console.log(that.getQueryString("from"));
-				if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+				console.log(that.getQueryString("froms"));
+				if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 					// 站外
 					newData = {
 						ua: that.getQueryString('ua'),
@@ -343,7 +343,7 @@ $(function() {
 										break;
 								}
 								if(report == 1) {
-									if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
 										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 									}else {
@@ -352,7 +352,7 @@ $(function() {
 									}
 								}
 								dom.click(function() {
-									if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
 										that.adRecordFn('','',99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
 									}else {
@@ -405,7 +405,7 @@ $(function() {
 						if(res.data.count > 0) {
 							// 调用广告接口
 							var newDataList;
-							if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+							if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 								// 站外
 								newDataList = {
 									ua: that.getQueryString('ua'),
@@ -453,7 +453,7 @@ $(function() {
 										u,
 										aClass;
 										// console.log(that.ads[i].id);
-										if((that.getQueryString("from") == "ytt") || (parent !== window)) {
+										if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 											// 站外
 											$(".go_download").show();
 											// var hostDomin = window.location.href.split("articleUrl")[0];
@@ -470,7 +470,7 @@ $(function() {
 												//  }
 												// console.log(hostDomin.split('/share')[0]);
 												// 非广告
-												u = "http://"+window.location.host+"/ytt/index.html?id="+Url.split('id=')[1]+"&from=ytt";
+												u = "http://"+window.location.host+"/ytt/index.html?id="+Url.split('id=')[1]+"&froms=ytt";
 											}else {
 												// 广告
 												aClass = "lafite_ad"
@@ -480,7 +480,7 @@ $(function() {
 											// 站内
 											if(Flag == 1) {
 												aClass = "lafite_news";
-												// &from=ytt
+												// &froms=ytt
 												u = Url+"&phoneNum="+that.getQueryString("phoneNum")+"&ip="+that.getQueryString("ip")+"&appVersion="+that.getQueryString("appVersion")+"&appChannel="+that.getQueryString("appChannel")+"&appImei="+that.getQueryString("appImei")+"&tabName="+encodeURI(that.getQueryString('tabName'))+"&adsSource="+that.getQueryString("adsSource")+"&OutsideTitle="+Title;
 											}else {
 												aClass = "lafite_ad";
