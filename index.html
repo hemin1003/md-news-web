@@ -63,20 +63,3 @@
 </body>
 </html>
 <script src="js/index.js"></script>
-<script>
-	(function(){
-      var o = document.getElementsByTagName("script");
-      var c = o[o.length-1].parentNode;
-      var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
-      ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
-      ta.onload = function() {
-        new TuiSDK({
-          container: "#red_btn",
-          appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
-          slotId: '197490',
-          local: "right: 0vw; top: 60%"
-        });
-      }
-      var s = document.querySelector('head'); s.appendChild(ta);
-    })();
-</script>
