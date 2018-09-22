@@ -31,7 +31,12 @@ $(function() {
 								$(this).hide();
 								$(".wrap").css("height","auto");
 							});
+							// 推啊点击上报
+							$(".fubiao-dialog").click(function() {
+								tuiA(2);
+							});
 							that.ajaxDomain();
+							that.tuiAFn(1); // 推啊展示上报
 							that.ajaxFn(1);
 							that.ajaxAdFn();
 							that.LazyFn();
@@ -236,6 +241,23 @@ $(function() {
 					}else {
 						// 站内
 						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,decodeURI(that.getQueryString('tabName')),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam')); 
+					}
+				});
+			},
+			// 推啊上报接口
+			tuiAFn(types) {
+				$.ajax({
+					type:"post",
+					url: adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",
+					// dataType:"jsonp",
+					data: {
+						adsType: 88,
+						adsId: "",
+						url: "",
+						actionType: types
+					},
+					success:function(res){
+						console.log(res);
 					}
 				});
 			},
