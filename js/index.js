@@ -31,6 +31,23 @@ $(function() {
 								$(this).hide();
 								$(".wrap").css("height","auto");
 							});
+							// 判断是否是iframe
+							if (parent === window) { 
+								var o = document.getElementsByTagName("script");
+								var c = o[o.length-1].parentNode;
+								var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+								ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
+								ta.onload = function() {
+									new TuiSDK({
+									container: "#red_btn",
+									appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
+									slotId: '197490',
+									local: "right: 0vw; top: 60%"
+									});
+								}
+								var s = document.querySelector('head'); s.appendChild(ta);
+							}
+
 							// 推啊点击上报
 							$(".fubiao-dialog").click(function() {
 								tuiA(2);
@@ -187,8 +204,10 @@ $(function() {
         			// 判断站内还是站外
 					if(that.getQueryString("from") == "ytt") {
 						// 站外
-						$(".footer").slideDown(500);
-						// that.outTurn = 0;
+						if (parent === window) { 
+							$(".footer").slideDown(500);
+						}
+						// $(".footer").slideDown(500);
 					}else {
 						// 站内
 						$(".footer").hide();
