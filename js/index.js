@@ -419,16 +419,16 @@ $(function() {
 											var hostDomin;
 											if(Flag == 1) {
 												aClass = "lafite_news"
-												if (parent !== window) { 
-													try {
-														hostDomin = parent.location.href; 
-													}catch (e) { 
-														hostDomin = document.referrer; 
-													} 
-												 }
+												// if (parent !== window) { 
+												// 	try {
+												// 		hostDomin = parent.location.href; 
+												// 	}catch (e) { 
+												// 		hostDomin = document.referrer; 
+												// 	} 
+												//  }
 												// console.log(hostDomin.split('/share')[0]);
 												// 非广告
-												u = hostDomin.split('articleUrl=')[0]+"articleUrl="+Url;
+												u = window.location.host+"ytt/index.html?id="+Url.split('id=')[1];
 											}else {
 												// 广告
 												aClass = "lafite_ad"
