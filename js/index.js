@@ -246,9 +246,10 @@ $(function() {
 			},
 			// 推啊上报接口
 			tuiAFn(types) {
+				var that = this;
 				$.ajax({
 					type:"post",
-					url: adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",
+					url: that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",
 					// dataType:"jsonp",
 					data: {
 						adsType: 88,
