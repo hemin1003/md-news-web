@@ -428,7 +428,7 @@ $(function() {
 												//  }
 												// console.log(hostDomin.split('/share')[0]);
 												// 非广告
-												u = window.location.host+"ytt/index.html?id="+Url.split('id=')[1];
+												u = "http://"+window.location.host+"/ytt/index.html?id="+Url.split('id=')[1];
 											}else {
 												// 广告
 												aClass = "lafite_ad"
