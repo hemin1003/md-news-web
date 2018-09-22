@@ -182,7 +182,7 @@ $(function() {
         			// 判断站内还是站外
 					if(that.getQueryString("from") == "ytt") {
 						// 站外
-						// $(".footer").slideDown(500);
+						$(".footer").slideDown(500);
 						// that.outTurn = 0;
 					}else {
 						// 站内
@@ -428,7 +428,7 @@ $(function() {
 												//  }
 												// console.log(hostDomin.split('/share')[0]);
 												// 非广告
-												u = "http://"+window.location.host+"/ytt/index.html?id="+Url.split('id=')[1];
+												u = "http://"+window.location.host+"/ytt/index.html?id="+Url.split('id=')[1]+"&from=ytt";
 											}else {
 												// 广告
 												aClass = "lafite_ad"

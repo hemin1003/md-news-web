@@ -13,7 +13,10 @@
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/jquery.lazyload.min.js"></script>
 <script src="js/onload.js"></script>
-<!-- <script data-product="20035" data-android-channal="h5a20180523ban223" data-ios-channal="h5a20180523ban223" src="//cdn.ipadview.com/jssdk/combo.bundle.js"></script> -->
+<!-- 推啊 -->
+<script src="http://yun.poppyta.com/h5-mami/msdk/tmk.js"></script>
+<!-- 百度ad -->
+<script data-product="20035" data-android-channal="h5a20180523ban223" data-ios-channal="h5a20180523ban223" src="//cdn.ipadview.com/jssdk/combo.bundle.js"></script>
 <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
@@ -51,3 +54,20 @@
 </body>
 </html>
 <script src="js/index.js"></script>
+<script>
+	(function(){
+      var o = document.getElementsByTagName("script");
+      var c = o[o.length-1].parentNode;
+      var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+      ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
+      ta.onload = function() {
+        new TuiSDK({
+          container: "#red_btn",
+          appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
+          slotId: '197490',
+          local: "right: 0vw; top: 60%"
+        });
+      }
+      var s = document.querySelector('head'); s.appendChild(ta);
+    })();
+</script>
