@@ -13,7 +13,7 @@ $(function() {
 				// 配置title
 				$("title").text($(".article h1").text());
 				$(".go_download span").text('现在干什么能赚钱');
-				$(".go_download a").href("target","_blank");
+				$(".go_download a").attr("target","_blank");
 				$(".more").click(function() {
 					$(this).hide();
 					$(".wrap").css("height","auto");
