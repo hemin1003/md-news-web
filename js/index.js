@@ -37,13 +37,18 @@ $(function() {
 						}
 						var s = document.querySelector('head'); s.appendChild(ta);
 					}
+					that.tuiAFn(1,88); // 推啊展示上报 88站外 87站内
+					// 推啊点击上报
+					$(".fubiao-dialog").click(function() {
+						tuiA(2,88);
+					});
+
+					// that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","h5a20180523ban223");
+					// that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092601xxl");
+					// that.baiduFn(".title_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092603xxl");
 				}else {
 					// 站内
 				}
-				// 推啊点击上报
-				$(".fubiao-dialog").click(function() {
-					tuiA(2);
-				});
 			},
 			// 新闻内容
 			contentFn() {
@@ -64,7 +69,6 @@ $(function() {
 							$(".article").html(res.data.content);
 							that.configFn();
 							that.ajaxDomain();
-							that.tuiAFn(1); // 推啊展示上报
 							that.ajaxFn(1);
 							that.ajaxAdFn();
 							that.LazyFn();
@@ -127,7 +131,7 @@ $(function() {
 										if(res.data[i].outsidePosition == 6) {
 											if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 												// 站外
-												that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+												that.adRecordFn('',"NEWS_OUT_ADS",99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 											}else {
 												// 站内
 												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
@@ -150,7 +154,7 @@ $(function() {
 									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
 										console.log('站外上报')
-										that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
+										that.adRecordFn('',"NEWS_OUT_ADS",99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
 									}else {
 										// 站内
 										console.log('站内上报');
@@ -163,7 +167,7 @@ $(function() {
 								// 展示上报
 								if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 									// 站外
-									that.adRecordFn('','',99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
+									that.adRecordFn('',"NEWS_OUT_ADS",99,that.allList[indexs].id,'',that.allList[indexs].title,that.allList[indexs].url,1);
 								}else {
 									// 站内
 									that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[indexs].id,decodeURI(that.getQueryString('tabName')),that.allList[indexs].title,that.allList[indexs].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
@@ -237,6 +241,23 @@ $(function() {
 			    }
 			    return null;
 			},
+			baiduFn(dom,url,product,code) {
+				var script = document.createElement("script");
+				script.setAttribute("type","text/javascript");
+				script.src = url;
+				// script.async = "async";
+				script.defer = "defer";
+				script.dataset.product = product; //"20035"
+				script.dataset.androidChannal = code; //"yuetth5a2018092602xxl"
+				script.dataset.iosChannal = code; //"yuetth5a2018092602xxl"
+				script.onload = script.onreadystatechange = function() {
+		            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete" ) {
+		                // alert("加载完成！");
+		                script.onload = script.onreadystatechange = null;
+		            }
+		        };
+				var s = document.querySelector(dom); s.appendChild(script);
+			},
 			// ad上报
 			adRecordFn(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei,ua,device,dynamicParam) {
 				var adData = {
@@ -267,7 +288,7 @@ $(function() {
 					var Cindex = $(this).index();
 					if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 						// 站外
-						that.adRecordFn('','',99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
+						that.adRecordFn('',"NEWS_OUT_ADS",99,that.allList[Cindex].id,'',that.allList[Cindex].title,that.allList[Cindex].url,2);
 					}else {
 						// 站内
 						that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,that.allList[Cindex].id,decodeURI(that.getQueryString('tabName')),that.allList[Cindex].title,that.allList[Cindex].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam')); 
@@ -275,14 +296,14 @@ $(function() {
 				});
 			},
 			// 推啊上报接口
-			tuiAFn(types) {
+			tuiAFn(types,num) {
 				var that = this;
 				$.ajax({
 					type:"post",
 					url: that.adHostname+"/yfax-htt-api/api/htt/doBurryPointAdsHis",
 					// dataType:"jsonp",
 					data: {
-						adsType: 88,
+						adsType: num,
 						adsId: "",
 						url: "",
 						actionType: types
@@ -356,7 +377,7 @@ $(function() {
 								if(report == 1) {
 									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
-										that.adRecordFn('','',99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
+										that.adRecordFn('',"NEWS_OUT_ADS",99,res.data[i].adsId,'',res.data[i].title,res.data[i].url,1);
 									}else {
 										// 站内
 										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
@@ -365,7 +386,7 @@ $(function() {
 								dom.click(function() {
 									if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 										// 站外
-										that.adRecordFn('','',99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
+										that.adRecordFn('',"NEWS_OUT_ADS",99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
 									}else {
 										// 站内
 										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
