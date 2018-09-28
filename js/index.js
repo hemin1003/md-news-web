@@ -1,7 +1,7 @@
 $(function() {
 	function outSideFn() {
 		this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
-		this.adHostname = "http://callback.ytoutiao.net"; //http://182.92.82.188:8084
+		this.adHostname = "http://callback.ytoutiao.net"; // http://182.92.82.188:8084
 		this.hostname2 = "http://news.ytoutiao.net";
 		this.page = 1;
 		this.allList = [];
@@ -356,6 +356,7 @@ $(function() {
 				if(res.code == 200) {
 					console.log(res);
 					for(var i = 0, L = res.data.length; i < L; i++) {
+						var TypeIndex = res.data[i].type;
 						// 抽离公共部分
 						function selectType(dom,top,report,index) {
 							var Class_top;
@@ -424,7 +425,7 @@ $(function() {
 							$(dom).click(function() {
 								if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 									// 站外
-									if(res.data[i].type == 89) {
+									if(TypeIndex == 89) {
 										that.adRecordFn('',"NEWS_OUT_ADS",89,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
 									}else {
 										that.adRecordFn('',"NEWS_OUT_ADS",99,res.data[index].adsId,'',res.data[index].title,res.data[index].url,2);
@@ -432,7 +433,7 @@ $(function() {
 								}else {
 									// console.log('click6666');
 									// 站内
-									if(res.data[i].type == 86) {
+									if(TypeIndex == 86) {
 										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),86,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
 									}else {
 										that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),4,res.data[index].adsId,decodeURI(that.getQueryString('tabName')),res.data[index].title,res.data[index].url,2,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
