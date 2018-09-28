@@ -1,7 +1,7 @@
 $(function() {
 		function outSideFn() {
-			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList";
-			this.adHostname = "http://callback.ytoutiao.net"; // http://182.92.82.188:8084
+			this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //http://news.ytoutiao.net
+			this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net
 			this.hostname2 = "http://news.ytoutiao.net";
 			this.page = 1;
 			this.allList = [];
