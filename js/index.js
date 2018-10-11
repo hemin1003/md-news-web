@@ -1,10 +1,11 @@
 $(function() {
 	function outSideFn() {
 		this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //http://news.ytoutiao.net
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net
+		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://news.ytoutiao.net";
 		this.page = 1;
 		this.allList = [];
+		this.fristTap = 0;
 	}
 	outSideFn.prototype = {
 		// 初始化配置
@@ -82,23 +83,23 @@ $(function() {
 			this.contentFn();
 			this.clickAdsFn();
 
-			// setTimeout(function() {
-			// 	// 配置go_download文件
-			// 	that.ajaxFn(1);
-			// 	that.ajaxAdFn();
-				
-			// 	$(".go_download span").text('现在干什么能赚钱');
-			// },100);
-			
 			var startTime;
 			var endTime;
 			var adIndex = []; //已上报ad下标
 			var badIndex = []; //百度js已上报下标
 			// 计算滑动时间
+			// that.fristTap = 0;
 			$(window).on('touchstart',function(e) {
 				startTime = new Date().getTime();
 				console.log((startTime-endTime)/1000);
-
+				
+				// 调用微转
+				if(that.getQueryString('source') == "ytt_wz") {
+					if(that.fristTap == 0) {
+						that.beforeRead();
+						that.fristTap = 1;
+					}
+				}
 				// 停留时间大于0.5s
 				if((startTime-endTime)/1000 > 0.5) {
 					// 判断文末广告是否展示
@@ -667,6 +668,38 @@ $(function() {
 					 console.log(res);
 				 }
 			 });
+		},
+		// 站外微转
+		beforeRead() {
+			var that = this;
+			console.log(window.location.href.split("&")[0]);
+			var sendData = {
+				articleUrl: window.location.href.split("&")[0],
+				phoneNum: that.getQueryString('phoneNum')
+			};
+			$.ajax({
+				type:"get",
+				url: that.adHostname+"/yfax-htt-api/api/htt/queryShareArticleHis",
+				data: sendData,
+				success:function(res){
+					console.log(res.data);
+					if(res.data) {
+						setTimeout(function() {
+							$.ajax({
+								type:"post",
+								url: that.adHostname+"/yfax-htt-api/api/htt/doShareArticleAward",
+								data: sendData,
+								success:function(res){
+									console.log(res);
+								}
+							});
+							// console.log('噢哟可以哦！');
+						},5000);
+					}else {
+						console.log('未达到条件');
+					}
+				}
+			});
 		},
 		LazyFn() {
 			// threshold: 100
