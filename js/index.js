@@ -1,7 +1,7 @@
 $(function() {
 	function outSideFn() {
 		this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //http://news.ytoutiao.net
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net http://182.92.82.188:8084
 		this.hostname2 = "http://news.ytoutiao.net";
 		this.page = 1;
 		this.allList = [];
@@ -672,9 +672,9 @@ $(function() {
 		// 站外微转
 		beforeRead() {
 			var that = this;
-			console.log(window.location.href.split("&")[0]);
+			console.log(that.getQueryString('wzUrl'));
 			var sendData = {
-				articleUrl: window.location.href.split("&")[0],
+				articleUrl: that.getQueryString('wzUrl'),
 				phoneNum: that.getQueryString('phoneNum')
 			};
 			$.ajax({
