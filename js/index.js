@@ -7,6 +7,7 @@ $(function() {
 		this.allList = [];
 		this.fristTap = 0;
 		this.baiDuTurn = 0; // 0 => 关  1=> 开
+		this.wzSlideTurn = 0; // 微转滑动开关
 	}
 	outSideFn.prototype = {
 		// 初始化配置
@@ -16,9 +17,19 @@ $(function() {
 			$("title").text($(".article h1").text());
 			$(".go_download span").text('现在干什么能赚钱');
 			$(".go_download a").attr("target","_blank");
+			// 2018.10.31新增奖励逻辑
 			$(".more").click(function() {
 				$(this).hide();
 				$(".wrap").css("height","auto");
+				
+				$(window).scroll(function() {
+					if(that.wzSlideTurn == 0) {
+						if(($(".copyright").offset().top - $(window).scrollTop()) < 500) {
+							that.beforeRead();
+							that.wzSlideTurn = 1;
+						}
+					}
+				});
 			});
 			// 判断站内还是站外
 			if(that.getQueryString("froms") == "ytt") {
@@ -70,8 +81,33 @@ $(function() {
 						that.ajaxFn(1);
 						that.ajaxAdFn();
 						that.LazyFn();
+
+						that.paramFn();
 					}else {
 						console.error(that.hostname2+"请求出错！");
+					}
+				}
+			});
+		},
+		// 2018.10.31新版参数
+		paramFn() {
+			var that = this;
+			// console.log(that.getQueryString('rId'));
+			// http://http://182.92.82.188:8084/yfax-htt-api/api/htt/queryShareReqParams
+			var datas = {
+				rId: that.getQueryString('rId')
+			}
+			$.ajax({
+				type: "get",
+				url: that.adHostname+"/yfax-htt-api/api/htt/queryShareReqParams",
+				data: datas,
+				success:function(res) {
+					console.log(res);
+					if(res.code == 200) {
+						that.Param = res.data.queryParams;
+						console.log(res.data.queryParams);
+					}else {
+						console.error(that.adHostname+"/yfax-htt-api/api/htt/queryShareReqParams请求出错！");
 					}
 				}
 			});
@@ -83,7 +119,7 @@ $(function() {
 			// this.ajaxAdFn();
 			this.contentFn();
 			this.clickAdsFn();
-
+			this.wxJump();
 			var startTime;
 			var endTime;
 			var adIndex = []; //已上报ad下标
@@ -111,9 +147,9 @@ $(function() {
 						if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 							// 站外
 							newData = {
-								ua: that.getQueryString('ua'),
-								device: that.getQueryString('device'),
-								dynamicParam: that.getQueryString('dynamicParam'),
+								ua: '',
+								device: '',
+								dynamicParam: '',
 								isOut: 1
 							}
 						}else {
@@ -304,11 +340,14 @@ $(function() {
 			script.dataset.iosChannal = code; //"yuetth5a2018092602xxl"
 			script.onload = script.onreadystatechange = function() {
 				if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete" ) {
-					// console.log('6677999');
+					console.log('88888888');
+					console.log($(".top_ads").height());
 					script.onload = script.onreadystatechange = null;
+				}else {
+					console.log('6677999');
 				}
 			};
-			console.log(index);
+			// console.log(index);
 			var s = document.querySelectorAll(dom)[index]; s.appendChild(script);
 		},
 		// ad上报
@@ -387,9 +426,9 @@ $(function() {
 			if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 				// 站外
 				newData = {
-					ua: that.getQueryString('ua'),
-					device: that.getQueryString('device'),
-					dynamicParam: that.getQueryString('dynamicParam'),
+					ua: '',
+					device: '',
+					dynamicParam: '',
 					isOut: 1
 				}
 			}else {
@@ -426,7 +465,7 @@ $(function() {
 									break;
 								case 2:
 									// 三图
-									$(dom).html('<a class="lafite_news_ad '+Class_top+'" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div><div class="typeMuch">'+res.data[i].title+'</div></div></a>');
+									$(dom).html('<a class="lafite_news_ad '+Class_top+'" href="'+res.data[i].url+'" target="_blank"><div class="fixed_ads">广告</div><div class="lafite_three_pic"><div class="typeMuch">'+res.data[i].title+'</div><div class="typeMuch_pic"><img src="'+res.data[i].imageList[0]+'" alt="list1"><img src="'+res.data[i].imageList[1]+'" alt="list2"><img src="'+res.data[i].imageList[2]+'" alt="list3"></div></div></a>');
 									break;
 								case 86:
 									switch(dom) {
@@ -540,9 +579,9 @@ $(function() {
 						if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 							// 站外
 							newDataList = {
-								ua: that.getQueryString('ua'),
-								device: that.getQueryString('device'),
-								dynamicParam: that.getQueryString('dynamicParam'),
+								ua: '',
+								device: '',
+								dynamicParam: '',
 								isOut: 1
 							}
 						}else {
@@ -560,7 +599,7 @@ $(function() {
 							var baiduAds = {
 								type: "baidu",
 								ids: "20035",
-								code: "",
+								code: "//cdn.ipadview.com/jssdk/combo.bundle.js",
 							}
 							// 处理无广告特殊情况
 							if(adres.data != null) {
@@ -600,9 +639,6 @@ $(function() {
 								var isBaidu = that.ads[i].type;
 								if(isBaidu == "baidu") {
 									$(".guss_like ul").append('<a class="lafite_news lafite_ad"><div class="category" style="position: absolute;opacity: 0;">百度广告</div></a>');
-									// console.log(i);
-									// console.log('6666');
-									// console.log(page);
 									if(page > 1) {
 										that.baiduFn(".lafite_news","//cdn.ipadview.com/jssdk/combo.bundle.js",that.ads[i].ids,that.ads[i].code,((page-1)*20+i));
 									}else {
@@ -688,34 +724,40 @@ $(function() {
 		// 站外微转
 		beforeRead() {
 			var that = this;
-			console.log(that.getQueryString('wzUrl'));
-			var sendData = {
-				articleUrl: that.getQueryString('wzUrl'),
-				phoneNum: that.getQueryString('phoneNum')
-			};
+			console.log(that.Param);
+			// console.log(that.getQueryString('wzUrl'));
+			// var sendData = {
+			// 	articleUrl: that.getQueryString('id'),
+			// 	phoneNum: that.getQueryString('phoneNum')
+			// };
 			$.ajax({
 				type:"get",
-				url: that.adHostname+"/yfax-htt-api/api/htt/queryShareArticleHis",
-				data: sendData,
+				url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
+				// data: sendData,
 				success:function(res){
-					console.log(res.data);
-					if(res.data) {
-						setTimeout(function() {
-							$.ajax({
-								type:"post",
-								url: that.adHostname+"/yfax-htt-api/api/htt/doShareArticleAward",
-								data: sendData,
-								success:function(res){
-									console.log(res);
-								}
-							});
-							// console.log('噢哟可以哦！');
-						},5000);
-					}else {
-						console.log('未达到条件');
-					}
+					console.log('奖励接口请求成功')
+				},
+				error:function(res) {
+					console.error("doShareTaskAward接口请求失败！");
+					console.log(res);
 				}
 			});
+		},
+		// wx返回跳转
+		wxJump() {
+			// 微信分享跳转
+	    	pushHistory();  
+	        window.addEventListener("popstate", function(e) {  
+	            //需要跳转的页面 
+	            window.location.href = "http://www.baidu.com";
+	           }, false);  
+	        function pushHistory() {  
+	            var state = {  
+	                title: "title",  
+	                url: "#"  
+	            };  
+	            window.history.pushState(state, "title", "#");  
+	        }
 		},
 		LazyFn() {
 			// threshold: 100
