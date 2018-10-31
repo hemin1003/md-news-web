@@ -21,19 +21,21 @@ $(function() {
 			$(".more").click(function() {
 				$(this).hide();
 				$(".wrap").css("height","auto");
-				
-				$(window).scroll(function() {
-					if(that.wzSlideTurn == 0) {
-						if(($(".copyright").offset().top - $(window).scrollTop()) < 500) {
-							that.beforeRead();
-							that.wzSlideTurn = 1;
-						}
-					}
-				});
 			});
 			// 判断站内还是站外
 			if(that.getQueryString("froms") == "ytt") {
 				// 站外
+				that.paramFn();
+				$(".more").click(function() {
+					$(window).scroll(function() {
+						if(that.wzSlideTurn == 0) {
+							if(($(".copyright").offset().top - $(window).scrollTop()) < 500) {
+								that.beforeRead();
+								that.wzSlideTurn = 1;
+							}
+						}
+					});
+				});
 				// 判断是否是iframe
 				if (parent === window) { 
 					var o = document.getElementsByTagName("script");
@@ -81,8 +83,6 @@ $(function() {
 						that.ajaxFn(1);
 						that.ajaxAdFn();
 						that.LazyFn();
-
-						that.paramFn();
 					}else {
 						console.error(that.hostname2+"请求出错！");
 					}
@@ -349,6 +349,15 @@ $(function() {
 			};
 			// console.log(index);
 			var s = document.querySelectorAll(dom)[index]; s.appendChild(script);
+		},
+		// 赢纳科技js合作
+		yntechAd(position) {
+			// position   0 => 置顶   1 => 文末
+			if(position == 0) {
+				$(".top_ads").appendChild('<div id="_so_pdsBy_0"></div><div id="_so_pdsBy_12"></div>');
+			}else if(position == 1) {
+				$(".article_ad").appendChild('<div id="_so_pdsBy_0"></div><div id="_so_pdsBy_12"></div>');
+			}
 		},
 		// ad上报
 		adRecordFn(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei,ua,device,dynamicParam) {
