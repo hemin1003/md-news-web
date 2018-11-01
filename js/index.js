@@ -496,13 +496,21 @@ $(function() {
 								case 89:
 									switch(dom) {
 										case ".top_ads":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","h5a20180523ban223",0);
+											if(that.randomFn(50)) {
+												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
+											}else {
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+											}
 											break;
 										case ".title_ad":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092603xxl",0);
+											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","",0);
 											break;
 										case ".article_ad":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092601xxl",0);
+											if(that.randomFn(50)) {
+												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
+											}else {
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+											}
 											break;	
 									}
 									break;
