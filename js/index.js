@@ -25,6 +25,7 @@ $(function() {
 			// 判断站内还是站外
 			if(that.getQueryString("froms") == "ytt") {
 				// 站外
+				that.ajaxAdFn();
 				that.paramFn();
 				$(".more").click(function() {
 					$(window).scroll(function() {
@@ -59,6 +60,19 @@ $(function() {
 				});
 			}else {
 				// 站内
+				if(that.randomFn(50)) {
+					that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
+					that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
+				}else {
+					that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+					that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+				}
+				// 判断是否有js广告
+				setTimeout(function() {
+					if($(".top_ads").find("iframe").length < 1) {
+						that.ajaxAdFn();
+					}
+				},1000)
 			}
 		},
 		// 新闻内容
@@ -81,7 +95,7 @@ $(function() {
 						that.configFn();
 						that.ajaxDomain();
 						that.ajaxFn(1);
-						that.ajaxAdFn();
+						// that.ajaxAdFn();
 						that.LazyFn();
 					}else {
 						console.error(that.hostname2+"请求出错！");
@@ -341,7 +355,7 @@ $(function() {
 			script.onload = script.onreadystatechange = function() {
 				if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete" ) {
 					console.log('88888888');
-					console.log($(".top_ads").height());
+					// console.log($(".top_ads").height());
 					script.onload = script.onreadystatechange = null;
 				}else {
 					console.log('6677999');
