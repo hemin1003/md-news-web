@@ -351,13 +351,9 @@ $(function() {
 			var s = document.querySelectorAll(dom)[index]; s.appendChild(script);
 		},
 		// 赢纳科技js合作
-		yntechAd(position) {
-			// position   0 => 置顶   1 => 文末
-			if(position == 0) {
-				$(".top_ads").appendChild('<div id="_so_pdsBy_0"></div><div id="_so_pdsBy_12"></div>');
-			}else if(position == 1) {
-				$(".article_ad").appendChild('<div id="_so_pdsBy_0"></div><div id="_so_pdsBy_12"></div>');
-			}
+		yntechAd(dom,div) {
+			$(dom).append(div); //<div id="_so_pdsBy_12"></div>  <div id="_so_pdsBy_0"></div>
+			$.getScript("http://un.dnskuu.com/xay/11261.js?ydcp_id=11261&cumid=$mac_addr&apmac=$ap_mac");
 		},
 		// ad上报
 		adRecordFn(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei,ua,device,dynamicParam) {
@@ -479,13 +475,21 @@ $(function() {
 								case 86:
 									switch(dom) {
 										case ".top_ads":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","h5a20180523ban223",0);
+											if(that.randomFn(50)) {
+												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
+											}else {
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+											}
 											break;
 										case ".title_ad":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092603xxl",0);
+											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","",0);
 											break;
 										case ".article_ad":
-											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a2018092601xxl",0);
+											if(that.randomFn(50)) {
+												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
+											}else {
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+											}
 											break;	
 									}
 									break;
@@ -776,6 +780,18 @@ $(function() {
 				threshold: 300,
 				data_attribute: "src",
 			}); 
+		},
+		// 封装随机函数
+		randomFn(num) {
+			// num:概率
+			var randomNum = Math.round(Math.random()*100);
+			console.log(randomNum);
+			console.log(num);
+			if(randomNum < num) {
+				return true
+			}else {
+				return false
+			}
 		},
 		go() {
 			this.Init();
