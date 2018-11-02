@@ -784,7 +784,7 @@ $(function() {
 	    	pushHistory();  
 	        window.addEventListener("popstate", function(e) {  
 	            //需要跳转的页面 
-	            window.location.href = "http://www.baidu.com";
+	            window.location.href = "https://cpu.baidu.com/1022/d3f402ee/i?scid=18416";
 	           }, false);  
 	        function pushHistory() {  
 	            var state = {  
