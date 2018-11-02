@@ -1,7 +1,7 @@
 $(function() {
 	function outSideFn() {
 		this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //http://news.ytoutiao.net
-		this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net
+		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://news.ytoutiao.net";
 		this.page = 1;
 		this.allList = [];
@@ -784,7 +784,7 @@ $(function() {
 	    	pushHistory();  
 	        window.addEventListener("popstate", function(e) {  
 	            //需要跳转的页面 
-	            window.location.href = "https://cpu.baidu.com/1022/d3f402ee/i?scid=18416";
+	            window.location.href = "https://cpu.baidu.com/1032/d3f402ee?scid=18416";
 	           }, false);  
 	        function pushHistory() {  
 	            var state = {  
