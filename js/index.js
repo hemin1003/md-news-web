@@ -1,8 +1,10 @@
 $(function() {
 	function outSideFn() {
-		this.hostname = "http://news.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //http://news.ytoutiao.net
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
-		this.hostname2 = "http://news.ytoutiao.net";
+		this.hostname = "http://wnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
+		this.outHostname = "http://onews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
+		this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
+		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
 		this.allList = [];
 		this.fristTap = 0;
@@ -78,13 +80,22 @@ $(function() {
 		// 新闻内容
 		contentFn() {
 			var that = this;
+			var IdUrl;
 			var ids = that.getQueryString("id");
 			var datas = {
 				id: ids
 			}
+			if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
+				// 站外
+				IdUrl = that.outHostname2;
+			}else {
+				// 站内
+				IdUrl = that.hostname2;
+			}
+
 			$.ajax({
 				type: "get",
-				url: that.hostname2+"/yfax-news-api/api/htt/getDetailById",
+				url: IdUrl+"/yfax-news-api/api/htt/getDetailById",
 				data: datas,
 				beforeSend:function(XMLHttpRequest){ 
 				// 　　$("html").html('<div class="cover">加载中</div>');
@@ -98,7 +109,7 @@ $(function() {
 						// that.ajaxAdFn();
 						that.LazyFn();
 					}else {
-						console.error(that.hostname2+"请求出错！");
+						console.error(IdUrl+"请求出错！");
 					}
 				}
 			});
@@ -589,15 +600,24 @@ $(function() {
 			});
 		},
 		ajaxFn(page) {
+			var UrlHostname;
 			var that = this;
 			var t = $(".article h1").text();
 			var datas = {
 				curPage: page,
 				title: t
 			};
+			if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
+				// 站外
+				UrlHostname = that.outHostname;
+			}else {
+				// 站内
+				UrlHostname = that.hostname;
+			}
+				
 			$.ajax({
 				type:"get",
-				url: this.hostname,
+				url: UrlHostname,
 				data: datas,
 				beforeSend:function(XMLHttpRequest){ 
 					$(".bottom_tips").text("加载中...").show();
