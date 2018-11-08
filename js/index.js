@@ -64,8 +64,8 @@ $(function() {
 					that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 					that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 				}else {
-					that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
-					that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+					that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
+					that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 				}
 				// 判断是否有js广告
 				setTimeout(function() {
@@ -492,7 +492,7 @@ $(function() {
 											if(that.randomFn(50)) {
 												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 											}else {
-												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 											}
 											break;
 										case ".title_ad":
@@ -502,7 +502,7 @@ $(function() {
 											if(that.randomFn(50)) {
 												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 											}else {
-												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 											}
 											break;	
 									}
@@ -513,7 +513,7 @@ $(function() {
 											if(that.randomFn(50)) {
 												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 											}else {
-												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 											}
 											break;
 										case ".title_ad":
@@ -523,7 +523,7 @@ $(function() {
 											if(that.randomFn(50)) {
 												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 											}else {
-												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181023xxl",0);
+												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 											}
 											break;	
 									}
