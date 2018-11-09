@@ -62,6 +62,7 @@ $(function() {
 				});
 			}else {
 				// 站内
+				that.InArticleAdReport = 1;
 				if(that.randomFn(50)) {
 					that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 					that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
@@ -69,9 +70,10 @@ $(function() {
 					that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 					that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 				}
-				// 判断是否有js广告
+				//判断是否有js广告
 				setTimeout(function() {
 					if($(".top_ads").find("iframe").length < 1) {
+						that.InArticleAdReport = 0;
 						that.ajaxAdFn();
 					}
 				},1000)
@@ -201,9 +203,13 @@ $(function() {
 										}else {
 											// 站内 80 => 后台自接-站内-详情页-文末
 											if(res.data[i].type == 86) {
-												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),86,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
+												if(that.InArticleAdReport == 1) {
+													that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),86,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
+												}
 											}else {
-												that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),80,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
+												if(that.InArticleAdReport != 1) {
+													that.adRecordFn(that.getQueryString("phoneNum"),that.getQueryString("adsSource"),80,res.data[i].adsId,decodeURI(that.getQueryString('tabName')),res.data[i].title,res.data[i].url,1,that.getQueryString("ip"),that.getQueryString("appVersion"),that.getQueryString("appChannel"),that.getQueryString("appImei"),that.getQueryString('ua'),that.getQueryString('device'),that.getQueryString('dynamicParam'));
+												}
 											}
 										}
 									}
