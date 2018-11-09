@@ -49,7 +49,7 @@ $(function() {
 						new TuiSDK({
 						container: "#red_btn",
 						appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
-						slotId: '197490',
+						slotId: '253930',
 						local: "right: 0vw; top: 60%"
 						});
 					}
