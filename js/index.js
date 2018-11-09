@@ -48,7 +48,7 @@ $(function() {
 					ta.onload = function() {
 						new TuiSDK({
 						container: "#red_btn",
-						appKey: '2FeUYuki19ygFVQmQMUvpGYUyu9v',
+						appKey: '4YF8uBxeyH8AT6hcHgcxkKBYQAdP',
 						slotId: '253930',
 						local: "right: 0vw; top: 60%"
 						});
