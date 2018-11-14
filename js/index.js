@@ -823,7 +823,7 @@ $(function() {
 		LazyFn() {
 			// threshold: 100
 			$("img").lazyload({ 
-				  placeholder : "images/loading.gif",
+				placeholder : "http://sidenewsstatic.ytoutiao.net/loading.gif",
 				effect: "fadeIn",
 				threshold: 300,
 				data_attribute: "src",
