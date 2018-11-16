@@ -107,9 +107,7 @@ $(function() {
 				type: "get",
 				url: IdUrl+"/yfax-news-api/api/htt/getDetailById",
 				data: datas,
-				beforeSend:function(XMLHttpRequest){ 
-				// 　　$("html").html('<div class="cover">加载中</div>');
-				}, 
+				async: true,
 				success:function(res) {
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
