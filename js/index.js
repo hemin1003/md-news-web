@@ -10,7 +10,7 @@ $(function() {
 		this.fristTap = 0;
 		this.baiDuTurn = 0; // 0 => 关  1=> 开  相关推荐
 		this.wzSlideTurn = 0; // 微转滑动开关
-		this.allAd = 1; // 文顶文末置顶广告开关
+		this.allAd = 0; // 文顶文末置顶广告开关
 	}
 	outSideFn.prototype = {
 		// 初始化配置
@@ -107,9 +107,7 @@ $(function() {
 				type: "get",
 				url: IdUrl+"/yfax-news-api/api/htt/getDetailById",
 				data: datas,
-				beforeSend:function(XMLHttpRequest){ 
-				// 　　$("html").html('<div class="cover">加载中</div>');
-				}, 
+				async: true,
 				success:function(res) {
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
