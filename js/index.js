@@ -2,14 +2,15 @@ $(function() {
 	function outSideFn() {
 		this.hostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
 		this.outHostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
 		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
 		this.allList = [];
 		this.fristTap = 0;
-		this.baiDuTurn = 0; // 0 => 关  1=> 开
+		this.baiDuTurn = 0; // 0 => 关  1=> 开  相关推荐
 		this.wzSlideTurn = 0; // 微转滑动开关
+		this.allAd = 0; // 文顶文末置顶广告开关
 	}
 	outSideFn.prototype = {
 		// 初始化配置
@@ -27,7 +28,9 @@ $(function() {
 			// 判断站内还是站外
 			if(that.getQueryString("froms") == "ytt") {
 				// 站外
-				that.ajaxAdFn();
+				if(that.allAd == 1) {
+					that.ajaxAdFn();
+				}
 				that.paramFn();
 				$(".more").click(function() {
 					$(window).scroll(function() {
@@ -39,44 +42,49 @@ $(function() {
 						}
 					});
 				});
-				// 判断是否是iframe
-				if (parent === window) { 
-					var o = document.getElementsByTagName("script");
-					var c = o[o.length-1].parentNode;
-					var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
-					ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
-					ta.onload = function() {
-						new TuiSDK({
-						container: "#red_btn",
-						appKey: '4YF8uBxeyH8AT6hcHgcxkKBYQAdP',
-						slotId: '253930',
-						local: "right: 0vw; top: 60%"
-						});
+				if(that.allAd == 1) {
+					// 判断是否是iframe
+					if (parent === window) { 
+						var o = document.getElementsByTagName("script");
+						var c = o[o.length-1].parentNode;
+						var ta = document.createElement('script'); ta.type = 'text/javascript'; ta.async = true;
+						ta.src = '//yun.lvehaisen.com/h5-mami/msdk/tmk.js';
+						ta.onload = function() {
+							new TuiSDK({
+							container: "#red_btn",
+							appKey: '4YF8uBxeyH8AT6hcHgcxkKBYQAdP',
+							slotId: '253930',
+							local: "right: 0vw; top: 60%"
+							});
+						}
+						var s = document.querySelector('head'); s.appendChild(ta);
 					}
-					var s = document.querySelector('head'); s.appendChild(ta);
+					that.tuiAFn(1,88); // 推啊展示上报 88站外 87站内
+					// 推啊点击上报
+					$(".fubiao-dialog").click(function() {
+						tuiA(2,88);
+					});
 				}
-				that.tuiAFn(1,88); // 推啊展示上报 88站外 87站内
-				// 推啊点击上报
-				$(".fubiao-dialog").click(function() {
-					tuiA(2,88);
-				});
+				
 			}else {
-				// 站内
-				that.InArticleAdReport = 1;
-				if(that.randomFn(50)) {
-					that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
-					that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
-				}else {
-					that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
-					that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
-				}
-				//判断是否有js广告
-				setTimeout(function() {
-					if($(".top_ads").find("iframe").length < 1) {
-						that.InArticleAdReport = 0;
-						that.ajaxAdFn();
+				if(that.allAd == 1) {
+					// 站内
+					that.InArticleAdReport = 1;
+					if(that.randomFn(50)) {
+						that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
+						that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
+					}else {
+						that.baiduFn(".top_ads","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
+						that.baiduFn(".article_ad","//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
 					}
-				},1000)
+					//判断是否有js广告
+					setTimeout(function() {
+						if($(".top_ads").find("iframe").length < 1) {
+							that.InArticleAdReport = 0;
+							that.ajaxAdFn();
+						}
+					},1000)
+				}
 			}
 		},
 		// 新闻内容
@@ -111,6 +119,7 @@ $(function() {
 						// that.ajaxAdFn();
 						that.LazyFn();
 					}else {
+						console.log(res);
 						console.error(IdUrl+"请求出错！");
 					}
 				}
@@ -823,7 +832,7 @@ $(function() {
 		LazyFn() {
 			// threshold: 100
 			$("img").lazyload({ 
-				placeholder : "http://sidenewsstatic.ytoutiao.net/loading.gif",
+				  placeholder : "images/loading.gif",
 				effect: "fadeIn",
 				threshold: 300,
 				data_attribute: "src",
