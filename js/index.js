@@ -33,14 +33,16 @@ $(function() {
 				}
 				that.paramFn();
 				$(".more").click(function() {
-					$(window).scroll(function() {
-						if(that.wzSlideTurn == 0) {
-							if(($(".copyright").offset().top - $(window).scrollTop()) < 500) {
-								that.beforeRead();
-								that.wzSlideTurn = 1;
-							}
-						}
-					});
+					// 滚动触发
+					// $(window).scroll(function() {
+					// 	if(that.wzSlideTurn == 0) {
+					// 		if(($(".copyright").offset().top - $(window).scrollTop()) < 500) {
+					// 			that.beforeRead();
+					// 			that.wzSlideTurn = 1;
+					// 		}
+					// 	}
+					// });
+					setTimeout(that.beforeRead,5000);
 				});
 				if(that.allAd == 1) {
 					// 判断是否是iframe
