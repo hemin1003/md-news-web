@@ -42,7 +42,9 @@ $(function() {
 					// 		}
 					// 	}
 					// });
-					setTimeout(that.beforeRead,5000);
+					setTimeout(function(){
+						that.beforeRead();
+					},5000);
 				});
 				if(that.allAd == 1) {
 					// 判断是否是iframe
