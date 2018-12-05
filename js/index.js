@@ -2,7 +2,7 @@ $(function() {
 	function outSideFn() {
 		this.hostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
 		this.outHostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
 		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
@@ -10,7 +10,7 @@ $(function() {
 		this.fristTap = 0;
 		this.baiDuTurn = 0; // 0 => 关  1=> 开  相关推荐
 		this.wzSlideTurn = 0; // 微转滑动开关
-		this.allAd = 1; // 文顶文末置顶广告开关
+		this.allAd = 0; // 文顶文末置顶广告开关
 	}
 	outSideFn.prototype = {
 		// 初始化配置
@@ -169,12 +169,13 @@ $(function() {
 				console.log((startTime-endTime)/1000);
 				
 				// 调用微转
-				if(that.getQueryString('source') == "ytt_wz") {
-					if(that.fristTap == 0) {
-						that.beforeRead();
-						that.fristTap = 1;
-					}
-				}
+				// if(that.getQueryString('source') == "ytt_wz") {
+				// 	if(that.fristTap == 0) {
+				// 		that.beforeRead();
+				// 		that.fristTap = 1;
+				// 	}
+				// }
+
 				// 停留时间大于0.5s
 				if((startTime-endTime)/1000 > 0.5) {
 					// 判断文末广告是否展示
@@ -797,23 +798,37 @@ $(function() {
 		beforeRead() {
 			var that = this;
 			console.log(that.Param);
-			// console.log(that.getQueryString('wzUrl'));
-			// var sendData = {
-			// 	articleUrl: that.getQueryString('id'),
-			// 	phoneNum: that.getQueryString('phoneNum')
-			// };
-			$.ajax({
-				type:"get",
-				url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
-				// data: sendData,
-				success:function(res){
-					console.log('奖励接口请求成功')
-				},
-				error:function(res) {
-					console.error("doShareTaskAward接口请求失败！");
-					console.log(res);
-				}
-			});
+			if(that.getQueryString('source') == "ytt_wz") {
+				var sendData = {
+					rId: that.getQueryString('rId')
+				};
+				$.ajax({
+					type:"get",
+					url: that.adHostname+"/yfax-htt-api/api/htt/doWxShareAward",
+					data: sendData,
+					success:function(res){
+						console.log('微转奖励接口请求成功')
+					},
+					error:function(res) {
+						console.error("doWxShareAward接口请求失败！");
+						console.log(res);
+					}
+				});		
+			}else {
+				$.ajax({
+					type:"get",
+					url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
+					// data: sendData,
+					success:function(res){
+						console.log('奖励接口请求成功')
+					},
+					error:function(res) {
+						console.error("doShareTaskAward接口请求失败！");
+						console.log(res);
+					}
+				});
+			}
+			
 		},
 		// wx返回跳转
 		wxJump() {
