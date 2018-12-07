@@ -2,7 +2,7 @@ $(function() {
 	function outSideFn() {
 		this.hostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
 		this.outHostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
-		this.adHostname = "http://182.92.82.188:8084"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
 		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
@@ -10,7 +10,7 @@ $(function() {
 		this.fristTap = 0;
 		this.baiDuTurn = 0; // 0 => 关  1=> 开  相关推荐
 		this.wzSlideTurn = 0; // 微转滑动开关
-		this.allAd = 0; // 文顶文末置顶广告开关
+		this.allAd = 1; // 文顶文末置顶广告开关
 	}
 	outSideFn.prototype = {
 		// 初始化配置
