@@ -2,7 +2,7 @@ $(function() {
 	function outSideFn() {
 		this.hostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
 		this.outHostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
-		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://182.92.82.188"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
 		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
@@ -31,7 +31,7 @@ $(function() {
 				if(that.allAd == 1) {
 					that.ajaxAdFn();
 				}
-				that.paramFn();
+				// that.paramFn();
 				$(".more").click(function() {
 					// 滚动触发
 					// $(window).scroll(function() {
@@ -74,7 +74,7 @@ $(function() {
 				if(that.allAd == 1) {
 					// 站内
 					that.InArticleAdReport = 1;
-					if(that.randomFn(50)) {
+					if(that.randomFn(100)) {
 						that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 						that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 					}else {
@@ -518,7 +518,7 @@ $(function() {
 								case 86:
 									switch(dom) {
 										case ".top_ads":
-											if(that.randomFn(50)) {
+											if(that.randomFn(100)) {
 												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 											}else {
 												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
@@ -528,7 +528,7 @@ $(function() {
 											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","",0);
 											break;
 										case ".article_ad":
-											if(that.randomFn(50)) {
+											if(that.randomFn(100)) {
 												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 											}else {
 												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
@@ -539,7 +539,7 @@ $(function() {
 								case 89:
 									switch(dom) {
 										case ".top_ads":
-											if(that.randomFn(50)) {
+											if(that.randomFn(100)) {
 												that.yntechAd($(".top_ads"),'<div id="_so_pdsBy_0"></div>');
 											}else {
 												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
@@ -549,7 +549,7 @@ $(function() {
 											that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","",0);
 											break;
 										case ".article_ad":
-											if(that.randomFn(50)) {
+											if(that.randomFn(100)) {
 												that.yntechAd($(".article_ad"),'<div id="_so_pdsBy_12"></div>');
 											}else {
 												that.baiduFn(dom,"//cdn.ipadview.com/jssdk/combo.bundle.js","20035","yuetth5a20181108xxl",0);
@@ -797,8 +797,9 @@ $(function() {
 		// 站外微转
 		beforeRead() {
 			var that = this;
-			console.log(that.Param);
+			
 			if(that.getQueryString('source') == "ytt_wz") {
+				console.log(that.Param);
 				var sendData = {
 					rId: that.getQueryString('rId')
 				};
@@ -815,6 +816,8 @@ $(function() {
 					}
 				});		
 			}else {
+				that.paramFn();
+				console.log(that.Param);
 				$.ajax({
 					type:"get",
 					url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
