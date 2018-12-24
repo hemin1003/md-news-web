@@ -2,7 +2,7 @@ $(function() {
 	function outSideFn() {
 		this.hostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; // 站内
 		this.outHostname = "http://callnews.ytoutiao.net/yfax-news-api/api/htt/getLikeList"; //站外
-		this.adHostname = "http://182.92.82.188"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
+		this.adHostname = "http://callback.ytoutiao.net"; //   http://callback.ytoutiao.net  http://182.92.82.188:8084
 		this.hostname2 = "http://wnews.ytoutiao.net";  // 站内
 		this.outHostname2 = "http://onews.ytoutiao.net"; //站外
 		this.page = 1;
