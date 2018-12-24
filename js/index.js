@@ -817,21 +817,23 @@ $(function() {
 				});		
 			}else {
 				that.paramFn();
-				console.log(that.Param);
-				$.ajax({
-					type:"get",
-					url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
-					// data: sendData,
-					success:function(res){
-						console.log('奖励接口请求成功')
-					},
-					error:function(res) {
-						console.error("doShareTaskAward接口请求失败！");
-						console.log(res);
-					}
-				});
+				if(that.Param != undefined) {
+					$.ajax({
+						type:"get",
+						url: that.adHostname+"/yfax-htt-api/api/htt/doShareTaskAward?"+that.Param,
+						// data: sendData,
+						success:function(res){
+							console.log('奖励接口请求成功')
+						},
+						error:function(res) {
+							console.error("doShareTaskAward接口请求失败！");
+							console.log(res);
+						}
+					});
+				}else {
+					console.error('that.Param错误');
+				}
 			}
-			
 		},
 		// wx返回跳转
 		wxJump() {
