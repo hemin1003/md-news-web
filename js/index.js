@@ -23,6 +23,7 @@ $(function() {
 			// 2018.10.31新增奖励逻辑
 			$(".more").click(function() {
 				$(this).hide();
+				$(".sub_shadow").hide();
 				$(".wrap").css("height","auto");
 			});
 			// 判断站内还是站外
