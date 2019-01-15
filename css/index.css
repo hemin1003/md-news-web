@@ -1,4 +1,4 @@
-body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-tap-highlight-color:rgba(0,0,0,0)}body,div,p,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h5,h6{font-size:100%;font-weight:500}img{border:0}a{color:#000;text-decoration:none}.wrap{max-width:16rem;margin:0 auto 0 auto;overflow:hidden;height: 300vw;}.article{margin:0 15px 0 15px}.article h1{padding:.3rem 0 .15rem 0;font-size:25px;line-height:34px;font-weight:700;text-align:justify}.article strong{font-weight:700}.article blockquote{margin:0}.article .info{height:1.05rem;line-height:1.05rem;font-size:.5rem;color:#999}.article .content{position:relative;overflow:hidden;font-size: 0.75rem;line-height: 1.15rem;color:#1a1a1a;}.article .content p{margin:0 auto 17px auto;text-align:justify}.article .content img{visibility:show}.article .content center{padding:.125rem 0 .125rem 0;text-align:center}.article img{width:100%;display:block;margin:0 auto 0 auto}
+body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-tap-highlight-color:rgba(0,0,0,0)}body,div,p,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h5,h6{font-size:100%;font-weight:500}img{border:0}a{color:#000;text-decoration:none}.wrap{height: 100rem;max-width:16rem;margin:0 auto 0 auto;overflow:hidden;}.article{margin:0 15px 0 15px}.article h1{padding:.3rem 0 .15rem 0;font-size:25px;line-height:34px;font-weight:700;text-align:justify}.article strong{font-weight:700}.article blockquote{margin:0}.article .info{height:1.05rem;line-height:1.05rem;font-size:.5rem;color:#999}.article .content{position:relative;overflow:hidden;font-size: 0.75rem;line-height: 1.15rem;color:#1a1a1a;}.article .content p{margin:0 auto 17px auto;text-align:justify}.article .content img{visibility:show}.article .content center{padding:.125rem 0 .125rem 0;text-align:center}.article img{width:100%;display:block;margin:0 auto 0 auto}
         /*body>*:not([ahw]){display: none;}*/
 		.cover {
 			z-index: 99;
@@ -150,8 +150,9 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 		/* more */
 		.sub_shadow {
 			position: relative;
+			/* max-width: 16rem; */
 			width: 100%;
-			height: 15vw;
+			height: 3rem;
 			margin-top: -15vw;
 			background: linear-gradient(rgba(255,255,255, 0),#fff);
 		}
@@ -269,16 +270,22 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 			width: 100%;
 			height: 23vw;
 		}
-		.footer{ 
+		.footer{
        		position: fixed;
+       		max-width: 25rem;
        		width: 100%;
-       		height: 20vw;
+       		height: 3rem;
        		z-index: 900;
        		bottom: 0;
+       		left: 0;
+       		right: 0;
+       		margin: auto;
        		background: white;
        		display: none;
-    		box-shadow: 0px -3px 2px 0px rgba(0, 0, 0, 0.15);
+       		box-shadow: 0px -3px 2px 0px rgba(0, 0, 0, 0.15);
        	}
+
+div#shareBtnDiv {}
        .wrap-page{ 
        		top: 18vw; 
        		bottom: 18vw; 
@@ -288,29 +295,32 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 		
        .logo {
        		float: left;
-			width: 12vw;
-			height: 12vw;
-			margin-top: 4vw;
-			margin-left: 5vw;
-			border-radius: 90px;
-		}
+       		width: 2rem;
+       		height: 2rem;
+       		margin-top: .5rem;
+       		margin-left: .5rem;
+       		border-radius: 90px;
+       		/* left:  0; */
+       		/* right: 0; */
+       		/* margin: auto; */
+  }
 
 		.text-div {
 			float: left;
 			color: black;
-			height: 16vw;
+			height: 2rem;
 			width: 50%;
-			margin-top: 2vw;
+			margin-top: .4rem;
 			margin-left: 4vw;
 			/*background: red;*/
 		}
 		.text-div .title {
-			font-size: 4.5vw;
+			font-size: .7rem;
 		}
 		.text-div .detail {
 			display: block;
-			margin-top: 2vw;
-			font-size: 3.7vw;
+			margin-top: .3rem;
+			font-size: .55rem;
 			color: #9F9F9F;
 		}
 
@@ -318,12 +328,12 @@ body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#333;-webkit-
 			display: inline-block;
 			float: right;
 			margin-right: 3vw;
-			width: 20vw;
-			height: 8vw;
-			margin-top: 6vw;
+			width: 3.2rem;
+			height: 1.2rem;
+			margin-top: 1rem;
 			text-align: center;
-			line-height: 8vw;
-			font-size: 4vw;
+			line-height: 1.2rem;
+			font-size: .6rem;
 			border-radius: 90px;
 			color: white;
 			background-color: #fe7800;
