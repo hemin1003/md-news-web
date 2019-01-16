@@ -103,6 +103,7 @@ $(function() {
 			if((that.getQueryString("froms") == "ytt") || (parent !== window)) {
 				// 站外
 				IdUrl = that.outHostname2;
+				that.wxJump();
 			}else {
 				// 站内
 				IdUrl = that.hostname2;
@@ -158,7 +159,6 @@ $(function() {
 			// this.ajaxAdFn();
 			this.contentFn();
 			this.clickAdsFn();
-			this.wxJump();
 			var startTime;
 			var endTime;
 			var adIndex = []; //已上报ad下标
