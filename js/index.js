@@ -14,7 +14,7 @@ $(function() {
 	}
 	outSideFn.prototype = {
 		// 初始化配置
-		configFn() {
+		configFn:function() {
 			var that = this;
 			// 配置title
 			$("title").text($(".article h1").text());
@@ -93,7 +93,7 @@ $(function() {
 			}
 		},
 		// 新闻内容
-		contentFn() {
+		contentFn:function() {
 			var that = this;
 			var IdUrl;
 			var ids = that.getQueryString("id");
@@ -129,7 +129,7 @@ $(function() {
 			});
 		},
 		// 2018.10.31新版参数
-		paramFn() {
+		paramFn:function() {
 			var that = this;
 			// console.log(that.getQueryString('rId'));
 			// http://http://182.92.82.188:8084/yfax-htt-api/api/htt/queryShareReqParams
@@ -151,7 +151,7 @@ $(function() {
 				}
 			});
 		},
-		Init() {
+		Init:function() {
 			var that = this;
 			// this.ajaxDomain();
 			// this.ajaxFn(1);
@@ -373,7 +373,7 @@ $(function() {
 			}
 			return null;
 		},
-		baiduFn(dom,url,product,code,index) {
+		baiduFn:function(dom,url,product,code,index) {
 			var script = document.createElement("script");
 			script.setAttribute("type","text/javascript");
 			script.src = url;
@@ -395,12 +395,12 @@ $(function() {
 			var s = document.querySelectorAll(dom)[index]; s.appendChild(script);
 		},
 		// 赢纳科技js合作
-		yntechAd(dom,div) {
+		yntechAd:function(dom,div) {
 			$(dom).append(div); //<div id="_so_pdsBy_12"></div>  <div id="_so_pdsBy_0"></div>
 			$.getScript("http://un.dnskuu.com/xay/11261.js?ydcp_id=11261&cumid=$mac_addr&apmac=$ap_mac");
 		},
 		// ad上报
-		adRecordFn(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei,ua,device,dynamicParam) {
+		adRecordFn:function(phoneNum,adsSource,adsType,adsId,tabName,title,url,actionType,ip,appVersion,appChannel,appImei,ua,device,dynamicParam) {
 			var adData = {
 				phoneNum: phoneNum,
 				adsSource: adsSource,
@@ -423,7 +423,7 @@ $(function() {
 			});
 		},
 		// ad-list点击上报
-		clickAdsFn() {
+		clickAdsFn:function() {
 			var that = this;
 			$(".guss_like ul").delegate(".lafite_ad","click",function(){
 				var Cindex = $(this).index();
@@ -438,7 +438,7 @@ $(function() {
 			});
 		},
 		// 推啊上报接口
-		tuiAFn(types,num) {
+		tuiAFn:function(types,num) {
 			var that = this;
 			$.ajax({
 				type:"post",
@@ -456,7 +456,7 @@ $(function() {
 			});
 		},
 		// 站外app下载链接url
-		ajaxDomain() {
+		ajaxDomain:function() {
 			var that = this;
 			$.get(that.adHostname+"/yfax-htt-api/api/htt/queryAdsOutsideConfig",function(res) {
 				if(res.code == 200) {
@@ -468,7 +468,7 @@ $(function() {
 			});
 		},
 		// 广告位接口
-		ajaxAdFn() {
+		ajaxAdFn:function() {
 			var that = this;
 			var newData;
 			console.log(that.getQueryString("froms"));
@@ -618,7 +618,7 @@ $(function() {
 				}
 			});
 		},
-		ajaxFn(page) {
+		ajaxFn:function(page) {
 			var UrlHostname;
 			var that = this;
 			var t = $(".article h1").text();
@@ -796,7 +796,7 @@ $(function() {
 			 });
 		},
 		// 站外微转
-		beforeRead() {
+		beforeRead:function() {
 			var that = this;
 			
 			if(that.getQueryString('source') == "ytt_wz") {
@@ -837,7 +837,7 @@ $(function() {
 			}
 		},
 		// wx返回跳转
-		wxJump() {
+		wxJump:function() {
 			// 微信分享跳转
 	    	pushHistory();  
 	        window.addEventListener("popstate", function(e) {  
@@ -852,7 +852,7 @@ $(function() {
 	            window.history.pushState(state, "title", "#");  
 	        }
 		},
-		LazyFn() {
+		LazyFn:function() {
 			// threshold: 100
 			$("img").lazyload({ 
 				  placeholder : "images/loading.gif",
@@ -862,7 +862,7 @@ $(function() {
 			}); 
 		},
 		// 封装随机函数
-		randomFn(num) {
+		randomFn:function(num) {
 			// num:概率
 			var randomNum = Math.round(Math.random()*100);
 			console.log(randomNum);
@@ -873,7 +873,7 @@ $(function() {
 				return false
 			}
 		},
-		go() {
+		go:function() {
 			this.Init();
 		}
 	}
