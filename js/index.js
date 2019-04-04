@@ -842,7 +842,7 @@ $(function() {
 	    	pushHistory();  
 	        window.addEventListener("popstate", function(e) {  
 	            //需要跳转的页面 
-	            window.location.href = "https://cpu.baidu.com/1032/d3f402ee?scid=18416";
+	            window.location.href = "https://cpu.baidu.com/1022/ff649564/i?pu=1&promotion_media_channel=ff649564";
 	           }, false);  
 	        function pushHistory() {  
 	            var state = {  
