@@ -1,5 +1,6 @@
 function Detail() {
     this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
+    this.reportUrl = 'http://182.92.82.188';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -26,6 +27,10 @@ function Detail() {
             }
         }
     ];
+    var eventId = {
+        exposure: 10000012,
+        click: 10000013
+    };
 
     Detail.prototype._init = function () {
         // dom准备
@@ -136,6 +141,14 @@ function Detail() {
                 var contentAdNode = that._getContentMountNode();
                 // 混入
                 that._loadAd(contentAdNode, that.adArr[2]);
+
+                var imgArr = that.contentDom.querySelectorAll('p img');
+                imgArr.forEach(item => {
+                    item.setAttribute('src', item.dataset.src);
+                    // item.setAttribute('width',item.dataset.size.split(',')[0]);
+                    // item.setAttribute('height',item.dataset.size.split(',')[1]);
+                    item.setAttribute('width', '100%');
+                })
             }
         };
         that.request(params);
@@ -155,6 +168,51 @@ function Detail() {
             }
         }
         xhr.send();
+    }
+
+    Detail.prototype._clickReport = function (params) {
+        const formData = this._prepareData({ ...params, eventId: eventId.like_collect });
+        return request(`${reportDomain}/yfax-htt-api/api/htt/doBurryPoint`, {
+            method: 'POST',
+            body: formData
+        })
+        this.request(params);
+    }
+
+    Detail.prototype._prepareData = function (params) {
+        var sId = this._random(6);
+        var preStr = `channel=ytt-coupon-h5&dotSource=ytt-coupon-h5&eventId=${params.eventId}&imei=${params.imei}&projectCode=${params.projectCode}&sId=${sId}&traceId=${params.tId}&version=${version}&secretKey=${privatetKey}`;
+        var sign = md5.hash(preStr);
+
+        var formData = new FormData();
+
+        formData.append('projectCode', params.projectCode);
+        formData.append('sId', sId);
+        formData.append('eventId', params.eventId);
+        formData.append('traceId', params.tId);
+        formData.append('ip', '');
+        formData.append('version', version);
+        formData.append('channel', 'ytt-coupon-h5');
+        formData.append('dotSource', 'ytt-coupon-h5');
+        formData.append('jsonParam', "");
+        formData.append('imei', params.imei);
+        formData.append('sign', sign.toUpperCase());
+
+        // 细化的业务字段
+        if (params.b1) {
+            formData.append('b1', params.b1);
+        }
+
+        return formData;
+    }
+
+    Detail.prototype._random = function (length) {
+        var str = Math.random().toString(36).substr(2);
+        if (str.length >= length) {
+            return str.substr(0, length);
+        }
+        str += random(length - str.length);
+        return str;
     }
 
     Detail.prototype.shuffle = function () {
