@@ -74,31 +74,20 @@ function Detail() {
 
         // dom准备
         this.headerAdDom = document.getElementById('header-ad');
-        this.footerAdDom = document.getElementById('footer-ad');
-        this.contentDom = document.getElementById('content');
 
-
-        // 加载详情
-        this._loadDetailContent();
 
         // 加载广告
         // adArr 随机排序，取前3
         this.shuffle();
+        console.log(this.adArr);
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
-        // 底部
-        this._loadAd(this.footerAdDom, this.adArr[2]);
 
         // 监听初始化
         var that = this;
         this.headerAdDom.addEventListener('click', function () {
             that._clickReport({
                 b1: that.adArr[0].type
-            });
-        });
-        this.footerAdDom.addEventListener('click', function () {
-            that._clickReport({
-                b1: that.adArr[2].type
             });
         });
     }
@@ -343,42 +332,5 @@ function Detail() {
         detail._exposureReport({
             b1: detail.adArr[0].type
         });
-    }
-    var timer = null;
-    window.addEventListener('scroll', function () {
-        // 截流，50ms间隔
-        if (typeof timer === 'number') {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(function () {
-            // header-ad
-            if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
-                detail.adArr[0].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[0].type
-                });
-            }
-
-            // insert-ad
-            if (detail.insertAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[1].isExposure) {
-                detail.adArr[1].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[1].type
-                });
-            }
-
-            // footer-ad
-            if (detail.footerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[2].isExposure) {
-                detail.adArr[2].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[2].type
-                });
-            }
-        }, 50);
-
-    }, false);
-
-    // webview 高度变化
-    window.onresize = function () {
     }
 }())
