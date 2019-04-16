@@ -2,6 +2,7 @@ function Detail() {
     this.base = {};
     this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
     this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -55,9 +56,13 @@ function Detail() {
         }
     ];
     this.eventId = {
-        exposure: 10000027,
-        click: 10000028
+        exposure: 10000031,
+        click: 10000032
     };
+    // this.eventId = {
+    //     exposure: 10000029,
+    //     click: 10000030
+    // };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
 
