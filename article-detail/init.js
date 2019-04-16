@@ -1,8 +1,8 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
-    this.reportUrl = 'http://182.92.82.188';
-    // this.reportUrl = 'http://and.ytoutiao.net';
+    // this.reportUrl = 'http://182.92.82.188';
+    this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -55,16 +55,17 @@ function Detail() {
             isClick: false
         }
     ];
-    this.eventId = {
-        exposure: 10000027,
-        click: 10000028
-    };
     // this.eventId = {
     //     exposure: 10000027,
     //     click: 10000028
     // };
+    this.eventId = {
+        exposure: 10000027,
+        click: 10000028
+    };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
+    this.clientHeight = document.documentElement.clientHeight;
 
     Detail.prototype._init = function () {
 
@@ -341,14 +342,17 @@ function Detail() {
     var detail = new Detail();
     detail._init();
 
-    var clientHeight = document.documentElement.clientHeight;
+    // 拿到当前最新的 clientHeight
+    var curClientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
-    if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
+    if (detail.headerAdDom.getBoundingClientRect().top <= curClientHeight && !detail.adArr[0].isExposure) {
         detail.adArr[0].isExposure = true;
         detail._exposureReport({
             b1: detail.adArr[0].type
         });
     }
+
+    // 滚动监听
     var timer = null;
     window.addEventListener('scroll', function () {
         // 截流，50ms间隔
@@ -356,8 +360,11 @@ function Detail() {
             clearTimeout(timer);
         }
         timer = setTimeout(function () {
+
+            var _clientHeight = document.documentElement.clientHeight;
+
             // header-ad
-            if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
+            if (detail.headerAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[0].isExposure) {
                 detail.adArr[0].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[0].type
@@ -365,15 +372,20 @@ function Detail() {
             }
 
             // insert-ad
-            if (detail.insertAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[1].isExposure) {
+            if (detail.insertAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[1].isExposure) {
                 detail.adArr[1].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[1].type
                 });
             }
+            console.log(detail.insertAdDom.getBoundingClientRect().top <= _clientHeight);
+            console.log(detail.insertAdDom.getBoundingClientRect().top);
+            console.log(_clientHeight);
+            console.log('-------------------------');
+
 
             // footer-ad
-            if (detail.footerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[2].isExposure) {
+            if (detail.footerAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[2].isExposure) {
                 detail.adArr[2].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[2].type
@@ -385,5 +397,9 @@ function Detail() {
 
     // webview 高度变化
     window.onresize = function () {
+        detail.clientHeight = document.documentElement.clientHeight;
+        console.log(detail.insertAdDom.getBoundingClientRect().top);
+        console.log(detail.clientHeight);
+        console.log('-------------------------');
     }
 }())
