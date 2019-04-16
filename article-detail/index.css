@@ -218,6 +218,10 @@
      font-weight: 700;
  }
 
+ #content .go_download {
+     display: none;
+ }
+
  #content .content {
      text-align: justify;
  }
