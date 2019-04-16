@@ -1,38 +1,77 @@
 function Detail() {
+    this.base = {};
     this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
     this.reportUrl = 'http://182.92.82.188';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
+    this.insertAdDom = null;
     this.adArr = [
+        // {
+        //     type: 'yz',
+        //     params: {
+        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+        //         product: 20035,
+        //         code: 'ytth5a2019040801xxl'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         {
             type: 'yz',
             params: {
                 url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
                 product: 20035,
-                code: 'ytth5a2019040801xxl'
-            }
+                code: 'ytth5a2019040802xxl'
+            },
+            isExposure: false,
+            isClick: false
         },
         {
             type: 'zm',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30843'
-            }
+                url: 'http://i.hao61.net/d.js?cid=30844'
+            },
+            isExposure: false,
+            isClick: false
         },
         {
             type: 'xs',
             params: {
                 url: '//www.smucdn.com/smu0/o.js',
                 smua: 'd=m&s=b&u=u3736224&h=20:6'
-            }
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
         }
     ];
     this.eventId = {
-        exposure: 10000012,
-        click: 10000013
+        exposure: 10000027,
+        click: 10000028
     };
+    this.version = '1.0.0';
+    this.privatetKey = 'PVf7vlR6qYZAB5gU';
 
     Detail.prototype._init = function () {
+
+        // location search 存储
+        var search = window.location.search.split('?')[1];
+        var tmp = {};
+        search.split('&').forEach(function (item) {
+            var kv = item.split('=');
+            tmp[kv[0]] = kv[1];
+        });
+        this.base = tmp;
+
         // dom准备
         this.headerAdDom = document.getElementById('header-ad');
         this.footerAdDom = document.getElementById('footer-ad');
@@ -49,6 +88,19 @@ function Detail() {
         this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
         this._loadAd(this.footerAdDom, this.adArr[2]);
+
+        // 监听初始化
+        var that = this;
+        this.headerAdDom.addEventListener('click', function () {
+            that._clickReport({
+                b1: that.adArr[0].type
+            });
+        });
+        this.footerAdDom.addEventListener('click', function () {
+            that._clickReport({
+                b1: that.adArr[2].type
+            });
+        });
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -88,6 +140,10 @@ function Detail() {
                 console.log('没有匹配的广告商家～');
                 break;
         }
+        var spanNode = document.createElement('span');
+        spanNode.innerHTML = data.type;
+        dom.appendChild(spanNode);
+
         dom.appendChild(adScript);
     }
 
@@ -140,7 +196,15 @@ function Detail() {
                 // 确定文章中为AD位置
                 var contentAdNode = that._getContentMountNode();
                 // 混入
-                that._loadAd(contentAdNode, that.adArr[2]);
+                that._loadAd(contentAdNode, that.adArr[1]);
+                // 绑定dom
+                that.insertAdDom = document.getElementById('insert-ad');
+                // 绑定监听
+                that.insertAdDom.addEventListener('click', function () {
+                    that._clickReport({
+                        b1: that.adArr[1].type
+                    });
+                });
 
                 var imgArr = that.contentDom.querySelectorAll('p img');
                 imgArr.forEach(item => {
@@ -167,45 +231,74 @@ function Detail() {
                 }
             }
         }
-        xhr.send();
+        if (params.method === 'get') {
+            xhr.send(null);
+        } else {
+            xhr.send(params.body);
+        }
     }
 
-    // Detail.prototype._clickReport = function (params) {
-    //     var formData = this._prepareData({ ...params, eventId: this.eventId.click });
-    //     var params = {
-    //         url: this.reportUrl + '/yfax-htt-api/api/htt/doBurryPoint',
-    //         method: 'POST',
-    //         body: formData
-    //     };
-    //     this.request(params);
-    // }
+    Detail.prototype._exposureReport = function (params) {
+        var rstParams = params;
+        rstParams['eventId'] = this.eventId.exposure;
 
-    // Detail.prototype._prepareData = function (params) {
-    //     var sId = this._random(6);
-    //     var preStr = `channel=ytt-coupon-h5&dotSource=ytt-coupon-h5&eventId=${params.eventId}&imei=${params.imei}&projectCode=${params.projectCode}&sId=${sId}&traceId=${params.tId}&version=${version}&secretKey=${privatetKey}`;
-    //     var sign = md5.hash(preStr);
+        var formData = this._prepareData(rstParams);
+        var params = {
+            url: this.reportUrl + '/yfax-htt-api/api/htt/doBurryPoint',
+            method: 'POST',
+            body: formData
+        };
+        this.request(params);
+    }
 
-    //     var formData = new FormData();
+    Detail.prototype._clickReport = function (params) {
+        var rstParams = params;
+        rstParams['eventId'] = this.eventId.click;
 
-    //     formData.append('projectCode', params.projectCode);
-    //     formData.append('sId', sId);
-    //     formData.append('eventId', params.eventId);
-    //     formData.append('traceId', params.tId);
-    //     formData.append('ip', '');
-    //     formData.append('version', version);
-    //     formData.append('channel', 'ytt-coupon-h5');
-    //     formData.append('dotSource', 'ytt-coupon-h5');
-    //     formData.append('jsonParam', "");
-    //     formData.append('imei', params.imei);
-    //     formData.append('sign', sign.toUpperCase());
+        var formData = this._prepareData(rstParams);
+        var params = {
+            url: this.reportUrl + '/yfax-htt-api/api/htt/doBurryPoint',
+            method: 'POST',
+            body: formData
+        };
+        this.request(params);
+    }
 
-    //     // 细化的业务字段
-    //     if (params.b1) {
-    //         formData.append('b1', params.b1);
-    //     }
+    Detail.prototype._prepareData = function (params) {
+        var sId = this._random(6);
+        var baseInfo = this.base;
 
-    //     return formData;
-    // }
+        var preStr = 'channel=article-detail-h5&dotSource=article-detail-h5&eventId=' + params.eventId
+            + '&imei=' + baseInfo.imei
+            + '&projectCode=' + baseInfo.projectCode
+            + '&sId=' + sId
+            + '&traceId=' + baseInfo.tId
+            + '&version=' + this.version
+            + '&secretKey=' + this.privatetKey;
+
+        var sign = md5(preStr);
+
+        var formData = new FormData();
+
+        formData.append('projectCode', baseInfo.projectCode);
+        formData.append('sId', sId);
+        formData.append('eventId', params.eventId);
+        formData.append('traceId', baseInfo.tId);
+        formData.append('ip', '');
+        formData.append('version', this.version);
+        formData.append('channel', 'article-detail-h5');
+        formData.append('dotSource', 'article-detail-h5');
+        formData.append('jsonParam', "");
+        formData.append('imei', baseInfo.imei);
+        formData.append('sign', sign.toUpperCase());
+
+        // 细化的业务字段
+        if (params.b1) {
+            formData.append('b1', params.b1);
+        }
+
+        return formData;
+    }
 
     Detail.prototype._random = function (length) {
         var str = Math.random().toString(36).substr(2);
@@ -238,8 +331,45 @@ function Detail() {
     }
 }
 
-var detail = new Detail();
-detail._init();
+; (function () {
+    var detail = new Detail();
+    detail._init();
 
-window.onload = function () {
-}
+    var clientHeight = document.documentElement.clientHeight;
+    // 头部广告直接曝光
+    if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
+        detail.adArr[0].isExposure = true;
+        detail._exposureReport(detail.adArr[0]);
+    }
+    var timer = null;
+    window.addEventListener('scroll', function () {
+        // 截流，50ms间隔
+        if (typeof timer === 'number') {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(function () {
+            // header-ad
+            if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
+                detail.adArr[0].isExposure = true;
+                detail._exposureReport(detail.adArr[0]);
+            }
+
+            // insert-ad
+            if (detail.insertAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[1].isExposure) {
+                detail.adArr[1].isExposure = true;
+                detail._exposureReport(detail.adArr[1]);
+            }
+
+            // footer-ad
+            if (detail.footerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[2].isExposure) {
+                detail.adArr[2].isExposure = true;
+                detail._exposureReport(detail.adArr[2]);
+            }
+        }, 50);
+
+    }, false);
+
+    // webview 高度变化
+    window.onresize = function () {
+    }
+}())
