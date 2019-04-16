@@ -288,6 +288,7 @@ function Detail() {
         formData.append('version', this.version);
         formData.append('channel', 'article-detail-h5');
         formData.append('dotSource', 'article-detail-h5');
+        formData.append('phoneNum', baseInfo.clientId);
         formData.append('jsonParam', "");
         formData.append('imei', baseInfo.imei);
         formData.append('sign', sign.toUpperCase());
@@ -339,7 +340,9 @@ function Detail() {
     // 头部广告直接曝光
     if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
         detail.adArr[0].isExposure = true;
-        detail._exposureReport(detail.adArr[0]);
+        detail._exposureReport({
+            b1: detail.adArr[0].type
+        });
     }
     var timer = null;
     window.addEventListener('scroll', function () {
@@ -351,19 +354,25 @@ function Detail() {
             // header-ad
             if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
                 detail.adArr[0].isExposure = true;
-                detail._exposureReport(detail.adArr[0]);
+                detail._exposureReport({
+                    b1: detail.adArr[0].type
+                });
             }
 
             // insert-ad
             if (detail.insertAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[1].isExposure) {
                 detail.adArr[1].isExposure = true;
-                detail._exposureReport(detail.adArr[1]);
+                detail._exposureReport({
+                    b1: detail.adArr[1].type
+                });
             }
 
             // footer-ad
             if (detail.footerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[2].isExposure) {
                 detail.adArr[2].isExposure = true;
-                detail._exposureReport(detail.adArr[2]);
+                detail._exposureReport({
+                    b1: detail.adArr[2].type
+                });
             }
         }, 50);
 
