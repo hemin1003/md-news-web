@@ -208,14 +208,56 @@
      display: none;
  }
 
+ body {
+     background-color: #ffffff;
+ }
+
  /*mime start*/
  #content {
-     margin: 5vw;
+     margin: 3.64vw 4.16vw;
  }
 
  #content h1 {
+     font-family: PingFang-SC-Regular;
      font-size: 6.5vw;
-     font-weight: 700;
+     color: #101010;
+     letter-spacing: 0;
+     line-height: 1.2;
+ }
+
+ #content .info {
+     margin-top: 3.12vw;
+     font-family: PingFang-SC-Regular;
+     font-size: 3.12vw;
+     color: #999999;
+     letter-spacing: 0;
+ }
+
+ #content .go_download {
+     display: none;
+ }
+
+ #content .line {
+     margin-top: 5.2vw;
+     margin-bottom: 3.12vw;
+     position: relative;
+     width: 8px;
+     height: 8px;
+     background-color: #ffffff;
+     border-radius: 50%;
+     border: 2px solid #E4E4E4;
+ }
+
+ #content .line::after {
+     position: absolute;
+     top: 50%;
+     transform: translate(0, -50%);
+     left: 8px;
+     content: ' ';
+     display: block;
+     height: 1px;
+     background-color: rgba(228, 228, 228, 0.6);
+     width: 30.42vw;
  }
 
  #content .go_download {
@@ -223,17 +265,17 @@
  }
 
  #content .content {
+     position: relative;
+     font-family: PingFang-SC-Regular;
+     font-size: 4.68vw;
+     color: #202020;
+     letter-spacing: 0;
      text-align: justify;
+     line-height: 1.5;
  }
 
- #fixHeader {
-     position: fixed;
-     top: 0;
-     left: 0;
-     right: 0;
-     min-height: 50px;
-     background-color: #ffffff;
-     border-bottom: 1px solid #eeeeee;
+ #content .content p {
+     margin: 0 0 5.2vw;
  }
 
  /*mime end*/

@@ -216,6 +216,13 @@ function Detail() {
                     // item.setAttribute('height',item.dataset.size.split(',')[1]);
                     item.setAttribute('width', '100%');
                 })
+
+                // 事件下面插入分割线
+                var lineNode = document.createElement('div');
+                lineNode.setAttribute('class', 'line');
+                var c = document.querySelector('#content .content');
+                console.log(c);
+                that.contentDom.insertBefore(lineNode, c);
             }
         };
         that.request(params);
