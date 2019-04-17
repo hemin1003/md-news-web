@@ -31,7 +31,7 @@ function Detail() {
         {
             type: 'zm',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30844'
+                url: 'http://i.hao61.net/d.js?cid=30866'
             },
             isExposure: false,
             isClick: false
@@ -342,7 +342,7 @@ function Detail() {
     // 拿到当前最新的 clientHeight
     var curClientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
-    if (detail.headerAdDom.getBoundingClientRect().top <= curClientHeight && !detail.adArr[0].isExposure) {
+    if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
         detail.adArr[0].isExposure = true;
         detail._exposureReport({
             b1: detail.adArr[0].type
@@ -375,11 +375,6 @@ function Detail() {
                     b1: detail.adArr[1].type
                 });
             }
-            console.log(detail.insertAdDom.getBoundingClientRect().top <= _clientHeight);
-            console.log(detail.insertAdDom.getBoundingClientRect().top);
-            console.log(_clientHeight);
-            console.log('-------------------------');
-
 
             // footer-ad
             if (detail.footerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[2].isExposure) {
@@ -390,11 +385,11 @@ function Detail() {
             }
 
             // test 显示
-            document.getElementById('fixHeader').innerHTML =
-                '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-                + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
-                + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
-                + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
+            // document.getElementById('fixHeader').innerHTML =
+            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+            //     + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
+            //     + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
+            //     + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
 
         }, 50);
 
@@ -402,11 +397,15 @@ function Detail() {
 
     // webview 高度变化
     window.onresize = function () {
-        detail.clientHeight = document.documentElement.clientHeight;
-        console.log(detail.insertAdDom.getBoundingClientRect().top);
-        console.log(detail.clientHeight);
-        console.log('-------------------------');
-        document.getElementById('fixHeader').innerHTML = 'clientHeight:' + document.documentElement.clientHeight
-            + ', ' + detail.insertAdDom.getBoundingClientRect().top;
+        // webview 展开查看更多，文中，文末直接上报曝光
+        detail.adArr[1].isExposure = true;
+        detail._exposureReport({
+            b1: detail.adArr[1].type
+        });
+
+        detail.adArr[2].isExposure = true;
+        detail._exposureReport({
+            b1: detail.adArr[2].type
+        });
     }
 }())
