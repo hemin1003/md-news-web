@@ -134,9 +134,6 @@ function Detail() {
                 console.log('没有匹配的广告商家～');
                 break;
         }
-        var spanNode = document.createElement('span');
-        spanNode.innerHTML = data.type;
-        dom.appendChild(spanNode);
 
         dom.appendChild(adScript);
     }
