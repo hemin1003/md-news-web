@@ -31,7 +31,7 @@ function Detail() {
         {
             type: 'zm',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30844'
+                url: 'http://i.hao61.net/d.js?cid=30866'
             },
             isExposure: false,
             isClick: false
