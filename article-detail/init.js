@@ -361,7 +361,7 @@ function Detail() {
             var _clientHeight = document.documentElement.clientHeight;
 
             // header-ad
-            if (detail.headerAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[0].isExposure) {
+            if (detail.headerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[0].isExposure) {
                 detail.adArr[0].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[0].type
@@ -369,7 +369,7 @@ function Detail() {
             }
 
             // insert-ad
-            if (detail.insertAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[1].isExposure) {
+            if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
                 detail.adArr[1].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[1].type
@@ -382,12 +382,20 @@ function Detail() {
 
 
             // footer-ad
-            if (detail.footerAdDom.getBoundingClientRect().top <= _clientHeight && !detail.adArr[2].isExposure) {
+            if (detail.footerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[2].isExposure) {
                 detail.adArr[2].isExposure = true;
                 detail._exposureReport({
                     b1: detail.adArr[2].type
                 });
             }
+
+            // test 显示
+            document.getElementById('fixHeader').innerHTML =
+                '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+                + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
+                + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
+                + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
+
         }, 50);
 
     }, false);
@@ -398,5 +406,7 @@ function Detail() {
         console.log(detail.insertAdDom.getBoundingClientRect().top);
         console.log(detail.clientHeight);
         console.log('-------------------------');
+        document.getElementById('fixHeader').innerHTML = 'clientHeight:' + document.documentElement.clientHeight
+            + ', ' + detail.insertAdDom.getBoundingClientRect().top;
     }
 }())
