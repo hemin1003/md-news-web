@@ -219,10 +219,11 @@
 
  #content h1 {
      font-family: PingFang-SC-Regular;
-     font-size: 6.5vw;
+     font-size: 25px;
      color: #101010;
      letter-spacing: 0;
      line-height: 1.2;
+     font-weight: 400;
  }
 
  #content .info {
@@ -267,7 +268,7 @@
  #content .content {
      position: relative;
      font-family: PingFang-SC-Regular;
-     font-size: 4.68vw;
+     font-size: 18px;
      color: #202020;
      letter-spacing: 0;
      text-align: justify;
