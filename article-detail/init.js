@@ -8,52 +8,52 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040801xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
         {
-            type: 'zm',
+            type: 'yz',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30866'
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040801xxl'
             },
             isExposure: false,
             isClick: false
         },
         {
-            type: 'xs',
+            type: 'yz',
             params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040802xxl'
             },
             isExposure: false,
             isClick: false
         }
+        // {
+        //     type: 'zm',
+        //     params: {
+        //         url: 'http://i.hao61.net/d.js?cid=30866'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -221,7 +221,6 @@ function Detail() {
                 var lineNode = document.createElement('div');
                 lineNode.setAttribute('class', 'line');
                 var c = document.querySelector('#content .content');
-                console.log(c);
                 that.contentDom.insertBefore(lineNode, c);
             }
         };
