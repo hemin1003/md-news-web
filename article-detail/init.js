@@ -8,52 +8,42 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
+        // {
+        //     type: 'yz',
+        //     params: {
+        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+        //         product: 20035,
+        //         code: 'ytth5a2019040802xxl'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
         {
-            type: 'yz',
+            type: 'zm',
             params: {
-                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-                product: 20035,
-                code: 'ytth5a2019040801xxl'
+                url: 'http://i.hao61.net/d.js?cid=30866'
             },
             isExposure: false,
             isClick: false
         },
         {
-            type: 'yz',
+            type: 'xs',
             params: {
-                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-                product: 20035,
-                code: 'ytth5a2019040802xxl'
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
             },
             isExposure: false,
             isClick: false
         }
-        // {
-        //     type: 'zm',
-        //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -61,7 +51,7 @@ function Detail() {
     // };
     this.eventId = {
         exposure: 10000027,
-        click: 10000028
+        click: 10000031
     };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
@@ -404,14 +394,16 @@ function Detail() {
     // webview 高度变化
     window.onresize = function () {
         // webview 展开查看更多，文中，文末直接上报曝光
-        detail.adArr[1].isExposure = true;
-        detail._exposureReport({
-            b1: detail.adArr[1].type
-        });
+        if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
+            detail.adArr[1].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[1].type
+            });
 
-        detail.adArr[2].isExposure = true;
-        detail._exposureReport({
-            b1: detail.adArr[2].type
-        });
+            detail.adArr[2].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[2].type
+            });
+        }
     }
 }())
