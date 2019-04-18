@@ -60,8 +60,8 @@ function Detail() {
     //     click: 10000032
     // };
     this.eventId = {
-        exposure: 10000029,
-        click: 10000030
+        exposure: 10000032,
+        click: 10000033
     };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
