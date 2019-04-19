@@ -62,10 +62,14 @@ function Detail() {
         // location search 存储
         var search = window.location.search.split('?')[1];
         var tmp = {};
-        search.split('&').forEach(function (item) {
-            var kv = item.split('=');
+        // search.split('&').forEach(function (item) {
+        //     var kv = item.split('=');
+        //     tmp[kv[0]] = kv[1];
+        // });
+        for (var i = 0, length = search.length; i < length; i++) {
+            var kv = search[i].split('=');
             tmp[kv[0]] = kv[1];
-        });
+        }
         this.base = tmp;
 
         // dom准备
@@ -137,9 +141,9 @@ function Detail() {
                 break;
         }
         // 增加角标
-        var spanNode = document.createElement('span');
-        spanNode.innerHTML = data.type;
-        dom.appendChild(spanNode);
+        // var spanNode = document.createElement('span');
+        // spanNode.innerHTML = data.type;
+        // dom.appendChild(spanNode);
 
         dom.appendChild(adScript);
     }
@@ -204,12 +208,20 @@ function Detail() {
                 });
 
                 var imgArr = that.contentDom.querySelectorAll('p img');
-                imgArr.forEach(item => {
-                    item.setAttribute('src', item.dataset.src);
-                    // item.setAttribute('width',item.dataset.size.split(',')[0]);
-                    // item.setAttribute('height',item.dataset.size.split(',')[1]);
-                    item.setAttribute('width', '100%');
-                })
+                console.log(imgArr);
+                // imgArr.forEach(item => {
+                //     item.setAttribute('src', item.dataset.src);
+                //     // item.setAttribute('width',item.dataset.size.split(',')[0]);
+                //     // item.setAttribute('height',item.dataset.size.split(',')[1]);
+                //     item.setAttribute('width', '100%');
+                // })
+                for (var i in imgArr) {
+                    console.log(imgArr[i]);
+                    console.log(imgArr[i].dataset.src);
+                    var src = imgArr[i].dataset.src;
+                    imgArr[i].setAttribute('src', src);
+                    imgArr[i].setAttribute('width', '100%');
+                }
 
                 // 事件下面插入分割线
                 var lineNode = document.createElement('div');
@@ -327,10 +339,10 @@ function Detail() {
         var search = window.location.search.split('?')[1];
         var param = search.split('&');
         var paramsObj = {};
-        param.forEach(function (item) {
-            var kv = item.split('=');
+        for (var i = 0, length = param.length; i < length; i++) {
+            var kv = param[i].split('=');
             paramsObj[kv[0]] = kv[1];
-        });
+        }
         return paramsObj;
     }
 }
@@ -385,11 +397,11 @@ function Detail() {
             }
 
             // test 显示
-            document.getElementById('fixHeader').innerHTML =
-                '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-                + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
-                + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
-                + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
+            // document.getElementById('fixHeader').innerHTML =
+            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+            //     + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
+            //     + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
+            //     + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
 
         }, 50);
 

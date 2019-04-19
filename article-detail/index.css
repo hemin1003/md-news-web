@@ -279,7 +279,7 @@
      margin: 0 0 5.2vw;
  }
 
- #fixHeader {
+ /* #fixHeader {
      position: fixed;
      z-index: 999;
      top: 0;
@@ -288,6 +288,6 @@
      min-height: 50px;
      background-color: #ffffff;
      border-bottom: 1px solid #eeeeee;
- }
+ } */
 
  /*mime end*/
