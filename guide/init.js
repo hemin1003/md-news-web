@@ -8,34 +8,24 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040801xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
         {
-            type: 'zm',
+            type: 'yz',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30866'
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040802xxl'
             },
             isExposure: false,
             isClick: false
         },
+        // {
+        //     type: 'zm',
+        //     params: {
+        //         url: 'http://i.hao61.net/d.js?cid=30866'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         {
             type: 'xs',
             params: {
@@ -70,13 +60,10 @@ function Detail() {
 
         // location search 存储
         var search = window.location.search.split('?')[1];
+        var param = search.split('&');
         var tmp = {};
-        // search.split('&').forEach(function (item) {
-        //     var kv = item.split('=');
-        //     tmp[kv[0]] = kv[1];
-        // });
-        for (var i = 0, length = search.length; i < length; i++) {
-            var kv = search[i].split('=');
+        for (var i = 0, length = param.length; i < length; i++) {
+            var kv = param[i].split('=');
             tmp[kv[0]] = kv[1];
         }
         this.base = tmp;
