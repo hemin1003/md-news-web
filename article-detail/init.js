@@ -8,16 +8,16 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
+        {
+            type: 'yz',
+            params: {
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040802xxl'
+            },
+            isExposure: false,
+            isClick: false
+        },
         {
             type: 'zm',
             params: {
@@ -136,6 +136,10 @@ function Detail() {
                 console.log('没有匹配的广告商家～');
                 break;
         }
+        // 增加角标
+        var spanNode = document.createElement('span');
+        spanNode.innerHTML = data.type;
+        dom.appendChild(spanNode);
 
         dom.appendChild(adScript);
     }
