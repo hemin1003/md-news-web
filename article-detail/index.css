@@ -271,7 +271,7 @@
      font-size: 18px;
      color: #202020;
      letter-spacing: 0;
-     text-align: justify;
+     /* text-align: justify; */
      line-height: 1.5;
  }
 

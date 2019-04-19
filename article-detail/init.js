@@ -1,8 +1,8 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
-    this.reportUrl = 'http://182.92.82.188';
-    // this.reportUrl = 'http://and.ytoutiao.net';
+    // this.reportUrl = 'http://182.92.82.188';
+    this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -45,14 +45,14 @@ function Detail() {
             isClick: false
         }
     ];
-    this.eventId = {
-        exposure: 10000027,
-        click: 10000028
-    };
     // this.eventId = {
     //     exposure: 10000027,
-    //     click: 10000031
+    //     click: 10000028
     // };
+    this.eventId = {
+        exposure: 10000027,
+        click: 10000031
+    };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
     this.clientHeight = document.documentElement.clientHeight;
@@ -61,13 +61,10 @@ function Detail() {
 
         // location search 存储
         var search = window.location.search.split('?')[1];
+        var param = search.split('&');
         var tmp = {};
-        // search.split('&').forEach(function (item) {
-        //     var kv = item.split('=');
-        //     tmp[kv[0]] = kv[1];
-        // });
-        for (var i = 0, length = search.length; i < length; i++) {
-            var kv = search[i].split('=');
+        for (var i = 0, length = param.length; i < length; i++) {
+            var kv = param[i].split('=');
             tmp[kv[0]] = kv[1];
         }
         this.base = tmp;
@@ -208,16 +205,7 @@ function Detail() {
                 });
 
                 var imgArr = that.contentDom.querySelectorAll('p img');
-                console.log(imgArr);
-                // imgArr.forEach(item => {
-                //     item.setAttribute('src', item.dataset.src);
-                //     // item.setAttribute('width',item.dataset.size.split(',')[0]);
-                //     // item.setAttribute('height',item.dataset.size.split(',')[1]);
-                //     item.setAttribute('width', '100%');
-                // })
                 for (var i in imgArr) {
-                    console.log(imgArr[i]);
-                    console.log(imgArr[i].dataset.src);
                     var src = imgArr[i].dataset.src;
                     imgArr[i].setAttribute('src', src);
                     imgArr[i].setAttribute('width', '100%');
@@ -410,16 +398,16 @@ function Detail() {
     // webview 高度变化
     window.onresize = function () {
         // webview 展开查看更多，文中，文末直接上报曝光
-        // if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
-        //     detail.adArr[1].isExposure = true;
-        //     detail._exposureReport({
-        //         b1: detail.adArr[1].type
-        //     });
+        if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
+            detail.adArr[1].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[1].type
+            });
 
-        //     detail.adArr[2].isExposure = true;
-        //     detail._exposureReport({
-        //         b1: detail.adArr[2].type
-        //     });
-        // }
+            detail.adArr[2].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[2].type
+            });
+        }
     }
 }())
