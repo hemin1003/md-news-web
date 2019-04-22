@@ -189,12 +189,6 @@ function Detail() {
                 });
 
                 var imgArr = that.contentDom.querySelectorAll('p img');
-                // imgArr.forEach(item => {
-                //     item.setAttribute('src', item.dataset.src);
-                //     // item.setAttribute('width',item.dataset.size.split(',')[0]);
-                //     // item.setAttribute('height',item.dataset.size.split(',')[1]);
-                //     item.setAttribute('width', '100%');
-                // })
                 for (var i in imgArr) {
                     console.log(imgArr[i]);
                     console.log(imgArr[i].dataset.src);
