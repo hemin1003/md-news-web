@@ -8,42 +8,42 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
         {
-            type: 'zm',
+            type: 'yz',
             params: {
-                url: 'http://i.hao61.net/d.js?cid=30866'
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040802xxl'
             },
             isExposure: false,
             isClick: false
         },
         // {
-        //     type: 'xs',
+        //     type: 'zm',
         //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
+        //         url: 'http://i.hao61.net/d.js?cid=30866'
         //     },
         //     isExposure: false,
         //     isClick: false
         // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -82,7 +82,7 @@ function Detail() {
         // adArr 随机排序，取前3
         this.shuffle();
         // 头部
-        this._loadAd(this.headerAdDom, this.adArr[0]);
+        // this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
         this._loadAd(this.footerAdDom, this.adArr[2]);
 
@@ -133,6 +133,9 @@ function Detail() {
             case 'xs':
                 adScript = this._genXSAdScript(data.params);
                 break;
+            case 'xssg':
+                return;
+                break;
             default:
                 console.log('没有匹配的广告商家～');
                 break;
@@ -182,6 +185,18 @@ function Detail() {
         return script;
     }
 
+    /**
+     * 星拾搜狗广告JS生成
+     */
+    Detail.prototype._genXSSGAdScript = function (params) {
+        var script = document.createElement("script");
+        // script.async = true;
+        // script.defer = "defer";
+        script.type = 'text/javascript';
+        script.src = params.url;
+        return script;
+    }
+
     Detail.prototype._loadDetailContent = function () {
         var that = this;
         var id = that.search2Obj().id;
@@ -216,7 +231,7 @@ function Detail() {
                     imgArr[i].setAttribute('src', src);
                     imgArr[i].setAttribute('width', '100%');
                 }
-                
+
             }
         };
         that.request(params);
@@ -343,12 +358,18 @@ function Detail() {
     // 拿到当前最新的 clientHeight
     var curClientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
-    if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
-        detail.adArr[0].isExposure = true;
-        detail._exposureReport({
-            b1: detail.adArr[0].type
-        });
-    }
+    // if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
+    //     detail.adArr[0].isExposure = true;
+    //     detail._exposureReport({
+    //         b1: detail.adArr[0].type
+    //     });
+    // }
+
+    // 百度广告放在头部，直接曝光
+    detail.adArr[0].isExposure = true;
+    detail._exposureReport({
+        b1: 'bd'
+    });
 
     // 滚动监听
     var timer = null;

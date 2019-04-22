@@ -11,13 +11,45 @@
 
 <body>
     <!-- <div id="fixHeader"></div> -->
-    <div id="header-ad"></div>
+    <div id="header-ad">
+        <script type="text/javascript">
+            (function () {
+                var s = "_" + Math.random().toString(36).slice(2);
+                document.write('<div style="" id="' + s + '"></div>');
+                (window.slotbydup = window.slotbydup || []).push({
+                    id: "u3760803",
+                    container: s
+                });
+            })();
+        </script>
+        <!-- 多条广告如下脚本只需引入一次 -->
+        <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/cm.js" async="async" defer="defer"></script>
+    </div>
     <div class="line"></div>
     <div id="content"></div>
     <div id="footer-ad"></div>
 
     <script src="../js/md5.min.js"></script>
-    <script src="./init.js?v=1.0.10"></script>
+    <script src="./init.js?v=1.0.11"></script>
+
+    <!-- <div>
+        <script type="text/javascript">
+            var sogou_ad_id = 1027519;
+            var sogou_ad_content_height = 120;
+            console.log(sogou_ad_id);
+        </script>
+        <script type="text/javascript" src="http://gif.lu.sogoucdn.com/wap/js/wp.js"></script>
+    </div>
+
+    <div>
+        <script type="text/javascript">
+            var sogou_ad_id = 1027520;
+            var sogou_ad_content_height = 120;
+            console.log(sogou_ad_id);
+        </script>
+        <script type="text/javascript" src="http://moka.inte.sogoucdn.com/wap/js/wp.js"></script>
+    </div> -->
+
 </body>
 
 </html>
