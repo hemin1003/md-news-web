@@ -8,42 +8,42 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        {
-            type: 'yz',
-            params: {
-                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-                product: 20035,
-                code: 'ytth5a2019040802xxl'
-            },
-            isExposure: false,
-            isClick: false
-        },
         // {
-        //     type: 'zm',
+        //     type: 'yz',
         //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
+        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+        //         product: 20035,
+        //         code: 'ytth5a2019040802xxl'
         //     },
         //     isExposure: false,
         //     isClick: false
         // },
         {
-            type: 'xs',
+            type: 'zm',
             params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
+                url: 'http://i.hao61.net/d.js?cid=30866'
             },
             isExposure: false,
             isClick: false
         },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        }
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -204,18 +204,19 @@ function Detail() {
                     });
                 });
 
+                // 事件下面插入分割线
+                var lineNode = document.createElement('div');
+                lineNode.setAttribute('class', 'line');
+                var c = document.querySelector('#content .content');
+                that.contentDom.insertBefore(lineNode, c);
+
                 var imgArr = that.contentDom.querySelectorAll('p img');
                 for (var i in imgArr) {
                     var src = imgArr[i].dataset.src;
                     imgArr[i].setAttribute('src', src);
                     imgArr[i].setAttribute('width', '100%');
                 }
-
-                // 事件下面插入分割线
-                var lineNode = document.createElement('div');
-                lineNode.setAttribute('class', 'line');
-                var c = document.querySelector('#content .content');
-                that.contentDom.insertBefore(lineNode, c);
+                
             }
         };
         that.request(params);
