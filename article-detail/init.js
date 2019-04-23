@@ -8,16 +8,16 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        {
-            type: 'yz',
-            params: {
-                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-                product: 20035,
-                code: 'ytth5a2019040802xxl'
-            },
-            isExposure: false,
-            isClick: false
-        },
+        // {
+        //     type: 'yz',
+        //     params: {
+        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+        //         product: 20035,
+        //         code: 'ytth5a2019040802xxl'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         // {
         //     type: 'zm',
         //     params: {
@@ -26,24 +26,24 @@ function Detail() {
         //     isExposure: false,
         //     isClick: false
         // },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        }
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -75,29 +75,30 @@ function Detail() {
         this.contentDom = document.getElementById('content');
 
 
+        // adArr 随机排序，取前3
+        this.shuffle();
+
         // 加载详情
         this._loadDetailContent();
 
         // 加载广告
-        // adArr 随机排序，取前3
-        this.shuffle();
         // 头部
         // this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
-        this._loadAd(this.footerAdDom, this.adArr[2]);
+        // this._loadAd(this.footerAdDom, this.adArr[2]);
 
         // 监听初始化
-        var that = this;
-        this.headerAdDom.addEventListener('click', function () {
-            that._clickReport({
-                b1: that.adArr[0].type
-            });
-        });
-        this.footerAdDom.addEventListener('click', function () {
-            that._clickReport({
-                b1: that.adArr[2].type
-            });
-        });
+        // var that = this;
+        // this.headerAdDom.addEventListener('click', function () {
+        //     that._clickReport({
+        //         b1: that.adArr[0].type
+        //     });
+        // });
+        // this.footerAdDom.addEventListener('click', function () {
+        //     that._clickReport({
+        //         b1: that.adArr[2].type
+        //     });
+        // });
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -206,18 +207,18 @@ function Detail() {
             callback: function (res) {
                 that.contentDom.innerHTML = res.content;
 
-                // 确定文章中为AD位置
-                var contentAdNode = that._getContentMountNode();
-                // 混入
-                that._loadAd(contentAdNode, that.adArr[1]);
-                // 绑定dom
-                that.insertAdDom = document.getElementById('insert-ad');
-                // 绑定监听
-                that.insertAdDom.addEventListener('click', function () {
-                    that._clickReport({
-                        b1: that.adArr[1].type
-                    });
-                });
+                // // 确定文章中为AD位置
+                // var contentAdNode = that._getContentMountNode();
+                // // 混入
+                // that._loadAd(contentAdNode, that.adArr[1]);
+                // // 绑定dom
+                // that.insertAdDom = document.getElementById('insert-ad');
+                // // 绑定监听
+                // that.insertAdDom.addEventListener('click', function () {
+                //     that._clickReport({
+                //         b1: that.adArr[1].type
+                //     });
+                // });
 
                 // 事件下面插入分割线
                 var lineNode = document.createElement('div');
@@ -366,70 +367,70 @@ function Detail() {
     // }
 
     // 百度广告放在头部，直接曝光
-    detail.adArr[0].isExposure = true;
+    // detail.adArr[0].isExposure = true;
     detail._exposureReport({
         b1: 'bd'
     });
 
     // 滚动监听
-    var timer = null;
-    window.addEventListener('scroll', function () {
-        // 截流，50ms间隔
-        if (typeof timer === 'number') {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(function () {
+    // var timer = null;
+    // window.addEventListener('scroll', function () {
+    //     // 截流，50ms间隔
+    //     if (typeof timer === 'number') {
+    //         clearTimeout(timer);
+    //     }
+    //     timer = setTimeout(function () {
 
-            var _clientHeight = document.documentElement.clientHeight;
+    //         var _clientHeight = document.documentElement.clientHeight;
 
-            // header-ad
-            if (detail.headerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[0].isExposure) {
-                detail.adArr[0].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[0].type
-                });
-            }
+    //         // header-ad
+    //         if (detail.headerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[0].isExposure) {
+    //             detail.adArr[0].isExposure = true;
+    //             detail._exposureReport({
+    //                 b1: detail.adArr[0].type
+    //             });
+    //         }
 
-            // insert-ad
-            if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
-                detail.adArr[1].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[1].type
-                });
-            }
+    //         // insert-ad
+    //         if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
+    //             detail.adArr[1].isExposure = true;
+    //             detail._exposureReport({
+    //                 b1: detail.adArr[1].type
+    //             });
+    //         }
 
-            // footer-ad
-            if (detail.footerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[2].isExposure) {
-                detail.adArr[2].isExposure = true;
-                detail._exposureReport({
-                    b1: detail.adArr[2].type
-                });
-            }
+    //         // footer-ad
+    //         if (detail.footerAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[2].isExposure) {
+    //             detail.adArr[2].isExposure = true;
+    //             detail._exposureReport({
+    //                 b1: detail.adArr[2].type
+    //             });
+    //         }
 
-            // test 显示
-            // document.getElementById('fixHeader').innerHTML =
-            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-            //     + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
-            //     + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
-            //     + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
+    //         // test 显示
+    //         // document.getElementById('fixHeader').innerHTML =
+    //         //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+    //         //     + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
+    //         //     + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
+    //         //     + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
 
-        }, 50);
+    //     }, 50);
 
-    }, false);
+    // }, false);
 
     // webview 高度变化
     window.onresize = function () {
         // webview 展开查看更多，文中，文末直接上报曝光
-        if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
-            detail.adArr[1].isExposure = true;
-            detail._exposureReport({
-                b1: detail.adArr[1].type
-            });
+        // if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
+        //     detail.adArr[1].isExposure = true;
+        //     detail._exposureReport({
+        //         b1: detail.adArr[1].type
+        //     });
 
-            detail.adArr[2].isExposure = true;
-            detail._exposureReport({
-                b1: detail.adArr[2].type
-            });
-        }
+        //     detail.adArr[2].isExposure = true;
+        //     detail._exposureReport({
+        //         b1: detail.adArr[2].type
+        //     });
+        // }
     }
 }())
