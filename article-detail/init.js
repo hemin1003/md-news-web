@@ -1,6 +1,6 @@
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
+    this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
     // this.reportUrl = 'http://182.92.82.188';
     this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
