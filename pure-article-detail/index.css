@@ -289,7 +289,9 @@ a {
 #content .content p {
     margin: 0 0 5.2vw;
 }
-
+#content .content img {
+    width: 100% !important;
+}
 #content .content p:last-child {
     margin: 0;
 }

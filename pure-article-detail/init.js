@@ -1,6 +1,6 @@
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
+    this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
     this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
     this.footerAdDom = null;
@@ -222,15 +222,27 @@ function Detail() {
         var list = params.entityList;
         var rstTemplate = '';
         for (var i = 0, length = list.length; i < length; i++) {
-            rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
-                '<div class="title">' + list[i].title + '</div>' +
-                '<div class="img-wrapper clearfix">' +
-                '<img src="' + list[i].imageList[0] + '" alt="img">' +
-                '<img src="' + list[i].imageList[1] + '" alt="img">' +
-                '<img src="' + list[i].imageList[2] + '" alt="img">' +
-                '</div>' +
-                '<div class="origin">' + list[i].category + '</div>' +
-                '</a>';
+            if (list[i].imageList.length > 1) {
+                rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
+                    '<div class="title">' + list[i].title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
+                    '<img src="' + list[i].imageList[1] + '" alt="img">' +
+                    '<img src="' + list[i].imageList[2] + '" alt="img">' +
+                    '</div>' +
+                    '<div class="origin">' + list[i].category + '</div>' +
+                    '</a>';
+            } else {
+                rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
+                    '<div class="title">' + list[i].title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
+                    '<img src="' + list[i].imageList[1] + '" alt="img">' +
+                    '<img src="' + list[i].imageList[2] + '" alt="img">' +
+                    '</div>' +
+                    '<div class="origin">' + list[i].category + '</div>' +
+                    '</a>';
+            }
         }
         return rstTemplate;
     }
@@ -421,10 +433,10 @@ function Detail() {
 
             // insert-ad
             // if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
-                // detail.adArr[1].isExposure = true;
-                // detail._exposureReport({
-                //     b1: detail.adArr[1].type
-                // });
+            // detail.adArr[1].isExposure = true;
+            // detail._exposureReport({
+            //     b1: detail.adArr[1].type
+            // });
             // }
 
             // test 显示
