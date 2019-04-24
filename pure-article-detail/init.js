@@ -233,14 +233,14 @@ function Detail() {
                     '<div class="origin">' + list[i].category + '</div>' +
                     '</a>';
             } else {
-                rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
+                rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + list[i].share_url + '">' +
+                    '<div class="left-warpper">'+
                     '<div class="title">' + list[i].title + '</div>' +
-                    '<div class="img-wrapper clearfix">' +
-                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
-                    '<img src="' + list[i].imageList[1] + '" alt="img">' +
-                    '<img src="' + list[i].imageList[2] + '" alt="img">' +
-                    '</div>' +
                     '<div class="origin">' + list[i].category + '</div>' +
+                    '</div>' +
+                    '<div class="img-wrapper">' +
+                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
+                    '</div>' +
                     '</a>';
             }
         }

@@ -289,9 +289,11 @@ a {
 #content .content p {
     margin: 0 0 5.2vw;
 }
+
 #content .content img {
     width: 100% !important;
 }
+
 #content .content p:last-child {
     margin: 0;
 }
@@ -306,6 +308,7 @@ a {
     background-color: #ffffff;
     border-bottom: 1px solid #eeeeee;
 }
+
 .content-wrapper .bottom-shadow {
     position: absolute;
     bottom: 0;
@@ -403,6 +406,43 @@ a {
     margin-top: 2vw;
     font-size: 14px;
     color: #a7a7a7;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img {
+    display: block;
+    padding-bottom: 2vw;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img .left-wrapper {
+    display: inline-block;
+    width: 70vw;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img .left-wrapper .title {
+    margin: 2vw 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img .left-wrapper .origin {
+    margin-top: 2vw;
+    font-size: 14px;
+    color: #a7a7a7;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img .img-wrapper {
+    display: inline-block;
+    width: 30vw;
+    height: 19.24vw;
+}
+
+.guess-like-list .list-content .news-wrapper-single-img .img-wrapper img {
+    float: left;
+    margin-right: 3px;
+    width: 32%;
+    height: 100%;
 }
 
 .redbag {
