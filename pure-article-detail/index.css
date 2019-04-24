@@ -294,7 +294,7 @@ a {
     margin: 0;
 }
 
-/* #fixHeader {
+#fixHeader {
     position: fixed;
     z-index: 999;
     top: 0;
@@ -303,7 +303,7 @@ a {
     min-height: 50px;
     background-color: #ffffff;
     border-bottom: 1px solid #eeeeee;
-} */
+}
 .content-wrapper .bottom-shadow {
     position: absolute;
     bottom: 0;

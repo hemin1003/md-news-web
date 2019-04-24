@@ -232,7 +232,6 @@ function Detail() {
                 '<div class="origin">' + list[i].category + '</div>' +
                 '</a>';
         }
-        console.log(rstTemplate);
         return rstTemplate;
     }
 
@@ -418,22 +417,20 @@ function Detail() {
         }
         timer = setTimeout(function () {
 
-            var _clientHeight = document.documentElement.clientHeight;
+            // var _clientHeight = document.documentElement.clientHeight;
 
             // insert-ad
-            if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
+            // if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
                 // detail.adArr[1].isExposure = true;
                 // detail._exposureReport({
                 //     b1: detail.adArr[1].type
                 // });
-            }
+            // }
 
             // test 显示
-            // document.getElementById('fixHeader').innerHTML =
-            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-            //     + '<div>headerAdDom top:' + detail.headerAdDom.getBoundingClientRect().top + '</div>'
-            //     + '<div>insertAdDom top:' + detail.insertAdDom.getBoundingClientRect().top + '</div>'
-            //     + '<div>footerAdDom top:' + detail.footerAdDom.getBoundingClientRect().top + '</div>'
+            document.getElementById('fixHeader').innerHTML =
+                '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+                + '<div>guessLikeListDom top:' + detail.guessLikeListDom.getBoundingClientRect().top + '</div>';
 
         }, 50);
 
