@@ -1,6 +1,6 @@
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
+    this.restUrl = 'http://news.ytoutiao.net/yfax-news-api/api/htt/';
     // this.reportUrl = 'http://182.92.82.188';
     this.reportUrl = 'http://and.ytoutiao.net';
     this.headerAdDom = null;
@@ -26,24 +26,33 @@ function Detail() {
         //     isExposure: false,
         //     isClick: false
         // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -58,6 +67,28 @@ function Detail() {
     this.clientHeight = document.documentElement.clientHeight;
 
     Detail.prototype._init = function () {
+
+        // 清理 sessionStorage localStorage cookies
+        sessionStorage.clear();
+        localStorage.clear();
+
+        var cookies = document.cookie.split(";");
+        var domain = '.' + window.location.host;
+        console.log(cookies);
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+        }
+        if (cookies.length > 0) {
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+            }
+        }
 
         // location search 存储
         var search = window.location.search.split('?')[1];
@@ -83,9 +114,9 @@ function Detail() {
 
         // 加载广告
         // 头部
-        // this._loadAd(this.headerAdDom, this.adArr[0]);
+        this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
-        // this._loadAd(this.footerAdDom, this.adArr[2]);
+        this._loadAd(this.footerAdDom, this.adArr[2]);
 
         // 监听初始化
         // var that = this;
@@ -207,13 +238,13 @@ function Detail() {
             callback: function (res) {
                 that.contentDom.innerHTML = res.content;
 
-                // // 确定文章中为AD位置
-                // var contentAdNode = that._getContentMountNode();
-                // // 混入
-                // that._loadAd(contentAdNode, that.adArr[1]);
-                // // 绑定dom
-                // that.insertAdDom = document.getElementById('insert-ad');
-                // // 绑定监听
+                // 确定文章中为AD位置
+                var contentAdNode = that._getContentMountNode();
+                // 混入
+                that._loadAd(contentAdNode, that.adArr[1]);
+                // 绑定dom
+                that.insertAdDom = document.getElementById('insert-ad');
+                // 绑定监听
                 // that.insertAdDom.addEventListener('click', function () {
                 //     that._clickReport({
                 //         b1: that.adArr[1].type
@@ -350,6 +381,14 @@ function Detail() {
         }
         return paramsObj;
     }
+
+    Detail.prototype.getCookie = function (name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
 }
 
 ; (function () {
@@ -359,18 +398,18 @@ function Detail() {
     // 拿到当前最新的 clientHeight
     var curClientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
-    // if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
-    //     detail.adArr[0].isExposure = true;
-    //     detail._exposureReport({
-    //         b1: detail.adArr[0].type
-    //     });
-    // }
+    if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
+        detail.adArr[0].isExposure = true;
+        detail._exposureReport({
+            b1: detail.adArr[0].type
+        });
+    }
 
     // 百度广告放在头部，直接曝光
     // detail.adArr[0].isExposure = true;
-    detail._exposureReport({
-        b1: 'bd'
-    });
+    // detail._exposureReport({
+    //     b1: 'bd'
+    // });
 
     // 滚动监听
     // var timer = null;
@@ -421,16 +460,16 @@ function Detail() {
     // webview 高度变化
     window.onresize = function () {
         // webview 展开查看更多，文中，文末直接上报曝光
-        // if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
-        //     detail.adArr[1].isExposure = true;
-        //     detail._exposureReport({
-        //         b1: detail.adArr[1].type
-        //     });
+        if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
+            detail.adArr[1].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[1].type
+            });
 
-        //     detail.adArr[2].isExposure = true;
-        //     detail._exposureReport({
-        //         b1: detail.adArr[2].type
-        //     });
-        // }
+            detail.adArr[2].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[2].type
+            });
+        }
     }
 }())
