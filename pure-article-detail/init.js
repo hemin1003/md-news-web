@@ -1,7 +1,10 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    // this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -10,43 +13,46 @@ function Detail() {
     this.moreBtn = null;
     this.bottomShadow = null;
     this.guessLikeListDom = null;
+    this.likeList = [];
+    this.adWrapperDomArr = [];
+    this.toastDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'zm',
-        //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
+        {
+            type: 'yz',
+            params: {
+                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+                product: 20035,
+                code: 'ytth5a2019040802xxl'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'zm',
+            params: {
+                url: 'http://i.hao61.net/d.js?cid=30866'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736229&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -58,6 +64,7 @@ function Detail() {
     };
     this.version = '1.0.0';
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
+    this.privatetKey2 = 'SdJ1rbyInIhfwJas';
     this.clientHeight = document.documentElement.clientHeight;
 
     Detail.prototype._init = function () {
@@ -80,7 +87,8 @@ function Detail() {
         this.moreBtn = document.querySelector('.more-btn');
         this.bottomShadow = document.querySelector('.content-wrapper .bottom-shadow');
         this.guessLikeListDom = document.querySelector('.guess-like-list .list-content');
-
+        this.redbagDom = document.querySelector('.redbag');
+        this.toastDom = document.querySelector('.toast');
 
         // adArr 随机排序，取前3
         this.shuffle();
@@ -88,33 +96,20 @@ function Detail() {
         // 加载详情
         this._loadDetailContent();
 
-        // 加载猜你喜欢
-        this._loadGuessLikeList();
+        // 加载阅读红包
+        this._queryRedbag();
 
-        // 加载广告
-        // 头部
-        // this._loadAd(this.headerAdDom, this.adArr[0]);
-        // 底部
-        // this._loadAd(this.footerAdDom, this.adArr[2]);
-
-        // 监听初始化
-        // var that = this;
-        // this.headerAdDom.addEventListener('click', function () {
-        //     that._clickReport({
-        //         b1: that.adArr[0].type
-        //     });
-        // });
-        // this.footerAdDom.addEventListener('click', function () {
-        //     that._clickReport({
-        //         b1: that.adArr[2].type
-        //     });
-        // });
+        // 绑定查看全文
         var that = this;
         this.moreBtn.addEventListener('click', function () {
             // 展开全文
             that.contentWrapper.style.height = 'auto';
             that.moreBtn.style.display = 'none';
             that.bottomShadow.style.display = 'none';
+        });
+
+        this.redbagDom.addEventListener('click', function () {
+            that._doRedbagAward();
         });
     }
 
@@ -216,12 +211,25 @@ function Detail() {
     }
 
     /**
+     * 绑定所有 ad-wrapper 
+     */
+    Detail.prototype._bindAdDom = function (params) {
+        this.adWrapperDomArr = document.querySelectorAll('.ad-wrapper');
+        // 补充 曝光，点击，填充 标志位
+        for (var i = 0; i < this.adWrapperDomArr.length; i++) {
+            this.adWrapperDomArr[i]['isExposure'] = false;
+            this.adWrapperDomArr[i]['isClick'] = false;
+            this.adWrapperDomArr[i]['isFill'] = false;
+        }
+    }
+
+    /**
      * 生成猜你喜欢列表，混入广告Dom，用于后续 ad js 插入
      */
     Detail.prototype._generateGuessLikeList = function (params) {
-        var list = params.entityList;
+        var list = this.likeList;
         var rstTemplate = '';
-        for (var i = 0, length = list.length; i < length; i++) {
+        for (var i = 0, length = list.length, step = 3; i < length; i++) {
             if (list[i].imageList.length > 1) {
                 rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
                     '<div class="title">' + list[i].title + '</div>' +
@@ -234,14 +242,21 @@ function Detail() {
                     '</a>';
             } else {
                 rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + list[i].share_url + '">' +
-                    '<div class="left-warpper">'+
+                    '<div class="left-wrapper">' +
+                    '<div class="title-wrapper">' +
                     '<div class="title">' + list[i].title + '</div>' +
+                    '</div>' +
                     '<div class="origin">' + list[i].category + '</div>' +
                     '</div>' +
                     '<div class="img-wrapper">' +
                     '<img src="' + list[i].imageList[0] + '" alt="img">' +
                     '</div>' +
                     '</a>';
+            }
+
+            if (--step === 0) {
+                step = 3;
+                rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
             }
         }
         return rstTemplate;
@@ -254,33 +269,24 @@ function Detail() {
             method: 'GET',
             url: this.restUrl + 'getDetailById?id=' + id,
             callback: function (res) {
-                that.contentDom.innerHTML = res.content;
+                that.contentDom.innerHTML = res.data.content;
 
-                // // 确定文章中为AD位置
-                // var contentAdNode = that._getContentMountNode();
-                // // 混入
-                // that._loadAd(contentAdNode, that.adArr[1]);
-                // // 绑定dom
-                // that.insertAdDom = document.getElementById('insert-ad');
-                // // 绑定监听
-                // that.insertAdDom.addEventListener('click', function () {
-                //     that._clickReport({
-                //         b1: that.adArr[1].type
-                //     });
-                // });
-
-                // 事件下面插入分割线
+                // 时间下面插入分割线
                 var lineNode = document.createElement('div');
                 lineNode.setAttribute('class', 'line');
                 var c = document.querySelector('#content .content');
                 that.contentDom.insertBefore(lineNode, c);
 
-                var imgArr = that.contentDom.querySelectorAll('p img');
+                // 加载猜你喜欢
+                that._loadGuessLikeList();
+
+                // 加载图片
+                var imgArr = that.contentDom.querySelectorAll('#content .content p img');
                 for (var i in imgArr) {
                     var src = imgArr[i].dataset.src;
                     imgArr[i].setAttribute('src', src);
-                    imgArr[i].setAttribute('width', '100%');
                 }
+
 
             }
         };
@@ -289,14 +295,90 @@ function Detail() {
 
     Detail.prototype._loadGuessLikeList = function () {
         var that = this;
-        var id = that.search2Obj().id;
+        var title = document.querySelector('#content h1').innerHTML;
         var params = {
             method: 'GET',
-            url: this.restUrl + 'getLikeList?curPage=' + 1 + '&title=' + encodeURIComponent('关系超好！陈坤为除舒淇暖心庆生之外，还要争做舒淇后援会粉丝'),
+            url: that.restUrl + 'getLikeList?curPage=' + 1 + '&title=' + encodeURIComponent(title),
             callback: function (res) {
-                console.log(res);
-                that.guessLikeListDom.innerHTML = that._generateGuessLikeList(res);
+                that.likeList = that.likeList.concat(res.data.entityList);
+                var params2 = {
+                    method: 'GET',
+                    url: that.restUrl + 'getLikeList?curPage=' + 2 + '&title=' + encodeURIComponent(title),
+                    callback: function (res) {
+                        that.likeList = that.likeList.concat(res.data.entityList);
+                        that.guessLikeListDom.innerHTML = that._generateGuessLikeList();
 
+                        that._bindAdDom();
+                    }
+                };
+                that.request(params2);
+
+            }
+        };
+        that.request(params);
+
+    }
+
+    /**
+     * 查询阅读红包
+     */
+    Detail.prototype._queryRedbag = function () {
+        var that = this;
+        var params = {
+            method: 'GET',
+            url: this.queryrRedbagUrl + '?' + 'phoneNum=' + this.base.clientId + '&primaryKey=' + this.base.access_token + '&access_token=' + this.base.access_token,
+            callback: function (res) {
+                if (parseInt(res.code, 10) === 200) {
+                    that.redbagDom.childNodes[3].innerHTML = '点击领取' + res.data.gold + '金币';
+                    that.redbagDom.style.display = 'block';
+                } else {
+                    that.redbagDom.style.display = 'none';
+                }
+
+            }
+        };
+        that.request(params);
+    }
+
+    /**
+     * 阅读红包奖励
+     */
+    Detail.prototype._doRedbagAward = function () {
+        var that = this;
+        var baseInfo = this.base;
+        var random = this._random(10);
+        console.log(window.location.href);
+        var formData = new FormData();
+        formData.append('access_token', baseInfo.access_token);
+        formData.append('platfrom', baseInfo.platfrom);
+        formData.append('phoneNum', baseInfo.clientId);
+        formData.append('primaryKey', md5(window.location.href));
+        formData.append('mId', baseInfo.imei);
+        formData.append('tId', baseInfo.tId);
+        formData.append('sId', random + random);
+        var preStr = '?platfrom=' + baseInfo.platfrom
+            + '&phoneNum=' + baseInfo.clientId
+            + '&primaryKey=' + md5(window.location.href)
+            + '&mId=' + baseInfo.imei
+            + '&tId=' + baseInfo.tId
+            + '&sId=' + random + random
+            + '&key=' + this.privatetKey2;
+
+        formData.append('uId', md5(preStr));
+
+        var params = {
+            method: 'POST',
+            url: this.doRedbagAwardUrl,
+            body: formData,
+            callback: function (res) {
+                if (parseInt(res.code, 10) === 200) {
+                    that.toastDom.innerHTML = '恭喜获得' + res.data.gold + '阅读金币';
+                    // that.toastDom.innerHTML = '恭喜获得 ' + 20 + ' 阅读金币';
+                    that.toastDom.style.display = 'block';
+                    setTimeout(function () {
+                        that.toastDom.style.display = 'none';
+                    }, 1500);
+                }
             }
         };
         that.request(params);
@@ -308,7 +390,7 @@ function Detail() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status >= 200 && xhr.status < 300) {
-                    var data = JSON.parse(xhr.responseText).data;
+                    var data = JSON.parse(xhr.responseText);
                     params.callback && params.callback(data);
                 } else {
                     console.error('request error');
@@ -420,6 +502,8 @@ function Detail() {
     var detail = new Detail();
     detail._init();
 
+    var adLen = detail.adArr.length;
+    var step = 0;
     // 滚动监听
     var timer = null;
     window.addEventListener('scroll', function () {
@@ -429,15 +513,28 @@ function Detail() {
         }
         timer = setTimeout(function () {
 
-            // var _clientHeight = document.documentElement.clientHeight;
+            var _clientHeight = document.documentElement.clientHeight;
 
-            // insert-ad
-            // if (detail.insertAdDom.getBoundingClientRect().top + 50 <= _clientHeight && !detail.adArr[1].isExposure) {
-            // detail.adArr[1].isExposure = true;
-            // detail._exposureReport({
-            //     b1: detail.adArr[1].type
-            // });
-            // }
+            for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
+                if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
+                    detail.adWrapperDomArr[i].isFill = true;
+                    // detail.adWrapperDomArr[i].innerHTML = 'success~';
+                    // console.log(step);
+                    detail.adWrapperDomArr[i].innerHTML = '';
+                    detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
+
+                    // 曝光上报
+                    detail.adWrapperDomArr[i].isExposure = true;
+                    detail._exposureReport({
+                        b1: detail.adArr[step].type
+                    });
+
+                    // 步进器自增或重置
+                    if (++step >= adLen) {
+                        step = 0;
+                    }
+                }
+            }
 
             // test 显示
             document.getElementById('fixHeader').innerHTML =
