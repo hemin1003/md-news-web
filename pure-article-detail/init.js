@@ -293,7 +293,7 @@ function Detail() {
                 that._loadGuessLikeList();
 
                 // 加载图片
-                var imgArr = that.contentDom.querySelectorAll('#content .content p img');
+                var imgArr = that.contentDom.querySelectorAll('#content .content img');
                 for (var i in imgArr) {
                     var src = imgArr[i].dataset.src;
                     imgArr[i].setAttribute('src', src);

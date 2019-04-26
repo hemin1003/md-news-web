@@ -69,25 +69,30 @@ function Detail() {
 
     Detail.prototype._init = function () {
 
-        // 清理 sessionStorage localStorage cookies
-        sessionStorage.clear();
-        localStorage.clear();
+        // 如果webview开启允许缓存才执行下面的清缓存操作
+        if (sessionStorage && localStorage) {
 
-        var cookies = document.cookie.split(";");
-        var domain = '.' + window.location.host;
-        console.log(cookies);
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i];
-            var eqPos = cookie.indexOf("=");
-            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
-        }
-        if (cookies.length > 0) {
+            // 清理 sessionStorage localStorage cookies
+
+            sessionStorage.clear();
+            localStorage.clear();
+
+            var cookies = document.cookie.split(";");
+            var domain = '.' + window.location.host;
+
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = cookies[i];
                 var eqPos = cookie.indexOf("=");
                 var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
                 document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+            }
+            if (cookies.length > 0) {
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+                }
             }
         }
 
@@ -258,7 +263,7 @@ function Detail() {
                 var c = document.querySelector('#content .content');
                 that.contentDom.insertBefore(lineNode, c);
 
-                var imgArr = that.contentDom.querySelectorAll('p img');
+                var imgArr = that.contentDom.querySelectorAll('#content .content img');
                 for (var i in imgArr) {
                     var src = imgArr[i].dataset.src;
                     imgArr[i].setAttribute('src', src);
