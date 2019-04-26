@@ -1,6 +1,7 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
+    // this.restUrl = 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/';
     // this.reportUrl = 'http://and.ytoutiao.net';
     this.reportUrl = 'http://182.92.82.188';
     this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -226,12 +227,23 @@ function Detail() {
     /**
      * 生成猜你喜欢列表，混入广告Dom，用于后续 ad js 插入
      */
-    Detail.prototype._generateGuessLikeList = function (params) {
+    Detail.prototype._generateGuessLikeList = function () {
         var list = this.likeList;
         var rstTemplate = '';
+        // 列表头补充一个 ad
+        rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+
+        var baseInfo = this.base;
         for (var i = 0, length = list.length, step = 3; i < length; i++) {
+            var newId = list[i].url.split('?')[1].split('=')[1];
+            baseInfo.id = newId;
+            baseInfo['go'] = 'gotoNews';
+
+            var paramsStr = this.obj2str(baseInfo);
+
+            var url = window.location.origin + window.location.pathname + '?' + paramsStr;
             if (list[i].imageList.length > 1) {
-                rstTemplate += '<a class="news-wrapper" href="' + list[i].share_url + '">' +
+                rstTemplate += '<a class="news-wrapper" href="' + url + '">' +
                     '<div class="title">' + list[i].title + '</div>' +
                     '<div class="img-wrapper clearfix">' +
                     '<img src="' + list[i].imageList[0] + '" alt="img">' +
@@ -241,7 +253,7 @@ function Detail() {
                     '<div class="origin">' + list[i].category + '</div>' +
                     '</a>';
             } else {
-                rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + list[i].share_url + '">' +
+                rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + url + '">' +
                     '<div class="left-wrapper">' +
                     '<div class="title-wrapper">' +
                     '<div class="title">' + list[i].title + '</div>' +
@@ -326,7 +338,7 @@ function Detail() {
         var that = this;
         var params = {
             method: 'GET',
-            url: this.queryrRedbagUrl + '?' + 'phoneNum=' + this.base.clientId + '&primaryKey=' + this.base.access_token + '&access_token=' + this.base.access_token,
+            url: this.queryrRedbagUrl + '?' + 'phoneNum=' + this.base.clientId + '&primaryKey=' + md5(window.location.href) + '&access_token=' + this.base.access_token,
             callback: function (res) {
                 if (parseInt(res.code, 10) === 200) {
                     that.redbagDom.childNodes[3].innerHTML = '点击领取' + res.data.gold + '金币';
@@ -495,6 +507,14 @@ function Detail() {
             paramsObj[kv[0]] = kv[1];
         }
         return paramsObj;
+    }
+
+    Detail.prototype.obj2str = function (obj) {
+        var str = '';
+        for (var j in obj) {
+            str += j + '=' + obj[j] + '&'
+        }
+        return str;
     }
 }
 
