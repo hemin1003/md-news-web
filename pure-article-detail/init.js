@@ -7,8 +7,8 @@ function Detail() {
     this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
-    this.queryrRedbagUrl = 'http://118.190.168.46:9191/yfax-htt-api/api/htt/queryIsShowRedpaper';
-    this.doRedbagAwardUrl = 'http://118.190.168.46:9191/yfax-htt-api/api/htt/doRedpaperAward';
+    this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    this.doRedbagAwardUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
