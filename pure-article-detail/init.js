@@ -1,11 +1,14 @@
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
-    // this.restUrl = 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://and.ytoutiao.net';
-    this.reportUrl = 'http://182.92.82.188';
-    this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
-    this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
+    // this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
+    // this.reportUrl = 'http://182.92.82.188';
+    this.restUrl = 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/';
+    this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
+    this.reportUrl = 'http://and.ytoutiao.net';
+    // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
+    this.queryrRedbagUrl = 'http://118.190.168.46:9191/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    this.doRedbagAwardUrl = 'http://118.190.168.46:9191/yfax-htt-api/api/htt/doRedpaperAward';
     this.headerAdDom = null;
     this.footerAdDom = null;
     this.contentDom = null;
@@ -340,12 +343,12 @@ function Detail() {
         var title = document.querySelector('#content h1').innerHTML;
         var params = {
             method: 'GET',
-            url: that.restUrl + 'getLikeList?curPage=' + 1 + '&title=' + encodeURIComponent(title),
+            url: that.likeUrl + 'getLikeList?curPage=' + 1 + '&title=' + encodeURIComponent(title),
             callback: function (res) {
                 that.likeList = that.likeList.concat(res.data.entityList);
                 var params2 = {
                     method: 'GET',
-                    url: that.restUrl + 'getLikeList?curPage=' + 2 + '&title=' + encodeURIComponent(title),
+                    url: that.likeUrl + 'getLikeList?curPage=' + 2 + '&title=' + encodeURIComponent(title),
                     callback: function (res) {
                         that.likeList = that.likeList.concat(res.data.entityList);
                         that.guessLikeListDom.innerHTML = that._generateGuessLikeList();
