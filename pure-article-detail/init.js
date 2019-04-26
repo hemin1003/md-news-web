@@ -28,14 +28,14 @@ function Detail() {
             isExposure: false,
             isClick: false
         },
-        {
-            type: 'zm',
-            params: {
-                url: 'http://i.hao61.net/d.js?cid=30866'
-            },
-            isExposure: false,
-            isClick: false
-        },
+        // {
+        //     type: 'zm',
+        //     params: {
+        //         url: 'http://i.hao61.net/d.js?cid=30866'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         {
             type: 'xs',
             params: {
@@ -69,6 +69,33 @@ function Detail() {
     this.clientHeight = document.documentElement.clientHeight;
 
     Detail.prototype._init = function () {
+
+        // 如果webview开启允许缓存才执行下面的清缓存操作
+        if (sessionStorage && localStorage) {
+
+            // 清理 sessionStorage localStorage cookies
+
+            sessionStorage.clear();
+            localStorage.clear();
+
+            var cookies = document.cookie.split(";");
+            var domain = '.' + window.location.host;
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+            }
+            if (cookies.length > 0) {
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+                }
+            }
+        }
 
         // location search 存储
         var search = window.location.search.split('?')[1];
@@ -289,6 +316,9 @@ function Detail() {
                 var c = document.querySelector('#content .content');
                 that.contentDom.insertBefore(lineNode, c);
 
+                // 设置 title
+                document.title = document.querySelector('#content h1').innerHTML;
+
                 // 加载猜你喜欢
                 that._loadGuessLikeList();
 
@@ -384,9 +414,10 @@ function Detail() {
             body: formData,
             callback: function (res) {
                 if (parseInt(res.code, 10) === 200) {
-                    that.toastDom.innerHTML = '恭喜获得' + res.data.gold + '阅读金币';
+                    that.toastDom.childNodes[3].innerHTML = '+' + res.data.gold + '金币';
                     // that.toastDom.innerHTML = '恭喜获得 ' + 20 + ' 阅读金币';
                     that.toastDom.style.display = 'block';
+                    that.redbagDom.innerHTML = '我也是有底线的';
                     setTimeout(function () {
                         that.toastDom.style.display = 'none';
                     }, 1500);
@@ -537,29 +568,35 @@ function Detail() {
 
             for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
                 if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
-                    detail.adWrapperDomArr[i].isFill = true;
-                    // detail.adWrapperDomArr[i].innerHTML = 'success~';
-                    // console.log(step);
-                    detail.adWrapperDomArr[i].innerHTML = '';
-                    detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
+                    if (detail.adWrapperDomArr[i].dataset.type !== 'bd') {
+                        detail.adWrapperDomArr[i].isFill = true;
+                        detail.adWrapperDomArr[i].innerHTML = '';
+                        detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
 
-                    // 曝光上报
-                    detail.adWrapperDomArr[i].isExposure = true;
-                    detail._exposureReport({
-                        b1: detail.adArr[step].type
-                    });
+                        // 曝光上报
+                        detail.adWrapperDomArr[i].isExposure = true;
+                        detail._exposureReport({
+                            b1: detail.adArr[step].type
+                        });
 
-                    // 步进器自增或重置
-                    if (++step >= adLen) {
-                        step = 0;
+                        // 步进器自增或重置
+                        if (++step >= adLen) {
+                            step = 0;
+                        }
+                    } else {
+                        detail.adWrapperDomArr[i].isFill = true;
+                        detail.adWrapperDomArr[i].isExposure = true;
+                        detail._exposureReport({
+                            b1: 'bd'
+                        });
                     }
                 }
             }
 
             // test 显示
-            document.getElementById('fixHeader').innerHTML =
-                '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-                + '<div>guessLikeListDom top:' + detail.guessLikeListDom.getBoundingClientRect().top + '</div>';
+            // document.getElementById('fixHeader').innerHTML =
+            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
+            //     + '<div>guessLikeListDom top:' + detail.guessLikeListDom.getBoundingClientRect().top + '</div>';
 
         }, 50);
 

@@ -70,7 +70,7 @@ function Detail() {
     Detail.prototype._init = function () {
 
         // 如果webview开启允许缓存才执行下面的清缓存操作
-        // if (sessionStorage && localStorage) {
+        if (sessionStorage && localStorage) {
 
             // 清理 sessionStorage localStorage cookies
 
@@ -94,7 +94,7 @@ function Detail() {
                     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
                 }
             }
-        // }
+        }
 
         // location search 存储
         var search = window.location.search.split('?')[1];
