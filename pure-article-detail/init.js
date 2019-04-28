@@ -63,7 +63,7 @@ function Detail() {
     //     click: 10000028
     // };
     this.eventId = {
-        exposure: 10000027,
+        exposure: 10000039,
         click: 10000031
     };
     this.version = '1.0.0';
@@ -571,7 +571,19 @@ function Detail() {
 
             for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
                 if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
-                    if (detail.adWrapperDomArr[i].dataset.type !== 'bd') {
+                    if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
+                        detail.adWrapperDomArr[i].isFill = true;
+                        detail.adWrapperDomArr[i].isExposure = true;
+                        detail._exposureReport({
+                            b1: 'bd'
+                        });
+                    } else if (detail.adWrapperDomArr[i].dataset.type === 'sg') {
+                        detail.adWrapperDomArr[i].isFill = true;
+                        detail.adWrapperDomArr[i].isExposure = true;
+                        detail._exposureReport({
+                            b1: 'sg'
+                        });
+                    } else {
                         detail.adWrapperDomArr[i].isFill = true;
                         detail.adWrapperDomArr[i].innerHTML = '';
                         detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
@@ -586,12 +598,6 @@ function Detail() {
                         if (++step >= adLen) {
                             step = 0;
                         }
-                    } else {
-                        detail.adWrapperDomArr[i].isFill = true;
-                        detail.adWrapperDomArr[i].isExposure = true;
-                        detail._exposureReport({
-                            b1: 'bd'
-                        });
                     }
                 }
             }

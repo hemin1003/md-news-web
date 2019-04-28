@@ -20,7 +20,7 @@
     </div>
     <div class="more-btn"><span class="text">点击查看全文</span> <span class="bottom-arrow"></span></div>
     <p class="copyright">版权声明:本文及配图均为自媒体用户上传，不代表平台观点。如有侵权，请联系我们删除。</p>
-    <div class="ad-wrapper" data-type="bd">
+    <!-- <div class="ad-wrapper" data-type="bd">
         <script type="text/javascript">
             (function () {
                 var s = "_" + Math.random().toString(36).slice(2);
@@ -31,8 +31,14 @@
                 });
             })();
         </script>
-        <!-- 多条广告如下脚本只需引入一次 -->
         <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/cm.js" async="async" defer="defer"></script>
+    </div> -->
+    <div class="ad-wrapper" data-type="sg">
+        <script type="text/javascript">
+            var sogou_ad_id = 1029506;
+            var sogou_ad_content_height = 120;
+        </script>
+        <script type="text/javascript" src="http://bite.theta.sogoucdn.com/wap/js/wp.js"></script>
     </div>
     <div class="guess-like-list">
         <div class="name">猜你喜欢</div>
@@ -49,8 +55,18 @@
     </div>
 
     <script src="../js/md5.min.js"></script>
-    <script src="./init.js?v=1.0.5"></script>
-
+    <script src="./init.js?v=1.0.6"></script>
+    <script>
+        var _mtac = {};
+        (function () {
+            var mta = document.createElement("script");
+            mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+            mta.setAttribute("name", "MTAH5");
+            mta.setAttribute("sid", "500681014");
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(mta, s);
+        })();
+    </script>
 </body>
 
 </html>
