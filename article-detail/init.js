@@ -36,24 +36,24 @@ function Detail() {
             isExposure: false,
             isClick: false
         },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        }
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
     // this.eventId = {
     //     exposure: 10000027,
