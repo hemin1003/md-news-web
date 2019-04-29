@@ -8,16 +8,16 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        {
-            type: 'yz',
-            params: {
-                url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-                product: 20035,
-                code: 'ytth5a2019040802xxl'
-            },
-            isExposure: false,
-            isClick: false
-        },
+        // {
+        //     type: 'yz',
+        //     params: {
+        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
+        //         product: 20035,
+        //         code: 'ytth5a2019040802xxl'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         // {
         //     type: 'zm',
         //     params: {
@@ -35,15 +35,15 @@ function Detail() {
             isExposure: false,
             isClick: false
         },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        }
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
     // this.eventId = {
     //     exposure: 10000031,
@@ -75,7 +75,6 @@ function Detail() {
         // 加载广告
         // adArr 随机排序，取前3
         this.shuffle();
-        console.log(this.adArr);
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
 
