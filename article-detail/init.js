@@ -122,7 +122,7 @@ function Detail() {
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
-        this._loadAd(this.footerAdDom, this.adArr[2]);
+        this._loadAd(this.footerAdDom, this.adArr[0]);
 
         // 监听初始化
         // var that = this;
@@ -247,7 +247,7 @@ function Detail() {
                 // 确定文章中为AD位置
                 var contentAdNode = that._getContentMountNode();
                 // 混入
-                that._loadAd(contentAdNode, that.adArr[1]);
+                that._loadAd(contentAdNode, that.adArr[0]);
                 // 绑定dom
                 that.insertAdDom = document.getElementById('insert-ad');
                 // 绑定监听
