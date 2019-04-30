@@ -36,6 +36,24 @@ function Detail() {
             isExposure: false,
             isClick: false
         },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xs',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3736224&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
         // {
         //     type: 'xs',
         //     params: {
@@ -122,7 +140,7 @@ function Detail() {
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
-        this._loadAd(this.footerAdDom, this.adArr[0]);
+        this._loadAd(this.footerAdDom, this.adArr[2]);
 
         // 监听初始化
         // var that = this;
@@ -247,7 +265,7 @@ function Detail() {
                 // 确定文章中为AD位置
                 var contentAdNode = that._getContentMountNode();
                 // 混入
-                that._loadAd(contentAdNode, that.adArr[0]);
+                that._loadAd(contentAdNode, that.adArr[1]);
                 // 绑定dom
                 that.insertAdDom = document.getElementById('insert-ad');
                 // 绑定监听

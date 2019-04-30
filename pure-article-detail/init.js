@@ -48,11 +48,29 @@ function Detail() {
         //     isExposure: false,
         //     isClick: false
         // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         {
-            type: 'xs',
+            type: 'xsnew',
             params: {
                 url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736229&h=20:6'
+                smua: 'd=m&s=b&u=u3729950&h=20:6'
+            },
+            isExposure: false,
+            isClick: false
+        },
+        {
+            type: 'xsnew',
+            params: {
+                url: '//www.smucdn.com/smu0/o.js',
+                smua: 'd=m&s=b&u=u3729957&h=20:6'
             },
             isExposure: false,
             isClick: false
@@ -175,6 +193,9 @@ function Detail() {
                 adScript = this._genZMAdScript(data.params);
                 break;
             case 'xs':
+                adScript = this._genXSAdScript(data.params);
+                break;
+            case 'xsnew':
                 adScript = this._genXSAdScript(data.params);
                 break;
             case 'xssg':
