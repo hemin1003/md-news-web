@@ -31,7 +31,7 @@ function Detail() {
             type: 'xs',
             params: {
                 url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
+                smua: 'd=m&s=b&u=u3729950&h=20:6'
             },
             isExposure: false,
             isClick: false
@@ -40,38 +40,11 @@ function Detail() {
             type: 'xs',
             params: {
                 url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
+                smua: 'd=m&s=b&u=u3729957&h=20:6'
             },
             isExposure: false,
             isClick: false
-        },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
+        }
     ];
     // this.eventId = {
     //     exposure: 10000027,
@@ -138,9 +111,9 @@ function Detail() {
 
         // 加载广告
         // 头部
-        this._loadAd(this.headerAdDom, this.adArr[0]);
+        // this._loadAd(this.headerAdDom, this.adArr[0]);
         // 底部
-        this._loadAd(this.footerAdDom, this.adArr[2]);
+        this._loadAd(this.footerAdDom, this.adArr[1]);
 
         // 监听初始化
         // var that = this;
@@ -265,7 +238,7 @@ function Detail() {
                 // 确定文章中为AD位置
                 var contentAdNode = that._getContentMountNode();
                 // 混入
-                that._loadAd(contentAdNode, that.adArr[1]);
+                that._loadAd(contentAdNode, that.adArr[0]);
                 // 绑定dom
                 that.insertAdDom = document.getElementById('insert-ad');
                 // 绑定监听
@@ -420,20 +393,25 @@ function Detail() {
     detail._init();
 
     // 拿到当前最新的 clientHeight
-    var curClientHeight = document.documentElement.clientHeight;
+    // var curClientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
-    if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
-        detail.adArr[0].isExposure = true;
-        detail._exposureReport({
-            b1: detail.adArr[0].type
-        });
-    }
+    // if (detail.headerAdDom.getBoundingClientRect().top + 50 <= curClientHeight && !detail.adArr[0].isExposure) {
+    //     detail.adArr[0].isExposure = true;
+    //     detail._exposureReport({
+    //         b1: detail.adArr[0].type
+    //     });
+    // }
 
     // 百度广告放在头部，直接曝光
     // detail.adArr[0].isExposure = true;
     // detail._exposureReport({
     //     b1: 'bd'
     // });
+
+    // 搜狗广告放在头部，直接曝光
+    detail._exposureReport({
+        b1: 'sg'
+    });
 
     // 滚动监听
     // var timer = null;
@@ -484,15 +462,15 @@ function Detail() {
     // webview 高度变化
     window.onresize = function () {
         // webview 展开查看更多，文中，文末直接上报曝光
-        if (!detail.adArr[1].isExposure && !detail.adArr[2].isExposure) {
+        if (!detail.adArr[0].isExposure && !detail.adArr[1].isExposure) {
+            detail.adArr[0].isExposure = true;
+            detail._exposureReport({
+                b1: detail.adArr[0].type
+            });
+
             detail.adArr[1].isExposure = true;
             detail._exposureReport({
                 b1: detail.adArr[1].type
-            });
-
-            detail.adArr[2].isExposure = true;
-            detail._exposureReport({
-                b1: detail.adArr[2].type
             });
         }
     }
