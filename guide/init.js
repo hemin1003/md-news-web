@@ -26,15 +26,15 @@ function Detail() {
         //     isExposure: false,
         //     isClick: false
         // },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3736224&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
         // {
         //     type: 'xs',
         //     params: {
@@ -76,7 +76,7 @@ function Detail() {
         // adArr 随机排序，取前3
         this.shuffle();
         // 头部
-        this._loadAd(this.headerAdDom, this.adArr[0]);
+        // this._loadAd(this.headerAdDom, this.adArr[0]);
 
         // 监听初始化
         var that = this;
@@ -318,12 +318,15 @@ function Detail() {
     var detail = new Detail();
     detail._init();
 
-    var clientHeight = document.documentElement.clientHeight;
-    // 头部广告直接曝光
-    if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
-        detail.adArr[0].isExposure = true;
-        detail._exposureReport({
-            b1: detail.adArr[0].type
-        });
-    }
+    // var clientHeight = document.documentElement.clientHeight;
+    // // 头部广告直接曝光
+    // if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
+    //     detail.adArr[0].isExposure = true;
+    //     detail._exposureReport({
+    //         b1: detail.adArr[0].type
+    //     });
+    // }
+    detail._exposureReport({
+        b1: 'sg'
+    });
 }())
