@@ -318,6 +318,11 @@ function Detail() {
     var detail = new Detail();
     detail._init();
 
+    // 与客户端通信，传递 ad id
+    if (window.location.hostname !== 'localhost') {
+        AndroidFunction.sendAdsId('xs', 'u3787148');
+    }
+
     var clientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
     if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
