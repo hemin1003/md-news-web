@@ -1,10 +1,10 @@
 function Detail() {
     this.base = {};
     // this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
+    this.reportUrl = 'http://182.92.82.188';
     this.restUrl = 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -20,6 +20,8 @@ function Detail() {
     this.likeList = [];
     this.adWrapperDomArr = [];
     this.toastDom = null;
+    this.imgArr = [];
+    this.likeListImgArr = [];
     this.adArr = [
         // {
         //     type: 'yz',
@@ -57,29 +59,25 @@ function Detail() {
         //     isExposure: false,
         //     isClick: false
         // },
-        {
-            type: 'xsnew',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3729950&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        },
-        {
-            type: 'xsnew',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3729957&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
-        }
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3729950&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // },
+        // {
+        //     type: 'xs',
+        //     params: {
+        //         url: '//www.smucdn.com/smu0/o.js',
+        //         smua: 'd=m&s=b&u=u3729957&h=20:6'
+        //     },
+        //     isExposure: false,
+        //     isClick: false
+        // }
     ];
-    // this.eventId = {
-    //     exposure: 10000027,
-    //     click: 10000028
-    // };
     this.eventId = {
         exposure: 10000039,
         click: 10000031
@@ -91,32 +89,8 @@ function Detail() {
 
     Detail.prototype._init = function () {
 
-        // 如果webview开启允许缓存才执行下面的清缓存操作
-        if (sessionStorage && localStorage) {
-
-            // 清理 sessionStorage localStorage cookies
-
-            sessionStorage.clear();
-            localStorage.clear();
-
-            var cookies = document.cookie.split(";");
-            var domain = '.' + window.location.host;
-
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i];
-                var eqPos = cookie.indexOf("=");
-                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
-            }
-            if (cookies.length > 0) {
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i];
-                    var eqPos = cookie.indexOf("=");
-                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
-                }
-            }
-        }
+        // 清空缓存
+        this.clearStorage();
 
         // location search 存储
         var search = window.location.search.split('?')[1];
@@ -139,11 +113,13 @@ function Detail() {
         this.redbagDom = document.querySelector('.redbag');
         this.toastDom = document.querySelector('.toast');
 
-        // adArr 随机排序，取前3
-        this.shuffle();
+        // 确定本次加载的广告
+        this._queryJsAdsSource();
 
         // 加载详情
         this._loadDetailContent();
+
+        this._lazyLoadImg();
 
         // 加载阅读红包
         this._queryRedbag();
@@ -156,7 +132,7 @@ function Detail() {
             that.moreBtn.style.display = 'none';
             that.bottomShadow.style.display = 'none';
         });
-
+        // 绑定领取红包
         this.redbagDom.addEventListener('click', function () {
             that._doRedbagAward();
         });
@@ -183,6 +159,59 @@ function Detail() {
         return insertAd;
     }
 
+    /**
+     * ad response to ad object
+     */
+    Detail.prototype._response2Object = function (type, res) {
+        console.log(res);
+        var rstAdArr = [];
+        switch (type) {
+            case 'owner':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'owner';
+                    tmpObj['params'] = res[i];
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+                break;
+            case 'xs':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'xs';
+                    tmpObj['id'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
+            default:
+                break;
+        }
+
+        console.log('---------当前 adArr ---------');
+        console.log(rstAdArr);
+        console.log('---------当前 adArr ---------');
+
+        this.adArr = rstAdArr;
+
+        // adArr 随机排序，取前3
+        this.shuffle();
+
+    }
+
     Detail.prototype._loadAd = function (dom, data) {
         var adScript = null
         switch (data.type) {
@@ -195,11 +224,8 @@ function Detail() {
             case 'xs':
                 adScript = this._genXSAdScript(data.params);
                 break;
-            case 'xsnew':
-                adScript = this._genXSAdScript(data.params);
-                break;
-            case 'xssg':
-                return;
+            case 'owner':
+                adScript = this._genOwnerAdDom(data.params);
                 break;
             default:
                 console.log('没有匹配的广告商家～');
@@ -250,16 +276,52 @@ function Detail() {
         return script;
     }
 
-    /**
-     * 星拾搜狗广告JS生成
-     */
-    Detail.prototype._genXSSGAdScript = function (params) {
-        var script = document.createElement("script");
-        // script.async = true;
-        // script.defer = "defer";
-        script.type = 'text/javascript';
-        script.src = params.url;
-        return script;
+    Detail.prototype._genOwnerAdDom = function (params) {
+        var dom = document.createElement("div");
+        // 根据 type 生成不同样式的 ad
+        var rstTemplate = '';
+        switch (params.type) {
+            case 0:
+                rstTemplate += '<a class="news-wrapper-big-img" href="' + params.url + '">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '<div class="label">广告</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</a>';
+                break;
+            case 1:
+                rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + params.url + '">' +
+                    '<div class="left-wrapper">' +
+                    '<div class="title-wrapper">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</div>' +
+                    '<div class="img-wrapper">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '</div>' +
+                    '<div class="label">广告</div>' +
+                    '</a>';
+                break;
+            case 2:
+                rstTemplate += '<a class="news-wrapper" href="' + params.url + '">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '<img src="' + params.extImgUrl[0] + '" alt="img">' +
+                    '<img src="' + params.extImgUrl[1] + '" alt="img">' +
+                    '<div class="label">广告</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</a>';
+                break;
+            default: break;
+
+        }
+        dom.innerHTML = rstTemplate;
+        return dom;
     }
 
     /**
@@ -297,9 +359,9 @@ function Detail() {
                 rstTemplate += '<a class="news-wrapper" href="' + url + '">' +
                     '<div class="title">' + list[i].title + '</div>' +
                     '<div class="img-wrapper clearfix">' +
-                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
-                    '<img src="' + list[i].imageList[1] + '" alt="img">' +
-                    '<img src="' + list[i].imageList[2] + '" alt="img">' +
+                    '<img data-src="' + list[i].imageList[0] + '">' +
+                    '<img data-src="' + list[i].imageList[1] + '">' +
+                    '<img data-src="' + list[i].imageList[2] + '">' +
                     '</div>' +
                     '<div class="origin">' + list[i].category + '</div>' +
                     '</a>';
@@ -312,7 +374,7 @@ function Detail() {
                     '<div class="origin">' + list[i].category + '</div>' +
                     '</div>' +
                     '<div class="img-wrapper">' +
-                    '<img src="' + list[i].imageList[0] + '" alt="img">' +
+                    '<img data-src="' + list[i].imageList[0] + '">' +
                     '</div>' +
                     '</a>';
             }
@@ -323,6 +385,48 @@ function Detail() {
             }
         }
         return rstTemplate;
+    }
+
+    Detail.prototype._queryJsAdsSource = function () {
+        var that = this;
+        var base = that.base;
+        var params = {
+            method: 'GET',
+            url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            callback: function (res) {
+                console.log(res);
+                var source = res.data;
+                if (parseInt(source.jsAdsSource, 10) === -1) {
+                    // 请求自有
+                    that._getOwnerAd();
+                } else {
+                    var tmpRes = {
+                        jsAdsSource: 'xs',
+                        jsAdsIdArray: [
+                            'u3729950',
+                            'u3729957'
+                        ]
+                    };
+                    that._response2Object(source.jsAdsSource, source);
+                }
+            }
+        };
+        that.request(params);
+    }
+
+    Detail.prototype._getOwnerAd = function () {
+        var that = this;
+        var adsParamJson = 'ip=112.96.134.202&device=%7B%22longitude%22%3A%22113.367%22%2C%22mac%22%3A%22dc%3A6d%3Acd%3Ab4%3A84%3A1e%22%2C%22height%22%3A%221800%22%2C%22os%22%3A%221%22%2C%22network%22%3A%224%22%2C%22operator%22%3A%222%22%2C%22imei%22%3A%22860270037520234%22%2C%22appversion%22%3A%229.9.6%22%2C%22latitude%22%3A%2223.095%22%2C%22width%22%3A%221080%22%2C%22os_version%22%3A%225.1.1%22%2C%22udid%22%3A%22860270037520234%22%2C%22vendor%22%3A%22OPPO%22%2C%22model%22%3A%22OPPO+R7sm%22%2C%22android_id%22%3A%22fcbf0c59b38d7c69%22%2C%22identify_type%22%3A%22imei%22%7D&dynamicParam=%7B%22isBlackfive%22%3A%221%22%2C%22province%22%3A%22%E5%B9%BF%E4%B8%9C%22%2C%22phoneNum%22%3A%22162fd2e69e41157%22%2C%22whichScreenNum%22%3A%22999999999%22%2C%22screenNum%22%3A%223%22%2C%22androidBuild%22%3A%22996%22%2C%22city%22%3A%22%E5%B9%BF%E5%B7%9E%22%7D&point=2000&ua=Mozilla/5.0 (Linux; Android 5.1.1; OPPO R7sm Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/42.0.2311.138 Mobile Safari/537.36';
+        var rstJson = decodeURIComponent(adsParamJson);
+        // console.log(rstJson);
+        var params = {
+            method: 'GET',
+            url: 'http://182.92.82.188/yfax-htt-api/api/htt/adserving?' + adsParamJson,
+            callback: function (res) {
+                that._response2Object('owner', res.data);
+            }
+        };
+        that.request(params);
     }
 
     Detail.prototype._loadDetailContent = function () {
@@ -346,13 +450,9 @@ function Detail() {
                 // 加载猜你喜欢
                 that._loadGuessLikeList();
 
-                // 加载图片
-                var imgArr = that.contentDom.querySelectorAll('#content .content img');
-                for (var i in imgArr) {
-                    var src = imgArr[i].dataset.src;
-                    imgArr[i].setAttribute('src', src);
-                }
-
+                // 绑定图片DOM
+                var contentDomImgs = that.contentDom.querySelectorAll('#content .content img');
+                that.imgArr = contentDomImgs;
 
             }
         };
@@ -375,6 +475,9 @@ function Detail() {
                         that.guessLikeListDom.innerHTML = that._generateGuessLikeList();
 
                         that._bindAdDom();
+
+                        var guessLikeListDomImgs = that.guessLikeListDom.querySelectorAll('img');
+                        that.likeListImgArr = guessLikeListDomImgs;
                     }
                 };
                 that.request(params2);
@@ -530,6 +633,9 @@ function Detail() {
         if (params.b1) {
             formData.append('b1', params.b1);
         }
+        if (params.b2) {
+            formData.append('b2', params.b2);
+        }
 
         return formData;
     }
@@ -571,6 +677,60 @@ function Detail() {
         }
         return str;
     }
+
+    Detail.prototype.clearStorage = function () {
+        // 如果webview开启允许缓存才执行下面的清缓存操作
+        if (sessionStorage && localStorage) {
+
+            // 清理 sessionStorage localStorage cookies
+            sessionStorage.clear();
+            localStorage.clear();
+
+            var cookies = document.cookie.split(";");
+            var domain = '.' + window.location.host;
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+            }
+            if (cookies.length > 0) {
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+                }
+            }
+        }
+    }
+
+    Detail.prototype.mtaXSu3729957 = function () {
+        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+    }
+
+    Detail.prototype.mtaXSu3729950 = function () {
+        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729950': 'true' });
+    }
+
+    Detail.prototype._lazyLoadImg = function () {
+
+        var _clientHeight = document.documentElement.clientHeight;
+        for (var i = 0; i < this.imgArr.length; i++) {
+            if (this.imgArr[i].getBoundingClientRect().top <= _clientHeight && this.imgArr[i].getAttribute('src') === null) {
+                var src = this.imgArr[i].dataset.src;
+                this.imgArr[i].setAttribute('src', src);
+            }
+        }
+
+        for (var i = 0; i < this.likeListImgArr.length; i++) {
+            if (this.likeListImgArr[i].getBoundingClientRect().top <= _clientHeight && this.likeListImgArr[i].getAttribute('src') === null) {
+                var src = this.likeListImgArr[i].dataset.src;
+                this.likeListImgArr[i].setAttribute('src', src);
+            }
+        }
+    }
 }
 
 ; (function () {
@@ -588,45 +748,50 @@ function Detail() {
         }
         timer = setTimeout(function () {
 
-            var _clientHeight = document.documentElement.clientHeight;
+            if (detail.adArr.length !== 0) {
+                // 广告位懒加载
+                var _clientHeight = document.documentElement.clientHeight;
 
-            for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
-                if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
-                    if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
-                        detail.adWrapperDomArr[i].isFill = true;
-                        detail.adWrapperDomArr[i].isExposure = true;
-                        detail._exposureReport({
-                            b1: 'bd'
-                        });
-                    } else if (detail.adWrapperDomArr[i].dataset.type === 'sg') {
-                        detail.adWrapperDomArr[i].isFill = true;
-                        detail.adWrapperDomArr[i].isExposure = true;
-                        detail._exposureReport({
-                            b1: 'sg'
-                        });
-                    } else {
-                        detail.adWrapperDomArr[i].isFill = true;
-                        detail.adWrapperDomArr[i].innerHTML = '';
-                        detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
+                for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
+                    if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
+                        if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
+                            detail.adWrapperDomArr[i].isFill = true;
+                            detail.adWrapperDomArr[i].isExposure = true;
+                            detail._exposureReport({
+                                b1: 'bd'
+                            });
+                        } else if (detail.adWrapperDomArr[i].dataset.type === 'sg') {
+                            detail.adWrapperDomArr[i].isFill = true;
+                            detail.adWrapperDomArr[i].isExposure = true;
+                            detail._exposureReport({
+                                b1: 'sg'
+                            });
+                        } else {
+                            detail.adWrapperDomArr[i].isFill = true;
+                            detail.adWrapperDomArr[i].innerHTML = '';
+                            detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
 
-                        // 曝光上报
-                        detail.adWrapperDomArr[i].isExposure = true;
-                        detail._exposureReport({
-                            b1: detail.adArr[step].type
-                        });
+                            // 曝光上报
+                            detail.adWrapperDomArr[i].isExposure = true;
+                            detail._exposureReport({
+                                b1: detail.adArr[step].type,
+                                b2: detail.adArr[step].id
+                            });
 
-                        // 步进器自增或重置
-                        if (++step >= adLen) {
-                            step = 0;
+                            // MTA曝光上报
+                            MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+
+                            // 步进器自增或重置
+                            if (++step >= adLen) {
+                                step = 0;
+                            }
                         }
                     }
                 }
             }
 
-            // test 显示
-            // document.getElementById('fixHeader').innerHTML =
-            //     '<div>clientHeight:' + document.documentElement.clientHeight + '</div>'
-            //     + '<div>guessLikeListDom top:' + detail.guessLikeListDom.getBoundingClientRect().top + '</div>';
+            // 图片懒加载
+            detail._lazyLoadImg();
 
         }, 50);
 

@@ -8,24 +8,6 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'zm',
-        //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
         {
             type: 'xs',
             params: {
@@ -43,12 +25,8 @@ function Detail() {
             },
             isExposure: false,
             isClick: false
-        },
+        }
     ];
-    // this.eventId = {
-    //     exposure: 10000031,
-    //     click: 10000032
-    // };
     this.eventId = {
         exposure: 10000032,
         click: 10000033
@@ -57,6 +35,9 @@ function Detail() {
     this.privatetKey = 'PVf7vlR6qYZAB5gU';
 
     Detail.prototype._init = function () {
+
+        // 清空缓存
+        this.clearStorage();
 
         // location search 存储
         var search = window.location.search.split('?')[1];
@@ -71,10 +52,11 @@ function Detail() {
         // dom准备
         this.headerAdDom = document.getElementById('header-ad');
 
+        // 广告厂家和id从 search 里拿
+        var type = this.base.jsAdsSource;
+        var id = this.base.jsAdsId;
 
-        // 加载广告
-        // adArr 随机排序，取前3
-        this.shuffle();
+        this._response2Object(type, [id]);
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
 
@@ -82,9 +64,63 @@ function Detail() {
         var that = this;
         this.headerAdDom.addEventListener('click', function () {
             that._clickReport({
-                b1: that.adArr[0].type
+                b1: that.adArr[0].type,
+                b2: that.adArr[0].id
             });
         });
+    }
+
+    /**
+     * ad response to ad object
+     */
+    Detail.prototype._response2Object = function (type, res) {
+        console.log(res);
+        var rstAdArr = [];
+        switch (type) {
+            case 'owner':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'owner';
+                    tmpObj['params'] = res[i];
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+                break;
+            case 'xs':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['id'] = res[i];
+                    tmpObj['type'] = 'xs';
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res[i] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
+            default:
+                break;
+        }
+
+        console.log('---------当前 adArr ---------');
+        console.log(rstAdArr);
+        console.log('---------当前 adArr ---------');
+
+        this.adArr = rstAdArr;
+
+        // adArr 随机排序，取前3
+        this.shuffle();
+
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -311,6 +347,34 @@ function Detail() {
             paramsObj[kv[0]] = kv[1];
         }
         return paramsObj;
+    }
+
+    Detail.prototype.clearStorage = function () {
+        // 如果webview开启允许缓存才执行下面的清缓存操作
+        if (sessionStorage && localStorage) {
+
+            // 清理 sessionStorage localStorage cookies
+            sessionStorage.clear();
+            localStorage.clear();
+
+            var cookies = document.cookie.split(";");
+            var domain = '.' + window.location.host;
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+            }
+            if (cookies.length > 0) {
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; Domain=" + domain + "; path=/";
+                }
+            }
+        }
     }
 }
 
