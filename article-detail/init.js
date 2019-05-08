@@ -9,24 +9,6 @@ function Detail() {
     this.contentDom = null;
     this.insertAdDom = null;
     this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'zm',
-        //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
         {
             type: 'xs',
             params: {
@@ -44,21 +26,8 @@ function Detail() {
             },
             isExposure: false,
             isClick: false
-        },
-        {
-            type: 'xs',
-            params: {
-                url: '//www.smucdn.com/smu0/o.js',
-                smua: 'd=m&s=b&u=u3729950&h=20:6'
-            },
-            isExposure: false,
-            isClick: false
         }
     ];
-    // this.eventId = {
-    //     exposure: 10000027,
-    //     click: 10000028
-    // };
     this.eventId = {
         exposure: 10000027,
         click: 10000031
