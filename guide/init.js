@@ -57,6 +57,7 @@ function Detail() {
         var id = this.base.jsAdsId;
 
         this._response2Object(type, [id]);
+        console.log(this.adArr);
         // 头部
         this._loadAd(this.headerAdDom, this.adArr[0]);
 
@@ -64,8 +65,7 @@ function Detail() {
         var that = this;
         this.headerAdDom.addEventListener('click', function () {
             that._clickReport({
-                b1: that.adArr[0].type,
-                b2: that.adArr[0].id
+                b1: that.adArr[0].type
             });
         });
     }
@@ -213,7 +213,7 @@ function Detail() {
                 // 确定文章中为AD位置
                 var contentAdNode = that._getContentMountNode();
                 // 混入
-                that._loadAd(contentAdNode, that.adArr[1]);
+                // that._loadAd(contentAdNode, that.adArr[1]);
                 // 绑定dom
                 that.insertAdDom = document.getElementById('insert-ad');
                 // 绑定监听
@@ -315,6 +315,9 @@ function Detail() {
         if (params.b1) {
             formData.append('b1', params.b1);
         }
+        if (params.b2) {
+            formData.append('b2', params.b2);
+        }
 
         return formData;
     }
@@ -392,7 +395,8 @@ function Detail() {
     if (detail.headerAdDom.getBoundingClientRect().top <= clientHeight && !detail.adArr[0].isExposure) {
         detail.adArr[0].isExposure = true;
         detail._exposureReport({
-            b1: detail.adArr[0].type
+            b1: detail.adArr[0].type,
+            b2: detail.adArr[0].id
         });
     }
 }())

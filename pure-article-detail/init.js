@@ -100,6 +100,7 @@ function Detail() {
             var kv = param[i].split('=');
             tmp[kv[0]] = kv[1];
         }
+        tmp.adsParamJson = decodeURIComponent(tmp.adsParamJson);
         this.base = tmp;
 
         // dom准备
@@ -118,8 +119,6 @@ function Detail() {
 
         // 加载详情
         this._loadDetailContent();
-
-        this._lazyLoadImg();
 
         // 加载阅读红包
         this._queryRedbag();
@@ -212,7 +211,7 @@ function Detail() {
 
     }
 
-    Detail.prototype._loadAd = function (dom, data) {
+    Detail.prototype._loadAd = function (dom, data, index) {
         var adScript = null
         switch (data.type) {
             case 'yz':
@@ -225,6 +224,7 @@ function Detail() {
                 adScript = this._genXSAdScript(data.params);
                 break;
             case 'owner':
+                dom.setAttribute('index', index);
                 adScript = this._genOwnerAdDom(data.params);
                 break;
             default:
@@ -329,11 +329,27 @@ function Detail() {
      */
     Detail.prototype._bindAdDom = function (params) {
         this.adWrapperDomArr = document.querySelectorAll('.ad-wrapper');
+        var that = this;
         // 补充 曝光，点击，填充 标志位
         for (var i = 0; i < this.adWrapperDomArr.length; i++) {
             this.adWrapperDomArr[i]['isExposure'] = false;
             this.adWrapperDomArr[i]['isClick'] = false;
             this.adWrapperDomArr[i]['isFill'] = false;
+
+            // 绑定点击事件
+            this.adWrapperDomArr[i].addEventListener('click', function (e) {
+                console.log(e);
+                console.log(e.target);
+                console.log(e.target.value);
+                console.log(e.currentTarget);
+                console.log(e.currentTarget.getAttribute('index'));
+                var index = parseInt(e.currentTarget.getAttribute('index'), 10);
+                // console.log(this.adWrapperDomArr[i]);
+                // console.log(this.adWrapperDomArr[i].getAttribute('index'));
+                // e.getAttribute();
+                console.log(that.adArr);
+                that._ownerClickReport(that.adArr[index].params);
+            });
         }
     }
 
@@ -343,8 +359,12 @@ function Detail() {
     Detail.prototype._generateGuessLikeList = function () {
         var list = this.likeList;
         var rstTemplate = '';
-        // 列表头补充一个 ad
-        rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+
+        // 如果adArr为空，不插入广告位
+        if (this.adArr.length !== 0) {
+            // 列表头补充一个 ad
+            rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+        }
 
         var baseInfo = this.base;
         for (var i = 0, length = list.length, step = 3; i < length; i++) {
@@ -379,9 +399,13 @@ function Detail() {
                     '</a>';
             }
 
-            if (--step === 0) {
-                step = 3;
-                rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+            // 如果adArr为空，不插入广告位
+            if (this.adArr.length !== 0) {
+                // 每3个插入一个广告
+                if (--step === 0) {
+                    step = 3;
+                    rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+                }
             }
         }
         return rstTemplate;
@@ -416,12 +440,10 @@ function Detail() {
 
     Detail.prototype._getOwnerAd = function () {
         var that = this;
-        var adsParamJson = 'ip=112.96.134.202&device=%7B%22longitude%22%3A%22113.367%22%2C%22mac%22%3A%22dc%3A6d%3Acd%3Ab4%3A84%3A1e%22%2C%22height%22%3A%221800%22%2C%22os%22%3A%221%22%2C%22network%22%3A%224%22%2C%22operator%22%3A%222%22%2C%22imei%22%3A%22860270037520234%22%2C%22appversion%22%3A%229.9.6%22%2C%22latitude%22%3A%2223.095%22%2C%22width%22%3A%221080%22%2C%22os_version%22%3A%225.1.1%22%2C%22udid%22%3A%22860270037520234%22%2C%22vendor%22%3A%22OPPO%22%2C%22model%22%3A%22OPPO+R7sm%22%2C%22android_id%22%3A%22fcbf0c59b38d7c69%22%2C%22identify_type%22%3A%22imei%22%7D&dynamicParam=%7B%22isBlackfive%22%3A%221%22%2C%22province%22%3A%22%E5%B9%BF%E4%B8%9C%22%2C%22phoneNum%22%3A%22162fd2e69e41157%22%2C%22whichScreenNum%22%3A%22999999999%22%2C%22screenNum%22%3A%223%22%2C%22androidBuild%22%3A%22996%22%2C%22city%22%3A%22%E5%B9%BF%E5%B7%9E%22%7D&point=2000&ua=Mozilla/5.0 (Linux; Android 5.1.1; OPPO R7sm Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/42.0.2311.138 Mobile Safari/537.36';
-        var rstJson = decodeURIComponent(adsParamJson);
-        // console.log(rstJson);
+        // var adsParamJson = 'ip=112.96.134.202&device=%7B%22longitude%22%3A%22113.367%22%2C%22mac%22%3A%22dc%3A6d%3Acd%3Ab4%3A84%3A1e%22%2C%22height%22%3A%221800%22%2C%22os%22%3A%221%22%2C%22network%22%3A%224%22%2C%22operator%22%3A%222%22%2C%22imei%22%3A%22860270037520234%22%2C%22appversion%22%3A%229.9.6%22%2C%22latitude%22%3A%2223.095%22%2C%22width%22%3A%221080%22%2C%22os_version%22%3A%225.1.1%22%2C%22udid%22%3A%22860270037520234%22%2C%22vendor%22%3A%22OPPO%22%2C%22model%22%3A%22OPPO+R7sm%22%2C%22android_id%22%3A%22fcbf0c59b38d7c69%22%2C%22identify_type%22%3A%22imei%22%7D&dynamicParam=%7B%22isBlackfive%22%3A%221%22%2C%22province%22%3A%22%E5%B9%BF%E4%B8%9C%22%2C%22phoneNum%22%3A%22162fd2e69e41157%22%2C%22whichScreenNum%22%3A%22999999999%22%2C%22screenNum%22%3A%223%22%2C%22androidBuild%22%3A%22996%22%2C%22city%22%3A%22%E5%B9%BF%E5%B7%9E%22%7D&point=2000&ua=Mozilla/5.0 (Linux; Android 5.1.1; OPPO R7sm Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/42.0.2311.138 Mobile Safari/537.36';
         var params = {
             method: 'GET',
-            url: 'http://182.92.82.188/yfax-htt-api/api/htt/adserving?' + adsParamJson,
+            url: 'http://182.92.82.188/yfax-htt-api/api/htt/adserving?' + that.base.adsParamJson,
             callback: function (res) {
                 that._response2Object('owner', res.data);
             }
@@ -453,6 +475,9 @@ function Detail() {
                 // 绑定图片DOM
                 var contentDomImgs = that.contentDom.querySelectorAll('#content .content img');
                 that.imgArr = contentDomImgs;
+
+                // 详情加载完，先执行一次图片加载
+                that._lazyLoadImg();
 
             }
         };
@@ -600,6 +625,61 @@ function Detail() {
         this.request(params);
     }
 
+    Detail.prototype._ownerExposureReport = function (params) {
+
+        var baseInfo = this.base;
+
+        var formData = new FormData();
+        formData.append('phoneNum', baseInfo.clientId);
+        formData.append('adsSource', 'ADS_MD_API');
+        formData.append('adsType', params.adsType);
+        formData.append('adsId', params.pid);
+        formData.append('tabName', baseInfo.tabName);
+        formData.append('title', params.title);
+        formData.append('url', params.url);
+        formData.append('actionType', 1);
+        formData.append('ip', baseInfo.mIp);
+        formData.append('appVersion', baseInfo.appVersion);
+        formData.append('appChannel', baseInfo.appChannel);
+        formData.append('appImei', baseInfo.imei);
+        formData.append('pce', params.pce);
+        formData.append('point', params.point);
+
+        var params = {
+            url: this.reportUrl + '/yfax-htt-api/api/htt/doBurryPointAdsHis',
+            method: 'POST',
+            body: formData
+        };
+        this.request(params);
+    }
+
+    Detail.prototype._ownerClickReport = function (params) {
+        var baseInfo = this.base;
+
+        var formData = new FormData();
+        formData.append('phoneNum', baseInfo.clientId);
+        formData.append('adsSource', 'ADS_MD_API');
+        formData.append('adsType', params.adsType);
+        formData.append('adsId', params.pid);
+        formData.append('tabName', baseInfo.tabName);
+        formData.append('title', params.title);
+        formData.append('url', params.url);
+        formData.append('actionType', 2);
+        formData.append('ip', baseInfo.mIp);
+        formData.append('appVersion', baseInfo.appVersion);
+        formData.append('appChannel', baseInfo.appChannel);
+        formData.append('appImei', baseInfo.imei);
+        formData.append('pce', params.pce);
+        formData.append('point', params.point);
+
+        var params = {
+            url: this.reportUrl + '/yfax-htt-api/api/htt/doBurryPointAdsHis',
+            method: 'POST',
+            body: formData
+        };
+        this.request(params);
+    }
+
     Detail.prototype._prepareData = function (params) {
         var sId = this._random(6);
         var baseInfo = this.base;
@@ -667,6 +747,8 @@ function Detail() {
             var kv = param[i].split('=');
             paramsObj[kv[0]] = kv[1];
         }
+        paramsObj.adsParamJson = decodeURIComponent(paramsObj.adsParamJson);
+        // this.headerAdDom.innerHTML = paramsObj.adsParamJson;
         return paramsObj;
     }
 
@@ -769,17 +851,25 @@ function Detail() {
                         } else {
                             detail.adWrapperDomArr[i].isFill = true;
                             detail.adWrapperDomArr[i].innerHTML = '';
-                            detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step]);
+                            detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
 
-                            // 曝光上报
+                            console.log(detail.adArr[step]);
+
                             detail.adWrapperDomArr[i].isExposure = true;
-                            detail._exposureReport({
-                                b1: detail.adArr[step].type,
-                                b2: detail.adArr[step].id
-                            });
+                            // 自有广告上报
+                            if (detail.adArr[step].type === 'owner') {
+                                detail._ownerExposureReport(detail.adArr[step].params);
+                            } else {
+                                // 
+                                // 曝光上报
+                                detail._exposureReport({
+                                    b1: detail.adArr[step].type,
+                                    b2: detail.adArr[step].id
+                                });
 
-                            // MTA曝光上报
-                            MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                                // MTA曝光上报
+                                MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                            }
 
                             // 步进器自增或重置
                             if (++step >= adLen) {
