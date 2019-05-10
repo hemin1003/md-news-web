@@ -53,8 +53,17 @@ function Detail() {
         this.headerAdDom = document.getElementById('header-ad');
 
         // 广告厂家和id从 search 里拿
-        var type = this.base.jsAdsSource;
-        var id = this.base.jsAdsId;
+        var busi = decodeURIComponent(this.base.busi);
+        var busiObj = JSON.parse(busi);
+        console.log(this.base.busi);
+        console.log(busi);
+        console.log(JSON.parse(busi));
+
+        var type = busiObj.jsAdsSource;
+        var id = busiObj.jsAdsId;
+        console.log(type);
+        console.log(id);
+
 
         this._response2Object(type, [id]);
         console.log(this.adArr);
@@ -160,6 +169,7 @@ function Detail() {
                 console.log('没有匹配的广告商家～');
                 break;
         }
+        console.log(adScript);
 
         dom.appendChild(adScript);
     }
@@ -386,9 +396,9 @@ function Detail() {
     detail._init();
 
     // 与客户端通信，传递 ad id
-    if (window.location.hostname !== 'localhost') {
-        AndroidFunction.sendAdsId('xs', 'u3787148');
-    }
+    // if (window.location.hostname !== 'localhost') {
+    //     AndroidFunction.sendAdsId('xs', 'u3787148');
+    // }
 
     var clientHeight = document.documentElement.clientHeight;
     // 头部广告直接曝光
@@ -396,7 +406,7 @@ function Detail() {
         detail.adArr[0].isExposure = true;
         detail._exposureReport({
             b1: detail.adArr[0].type,
-            b2: detail.adArr[0].id
+            b2: detail.adArr[0].id + '#' + window.location.host
         });
     }
 }())

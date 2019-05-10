@@ -162,7 +162,6 @@ function Detail() {
      * ad response to ad object
      */
     Detail.prototype._response2Object = function (type, res) {
-        console.log(res);
         var rstAdArr = [];
         switch (type) {
             case 'owner':
@@ -180,11 +179,12 @@ function Detail() {
                 for (var i in res.jsAdsIdArray) {
                     var tmpObj = {};
                     tmpObj['type'] = 'xs';
-                    tmpObj['id'] = res.jsAdsIdArray[i];
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
                     var paramsObj = {};
 
                     paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
-                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i] + '&h=20:6';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i].split('#')[0] + '&h=20:6';
                     tmpObj['params'] = paramsObj;
 
                     tmpObj['isExposure'] = false;
@@ -361,6 +361,7 @@ function Detail() {
         var rstTemplate = '';
 
         // 如果adArr为空，不插入广告位
+        console.log(this.adArr.length);
         if (this.adArr.length !== 0) {
             // 列表头补充一个 ad
             rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
@@ -416,7 +417,7 @@ function Detail() {
         var base = that.base;
         var params = {
             method: 'GET',
-            url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
                 console.log(res);
                 var source = res.data;
@@ -748,6 +749,7 @@ function Detail() {
             paramsObj[kv[0]] = kv[1];
         }
         paramsObj.adsParamJson = decodeURIComponent(paramsObj.adsParamJson);
+        // console.log(paramsObj.adsParamJson);
         // this.headerAdDom.innerHTML = paramsObj.adsParamJson;
         return paramsObj;
     }
@@ -864,7 +866,7 @@ function Detail() {
                                 // 曝光上报
                                 detail._exposureReport({
                                     b1: detail.adArr[step].type,
-                                    b2: detail.adArr[step].id
+                                    b2: detail.adArr[step].id + '#' + window.location.host
                                 });
 
                                 // MTA曝光上报
