@@ -78,9 +78,6 @@ function Detail() {
         //     isClick: false
         // }
     ];
-    this.ownerAdPointArr = [
-        20111, 20112, 20113, 20114, 20115, 20116, 201117
-    ];
     this.eventId = {
         exposure: 10000039,
         click: 10000031
@@ -111,7 +108,7 @@ function Detail() {
             adsParamJsonObj[kv[0]] = kv[1];
         }
         tmp.adsParamJson = {
-            point: adsParamJsonObj['point'],
+            point: 2011,
             ua: adsParamJsonObj['ua'],
             device: adsParamJsonObj['device'],
             dynamicParam: adsParamJsonObj['dynamicParam']
@@ -178,14 +175,14 @@ function Detail() {
      * ad response to ad object
      */
     Detail.prototype._response2Object = function (type, res) {
+        console.log(type, res);
         var rstAdArr = [];
         switch (type) {
             case 'owner':
                 for (var i in res) {
                     var tmpObj = {};
                     tmpObj['type'] = 'owner';
-                    tmpObj['point'] = res[i];
-                    tmpObj['params'] = {};
+                    tmpObj['params'] = res[i];
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
 
@@ -207,6 +204,8 @@ function Detail() {
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
 
+                    console.log(tmpObj);
+
                     rstAdArr.push(tmpObj);
                 }
 
@@ -224,6 +223,9 @@ function Detail() {
         // adArr 随机排序，取前3
         // this.shuffle();
 
+        // 加载猜你喜欢
+        this._loadGuessLikeList();
+
     }
 
     Detail.prototype._loadAd = function (dom, data, index) {
@@ -231,19 +233,16 @@ function Detail() {
         switch (data.type) {
             case 'yz':
                 adScript = this._genYZAdScript(data.params);
-                dom.appendChild(adScript);
                 break;
             case 'zm':
                 adScript = this._genZMAdScript(data.params);
-                dom.appendChild(adScript);
                 break;
             case 'xs':
                 adScript = this._genXSAdScript(data.params);
-                dom.appendChild(adScript);
                 break;
             case 'owner':
                 dom.setAttribute('index', index);
-                adScript = this._genOwnerAdDom(dom, data.point, index);
+                adScript = this._genOwnerAdDom(data.params);
                 break;
             default:
                 console.log('没有匹配的广告商家～');
@@ -253,6 +252,8 @@ function Detail() {
         // var spanNode = document.createElement('span');
         // spanNode.innerHTML = data.type;
         // dom.appendChild(spanNode);
+
+        dom.appendChild(adScript);
     }
 
     /**
@@ -292,63 +293,52 @@ function Detail() {
         return script;
     }
 
-    Detail.prototype._genOwnerAdDom = function (dom, point, index) {
-        var that = this;
-        this._getOwnerAd(point, function (res) {
-            if (parseInt(res.code, 10) === 200) {
-                var params = res.data[0];
-                that.adArr[index].params = params;
-                console.log(params);
-                // 根据 type 生成不同样式的 ad
-                var rstTemplate = '';
-                switch (params.type) {
-                    case 0:
-                        rstTemplate += '<a class="news-wrapper-big-img" href="' + params.url + '">' +
-                            '<div class="title">' + params.title + '</div>' +
-                            '<div class="img-wrapper clearfix">' +
-                            '<img src="' + params.imgUrl + '" alt="img">' +
-                            '<div class="label">广告</div>' +
-                            '</div>' +
-                            '<div class="origin">智能推荐</div>' +
-                            '</a>';
-                        break;
-                    case 1:
-                        rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + params.url + '">' +
-                            '<div class="left-wrapper">' +
-                            '<div class="title-wrapper">' +
-                            '<div class="title">' + params.title + '</div>' +
-                            '</div>' +
-                            '<div class="origin">智能推荐</div>' +
-                            '</div>' +
-                            '<div class="img-wrapper">' +
-                            '<img src="' + params.imgUrl + '" alt="img">' +
-                            '</div>' +
-                            '<div class="label">广告</div>' +
-                            '</a>';
-                        break;
-                    case 2:
-                        rstTemplate += '<a class="news-wrapper" href="' + params.url + '">' +
-                            '<div class="title">' + params.title + '</div>' +
-                            '<div class="img-wrapper clearfix">' +
-                            '<img src="' + params.imgUrl + '" alt="img">' +
-                            '<img src="' + params.extImgUrl[0] + '" alt="img">' +
-                            '<img src="' + params.extImgUrl[1] + '" alt="img">' +
-                            '<div class="label">广告</div>' +
-                            '</div>' +
-                            '<div class="origin">智能推荐</div>' +
-                            '</a>';
-                        break;
-                    default: break;
+    Detail.prototype._genOwnerAdDom = function (params) {
+        var dom = document.createElement("div");
+        // 根据 type 生成不同样式的 ad
+        var rstTemplate = '';
+        switch (params.type) {
+            case 0:
+                rstTemplate += '<a class="news-wrapper-big-img" href="' + params.url + '">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '<div class="label">广告</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</a>';
+                break;
+            case 1:
+                rstTemplate += '<a class="news-wrapper-single-img clearfix" href="' + params.url + '">' +
+                    '<div class="left-wrapper">' +
+                    '<div class="title-wrapper">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</div>' +
+                    '<div class="img-wrapper">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '</div>' +
+                    '<div class="label">广告</div>' +
+                    '</a>';
+                break;
+            case 2:
+                rstTemplate += '<a class="news-wrapper" href="' + params.url + '">' +
+                    '<div class="title">' + params.title + '</div>' +
+                    '<div class="img-wrapper clearfix">' +
+                    '<img src="' + params.imgUrl + '" alt="img">' +
+                    '<img src="' + params.extImgUrl[0] + '" alt="img">' +
+                    '<img src="' + params.extImgUrl[1] + '" alt="img">' +
+                    '<div class="label">广告</div>' +
+                    '</div>' +
+                    '<div class="origin">智能推荐</div>' +
+                    '</a>';
+                break;
+            default: break;
 
-                }
-
-                dom.innerHTML = rstTemplate;
-
-
-                // 自有广告上报
-                that._ownerExposureReport(params);
-            }
-        });
+        }
+        dom.innerHTML = rstTemplate;
+        return dom;
     }
 
     /**
@@ -365,10 +355,17 @@ function Detail() {
 
             // 绑定点击事件
             this.adWrapperDomArr[i].addEventListener('click', function (e) {
+                console.log(e);
+                console.log(e.target);
+                console.log(e.target.value);
+                console.log(e.currentTarget);
+                console.log(e.currentTarget.getAttribute('index'));
                 var index = parseInt(e.currentTarget.getAttribute('index'), 10);
-                if (that.adArr[index].params.adsType !== undefined) {
-                    that._ownerClickReport(that.adArr[index].params);
-                }
+                // console.log(this.adWrapperDomArr[i]);
+                // console.log(this.adWrapperDomArr[i].getAttribute('index'));
+                // e.getAttribute();
+                console.log(that.adArr);
+                that._ownerClickReport(that.adArr[index].params);
             });
         }
     }
@@ -438,14 +435,20 @@ function Detail() {
         var params = {
             method: 'GET',
             url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
-            // url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?domain=' + '115.29.66.197:81' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
+                console.log(res);
                 var source = res.data;
                 if (parseInt(source.jsAdsSource, 10) === -1) {
                     // 请求自有
-                    // that._getOwnerAd();
-                    that._response2Object('owner', that.ownerAdPointArr);
+                    that._getOwnerAd();
                 } else {
+                    var tmpRes = {
+                        jsAdsSource: 'xs',
+                        jsAdsIdArray: [
+                            'u3729950',
+                            'u3729957'
+                        ]
+                    };
                     that._response2Object(source.jsAdsSource, source);
                 }
             }
@@ -453,16 +456,14 @@ function Detail() {
         that.request(params);
     }
 
-    Detail.prototype._getOwnerAd = function (point, callback) {
+    Detail.prototype._getOwnerAd = function () {
         var that = this;
-        console.log(that.base.adsParamJson);
-        that.base.adsParamJson.point = point;
+        // var adsParamJson = 'ip=112.96.134.202&device=%7B%22longitude%22%3A%22113.367%22%2C%22mac%22%3A%22dc%3A6d%3Acd%3Ab4%3A84%3A1e%22%2C%22height%22%3A%221800%22%2C%22os%22%3A%221%22%2C%22network%22%3A%224%22%2C%22operator%22%3A%222%22%2C%22imei%22%3A%22860270037520234%22%2C%22appversion%22%3A%229.9.6%22%2C%22latitude%22%3A%2223.095%22%2C%22width%22%3A%221080%22%2C%22os_version%22%3A%225.1.1%22%2C%22udid%22%3A%22860270037520234%22%2C%22vendor%22%3A%22OPPO%22%2C%22model%22%3A%22OPPO+R7sm%22%2C%22android_id%22%3A%22fcbf0c59b38d7c69%22%2C%22identify_type%22%3A%22imei%22%7D&dynamicParam=%7B%22isBlackfive%22%3A%221%22%2C%22province%22%3A%22%E5%B9%BF%E4%B8%9C%22%2C%22phoneNum%22%3A%22162fd2e69e41157%22%2C%22whichScreenNum%22%3A%22999999999%22%2C%22screenNum%22%3A%223%22%2C%22androidBuild%22%3A%22996%22%2C%22city%22%3A%22%E5%B9%BF%E5%B7%9E%22%7D&point=2000&ua=Mozilla/5.0 (Linux; Android 5.1.1; OPPO R7sm Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/42.0.2311.138 Mobile Safari/537.36';
         var params = {
             method: 'GET',
             url: 'http://182.92.82.188/yfax-htt-api/api/htt/adserving?' + that.obj2str(that.base.adsParamJson),
             callback: function (res) {
-                // that._response2Object('owner', res.data);
-                callback && callback(res);
+                that._response2Object('owner', res.data);
             }
         };
         that.request(params);
@@ -485,9 +486,6 @@ function Detail() {
 
                 // 设置 title
                 document.title = document.querySelector('#content h1').innerHTML;
-
-                // 加载猜你喜欢
-                that._loadGuessLikeList();
 
                 // 绑定图片DOM
                 var contentDomImgs = that.contentDom.querySelectorAll('#content .content img');
@@ -558,7 +556,7 @@ function Detail() {
         var that = this;
         var baseInfo = this.base;
         var random = this._random(10);
-
+        console.log(window.location.href);
         var formData = new FormData();
         formData.append('access_token', baseInfo.access_token);
         formData.append('platfrom', baseInfo.platfrom);
@@ -837,6 +835,7 @@ function Detail() {
     var detail = new Detail();
     detail._init();
 
+    var adLen = detail.adArr.length;
     var step = 0;
     // 滚动监听
     var timer = null;
@@ -870,11 +869,12 @@ function Detail() {
                             detail.adWrapperDomArr[i].innerHTML = '';
                             detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
 
+                            console.log(detail.adArr[step]);
 
                             detail.adWrapperDomArr[i].isExposure = true;
                             // 自有广告上报
                             if (detail.adArr[step].type === 'owner') {
-                                // detail._ownerExposureReport(detail.adArr[step].params);
+                                detail._ownerExposureReport(detail.adArr[step].params);
                             } else {
                                 // 
                                 // 曝光上报
@@ -884,9 +884,9 @@ function Detail() {
                                 });
 
                                 // MTA曝光上报
-                                // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                                MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
                             }
-
+                            console.log('detail.adArr.length', detail.adArr.length);
                             // 步进器自增或重置
                             if (++step >= detail.adArr.length) {
                                 step = 0;
