@@ -1,10 +1,9 @@
 function Detail() {
     this.base = {};
-    // this.restUrl = 'http://47.95.35.210:9095/yfax-news-api/api/htt/';
-    this.reportUrl = 'http://182.92.82.188';
-    this.restUrl = 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/';
+    this.restUrl = 'http://118.190.168.46:9191/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://and.ytoutiao.net';
+    // this.reportUrl = 'http://182.92.82.188';
+    this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -127,9 +126,6 @@ function Detail() {
         this.redbagDom = document.querySelector('.redbag');
         this.toastDom = document.querySelector('.toast');
 
-        // 确定本次加载的广告
-        this._queryJsAdsSource();
-
         // 加载详情
         this._loadDetailContent();
 
@@ -175,7 +171,6 @@ function Detail() {
      * ad response to ad object
      */
     Detail.prototype._response2Object = function (type, res) {
-        console.log(type, res);
         var rstAdArr = [];
         switch (type) {
             case 'owner':
@@ -434,7 +429,7 @@ function Detail() {
         var base = that.base;
         var params = {
             method: 'GET',
-            url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
                 console.log(res);
                 var source = res.data;
@@ -458,10 +453,9 @@ function Detail() {
 
     Detail.prototype._getOwnerAd = function () {
         var that = this;
-        // var adsParamJson = 'ip=112.96.134.202&device=%7B%22longitude%22%3A%22113.367%22%2C%22mac%22%3A%22dc%3A6d%3Acd%3Ab4%3A84%3A1e%22%2C%22height%22%3A%221800%22%2C%22os%22%3A%221%22%2C%22network%22%3A%224%22%2C%22operator%22%3A%222%22%2C%22imei%22%3A%22860270037520234%22%2C%22appversion%22%3A%229.9.6%22%2C%22latitude%22%3A%2223.095%22%2C%22width%22%3A%221080%22%2C%22os_version%22%3A%225.1.1%22%2C%22udid%22%3A%22860270037520234%22%2C%22vendor%22%3A%22OPPO%22%2C%22model%22%3A%22OPPO+R7sm%22%2C%22android_id%22%3A%22fcbf0c59b38d7c69%22%2C%22identify_type%22%3A%22imei%22%7D&dynamicParam=%7B%22isBlackfive%22%3A%221%22%2C%22province%22%3A%22%E5%B9%BF%E4%B8%9C%22%2C%22phoneNum%22%3A%22162fd2e69e41157%22%2C%22whichScreenNum%22%3A%22999999999%22%2C%22screenNum%22%3A%223%22%2C%22androidBuild%22%3A%22996%22%2C%22city%22%3A%22%E5%B9%BF%E5%B7%9E%22%7D&point=2000&ua=Mozilla/5.0 (Linux; Android 5.1.1; OPPO R7sm Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/42.0.2311.138 Mobile Safari/537.36';
         var params = {
             method: 'GET',
-            url: 'http://182.92.82.188/yfax-htt-api/api/htt/adserving?' + that.obj2str(that.base.adsParamJson),
+            url: that.restUrl + 'adserving?' + that.obj2str(that.base.adsParamJson),
             callback: function (res) {
                 that._response2Object('owner', res.data);
             }
@@ -474,7 +468,7 @@ function Detail() {
         var id = that.search2Obj().id;
         var params = {
             method: 'GET',
-            url: this.restUrl + 'getDetailById?id=' + id,
+            url: 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/getDetailById?id=' + id,
             callback: function (res) {
                 that.contentDom.innerHTML = res.data.content;
 
@@ -486,6 +480,9 @@ function Detail() {
 
                 // 设置 title
                 document.title = document.querySelector('#content h1').innerHTML;
+
+                // 确定本次加载的广告
+                that._queryJsAdsSource();
 
                 // 绑定图片DOM
                 var contentDomImgs = that.contentDom.querySelectorAll('#content .content img');
