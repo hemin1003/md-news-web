@@ -380,9 +380,13 @@ function Detail() {
         }
 
         var baseInfo = this.base;
+        var adsParamJson = this.obj2str(baseInfo.adsParamJson);
+        var encodeAdsParamJson = encodeURIComponent(adsParamJson);
         for (var i = 0, length = list.length, step = 3; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
+            // 解决 undefined 错误
+            baseInfo.adsParamJson = encodeAdsParamJson;
             baseInfo['go'] = 'gotoNews';
 
             var paramsStr = this.obj2str(baseInfo);
