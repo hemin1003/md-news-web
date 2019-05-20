@@ -205,6 +205,25 @@ function Detail() {
                 }
 
                 break;
+            case 'zm':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'zm';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = 'http://i.hao61.net/d.js?cid=' + res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+                break;
             default:
                 break;
         }
@@ -435,7 +454,6 @@ function Detail() {
             method: 'GET',
             url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
-                console.log(res);
                 var source = res.data;
                 if (parseInt(source.jsAdsSource, 10) === -1) {
                     // 请求自有
