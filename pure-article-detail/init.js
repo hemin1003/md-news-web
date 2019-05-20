@@ -459,13 +459,13 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    var tmpRes = {
-                        jsAdsSource: 'xs',
-                        jsAdsIdArray: [
-                            'u3729950',
-                            'u3729957'
-                        ]
-                    };
+                    // var source = {
+                    //     jsAdsSource: 'zm',
+                    //     jsAdsIdArray: [
+                    //         '31035',
+                    //         '31036'
+                    //     ]
+                    // };
                     that._response2Object(source.jsAdsSource, source);
                 }
             }
