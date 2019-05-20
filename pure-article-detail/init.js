@@ -455,6 +455,7 @@ function Detail() {
             method: 'GET',
             url: 'http://182.92.82.188/yfax-htt-api/api/htt/queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
+                
                 var source = res.data;
                 if (parseInt(source.jsAdsSource, 10) === -1) {
                     // 请求自有
