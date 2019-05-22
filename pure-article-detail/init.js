@@ -224,6 +224,27 @@ function Detail() {
                     rstAdArr.push(tmpObj);
                 }
                 break;
+            case 'pp':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'pp';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i].split('#')[0] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -252,6 +273,9 @@ function Detail() {
                 adScript = this._genZMAdScript(data.params);
                 break;
             case 'xs':
+                adScript = this._genXSAdScript(data.params);
+                break;
+            case 'pp':
                 adScript = this._genXSAdScript(data.params);
                 break;
             case 'owner':
@@ -454,19 +478,12 @@ function Detail() {
             method: 'GET',
             url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
-                
+
                 var source = res.data;
                 if (parseInt(source.jsAdsSource, 10) === -1) {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // var source = {
-                    //     jsAdsSource: 'zm',
-                    //     jsAdsIdArray: [
-                    //         '31035',
-                    //         '31036'
-                    //     ]
-                    // };
                     that._response2Object(source.jsAdsSource, source);
                 }
             }
