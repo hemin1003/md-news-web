@@ -245,6 +245,27 @@ function Detail() {
                 }
 
                 break;
+            case 'wx':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'wx';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i].split('#')[0] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -276,6 +297,9 @@ function Detail() {
                 adScript = this._genXSAdScript(data.params);
                 break;
             case 'pp':
+                adScript = this._genXSAdScript(data.params);
+                break;
+            case 'wx':
                 adScript = this._genXSAdScript(data.params);
                 break;
             case 'owner':
