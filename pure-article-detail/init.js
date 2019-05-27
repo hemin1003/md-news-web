@@ -1,6 +1,7 @@
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
     // this.reportUrl = 'http://182.92.82.188';
     this.reportUrl = 'http://and.ytoutiao.net';
@@ -274,7 +275,11 @@ function Detail() {
         console.log(rstAdArr);
         console.log('---------当前 adArr ---------');
 
-        this.adArr = rstAdArr;
+        this.adArr = this.adArr.concat(rstAdArr);
+
+        console.log('---------当前 adArr ---------');
+        console.log(this.adArr);
+        console.log('---------当前 adArr ---------');
 
         // adArr 随机排序，取前3
         // this.shuffle();
@@ -508,7 +513,12 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    that._response2Object(source.jsAdsSource, source);
+                    // source.jsAdsSource = 'zm';
+                    if (source.jsAdsIdArray.length <= 3) {
+                        that._getOwnerAd2Fill(source);
+                    } else {
+                        that._response2Object(source.jsAdsSource, source);
+                    }
                 }
             }
         };
@@ -521,6 +531,25 @@ function Detail() {
             method: 'GET',
             url: that.restUrl + 'adserving?' + that.obj2str(that.base.adsParamJson),
             callback: function (res) {
+                that._response2Object('owner', res.data);
+            }
+        };
+        that.request(params);
+    }
+
+    /**
+     * 请求自有填充到第三方尾部
+     */
+    Detail.prototype._getOwnerAd2Fill = function (source) {
+        var that = this;
+        var params = {
+            method: 'GET',
+            url: that.restUrl + 'adserving?' + that.obj2str(that.base.adsParamJson),
+            callback: function (res) {
+                // 重复一次
+                source.jsAdsIdArray = source.jsAdsIdArray.concat(source.jsAdsIdArray);
+                that._response2Object(source.jsAdsSource, source);
+                // 自有填充到尾部
                 that._response2Object('owner', res.data);
             }
         };
