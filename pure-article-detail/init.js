@@ -404,7 +404,7 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 1; i < length; i++) {
+        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
