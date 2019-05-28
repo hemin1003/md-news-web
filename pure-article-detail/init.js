@@ -1,3 +1,16 @@
+/***
+ *
+ *   █████▒█    ██  ▄████▄   ██ ▄█▀       ██████╗ ██╗   ██╗ ██████╗
+ * ▓██   ▒ ██  ▓██▒▒██▀ ▀█   ██▄█▒        ██╔══██╗██║   ██║██╔════╝
+ * ▒████ ░▓██  ▒██░▒▓█    ▄ ▓███▄░        ██████╔╝██║   ██║██║  ███╗
+ * ░▓█▒  ░▓▓█  ░██░▒▓▓▄ ▄██▒▓██ █▄        ██╔══██╗██║   ██║██║   ██║
+ * ░▒█░   ▒▒█████▓ ▒ ▓███▀ ░▒██▒ █▄       ██████╔╝╚██████╔╝╚██████╔╝
+ *  ▒ ░   ░▒▓▒ ▒ ▒ ░ ░▒ ▒  ░▒ ▒▒ ▓▒       ╚═════╝  ╚═════╝  ╚═════╝
+ *  ░     ░░▒░ ░ ░   ░  ▒   ░ ░▒ ▒░
+ *  ░ ░    ░░░ ░ ░ ░        ░ ░░ ░
+ *           ░     ░ ░      ░  ░
+ */
+
 function Detail() {
     this.base = {};
     // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
@@ -22,62 +35,7 @@ function Detail() {
     this.toastDom = null;
     this.imgArr = [];
     this.likeListImgArr = [];
-    this.adArr = [
-        // {
-        //     type: 'yz',
-        //     params: {
-        //         url: '//cdn.ipadview.com/jssdk/combo.bundle.js',
-        //         product: 20035,
-        //         code: 'ytth5a2019040802xxl'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'zm',
-        //     params: {
-        //         url: 'http://i.hao61.net/d.js?cid=30866'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736224&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3736229&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3729950&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // },
-        // {
-        //     type: 'xs',
-        //     params: {
-        //         url: '//www.smucdn.com/smu0/o.js',
-        //         smua: 'd=m&s=b&u=u3729957&h=20:6'
-        //     },
-        //     isExposure: false,
-        //     isClick: false
-        // }
-    ];
+    this.adArr = [];
     this.eventId = {
         exposure: 10000039,
         click: 10000031
@@ -200,8 +158,6 @@ function Detail() {
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
 
-                    console.log(tmpObj);
-
                     rstAdArr.push(tmpObj);
                 }
 
@@ -219,8 +175,6 @@ function Detail() {
 
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
-
-                    console.log(tmpObj);
 
                     rstAdArr.push(tmpObj);
                 }
@@ -240,8 +194,6 @@ function Detail() {
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
 
-                    console.log(tmpObj);
-
                     rstAdArr.push(tmpObj);
                 }
 
@@ -260,8 +212,6 @@ function Detail() {
 
                     tmpObj['isExposure'] = false;
                     tmpObj['isClick'] = false;
-
-                    console.log(tmpObj);
 
                     rstAdArr.push(tmpObj);
                 }
@@ -446,7 +396,7 @@ function Detail() {
 
         // 如果adArr为空，不插入广告位
         console.log(this.adArr.length);
-        if (this.adArr.length !== 0) {
+        if (this.adArr.length > 1) {
             // 列表头补充一个 ad
             rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
         }
@@ -454,7 +404,7 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        for (var i = 0, length = list.length, step = 3; i < length; i++) {
+        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 1; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -489,12 +439,19 @@ function Detail() {
             }
 
             // 如果adArr为空，不插入广告位
-            if (this.adArr.length !== 0) {
-                // 每3个插入一个广告
-                if (--step === 0) {
-                    step = 3;
-                    rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
-                }
+            // if (this.adArr.length !== 0) {
+            //     // 每3个插入一个广告
+            //     if (--step === 0) {
+            //         step = 3;
+            //         rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+            //     }
+            // }
+
+            // 按广告数量，插入广告位，最多8个
+            if (adLen > 0 && --step === 0) {
+                --adLen;
+                step = 3;
+                rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
             }
         }
         return rstTemplate;
@@ -517,6 +474,10 @@ function Detail() {
                     if (source.jsAdsIdArray.length <= 3) {
                         that._getOwnerAd2Fill(source);
                     } else {
+                        source.jsAdsIdArray = source.jsAdsIdArray.concat(source.jsAdsIdArray);
+                        if (source.jsAdsIdArray.length > 8) {
+                            source.jsAdsIdArray = source.jsAdsIdArray.slice(0, 8);
+                        }
                         that._response2Object(source.jsAdsSource, source);
                     }
                 }
@@ -978,9 +939,10 @@ function Detail() {
                             }
                             console.log('detail.adArr.length', detail.adArr.length);
                             // 步进器自增或重置
-                            if (++step >= detail.adArr.length) {
-                                step = 0;
-                            }
+                            // if (++step >= detail.adArr.length) {
+                            //     step = 0;
+                            // }
+                            ++step;
                         }
                     }
                 }
