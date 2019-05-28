@@ -16,8 +16,8 @@ function Detail() {
     // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
     this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
