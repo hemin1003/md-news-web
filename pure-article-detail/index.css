@@ -367,37 +367,37 @@ a {
     font-size: 16px;
 }
 
-.guess-like-list .list-content .news-wrapper {
+.news-wrapper {
     display: block;
     padding-bottom: 2vw;
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
 }
 
-.guess-like-list .list-content .news-wrapper .title {
+.news-wrapper .title {
     margin: 2vw 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.guess-like-list .list-content .news-wrapper .img-wrapper {
+.news-wrapper .img-wrapper {
     position: relative;
     height: 19.24vw;
 }
 
-.guess-like-list .list-content .news-wrapper .img-wrapper img {
+.news-wrapper .img-wrapper img {
     float: left;
     margin-right: 1.8vw;
     width: 32%;
     height: 100%;
 }
 
-.guess-like-list .list-content .news-wrapper .img-wrapper img:nth-child(3) {
+.news-wrapper .img-wrapper img:nth-child(3) {
     margin-right: 0;
 }
 
-.guess-like-list .list-content .news-wrapper .img-wrapper .label {
+.news-wrapper .img-wrapper .label {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -407,13 +407,13 @@ a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-.guess-like-list .list-content .news-wrapper .origin {
+.news-wrapper .origin {
     margin-top: 2vw;
     font-size: 14px;
     color: #a7a7a7;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img {
+.news-wrapper-single-img {
     position: relative;
     display: block;
     padding: 2vw 0;
@@ -422,17 +422,17 @@ a {
     background-color: #ffffff;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .left-wrapper {
+.news-wrapper-single-img .left-wrapper {
     float: left;
     width: 58vw;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .left-wrapper .title-wrapper {
+.news-wrapper-single-img .left-wrapper .title-wrapper {
     height: 10vw;
     overflow: hidden;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .left-wrapper .title-wrapper .title {
+.news-wrapper-single-img .left-wrapper .title-wrapper .title {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -440,23 +440,23 @@ a {
     overflow: hidden;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .left-wrapper .origin {
+.news-wrapper-single-img .left-wrapper .origin {
     margin-top: 5vw;
     font-size: 14px;
     color: #a7a7a7;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .img-wrapper {
+.news-wrapper-single-img .img-wrapper {
     float: right;
     height: 19.24vw;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .img-wrapper img {
+.news-wrapper-single-img .img-wrapper img {
     width: 30vw;
     height: 100%;
 }
 
-.guess-like-list .list-content .news-wrapper-single-img .label {
+.news-wrapper-single-img .label {
     position: absolute;
     bottom: 2vw;
     right: 0;
@@ -466,29 +466,29 @@ a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-.guess-like-list .list-content .news-wrapper-big-img {
+.news-wrapper-big-img {
     display: block;
     padding-bottom: 2vw;
     border-bottom: 1px solid #eeeeee;
     background-color: #ffffff;
 }
 
-.guess-like-list .list-content .news-wrapper-big-img .title {
+.news-wrapper-big-img .title {
     margin: 2vw 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.guess-like-list .list-content .news-wrapper-big-img .img-wrapper {
+.news-wrapper-big-img .img-wrapper {
     position: relative;
 }
 
-.guess-like-list .list-content .news-wrapper-big-img .img-wrapper img {
+.news-wrapper-big-img .img-wrapper img {
     width: 100%;
 }
 
-.guess-like-list .list-content .news-wrapper-big-img .img-wrapper .label {
+.news-wrapper-big-img .img-wrapper .label {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -498,7 +498,7 @@ a {
     background: rgba(0, 0, 0, 0.2);
 }
 
-.guess-like-list .list-content .news-wrapper-big-img .origin {
+.news-wrapper-big-img .origin {
     margin-top: 2vw;
     font-size: 14px;
     color: #a7a7a7;
