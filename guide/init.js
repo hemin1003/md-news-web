@@ -117,6 +117,61 @@ function Detail() {
                 }
 
                 break;
+            case 'zm':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'zm';
+                    tmpObj['id'] = res[i].split('#')[0];
+                    tmpObj['reportId'] = res[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = 'http://i.hao61.net/d.js?cid=' + res[i].split('#')[0];
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+                break;
+            case 'pp':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'pp';
+                    tmpObj['id'] = res[i].split('#')[0];
+                    tmpObj['reportId'] = res[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res[i].split('#')[0] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
+            case 'wx':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'wx';
+                    tmpObj['id'] = res[i].split('#')[0];
+                    tmpObj['reportId'] = res[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res[i].split('#')[0] + '&h=20:6';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -154,6 +209,8 @@ function Detail() {
     }
 
     Detail.prototype._loadAd = function (dom, data) {
+        console.log(dom);
+        console.log(data);
         var adScript = null
         switch (data.type) {
             case 'yz':
