@@ -31,6 +31,7 @@ function Detail() {
     this.bottomShadow = null;
     this.guessLikeListDom = null;
     this.likeList = [];
+    this.isLoadGuessLikeList = false;
     this.adWrapperDomArr = [];
     this.toastDom = null;
     this.imgArr = [];
@@ -235,7 +236,11 @@ function Detail() {
         // this.shuffle();
 
         // 加载猜你喜欢
-        this._loadGuessLikeList();
+        // 全局只加载一次
+        if (!this.isLoadGuessLikeList) {
+            this.isLoadGuessLikeList = true;
+            this._loadGuessLikeList();
+        }
 
     }
 
@@ -470,7 +475,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // source.jsAdsSource = 'zm';
+                    // source.jsAdsSource = 'xs';
                     if (source.jsAdsIdArray.length <= 3) {
                         that._getOwnerAd2Fill(source);
                     } else {
