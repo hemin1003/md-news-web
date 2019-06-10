@@ -506,8 +506,8 @@ function Detail() {
         var base = that.base;
         var params = {
             method: 'GET',
-            // url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
-            url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:82' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            // url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:82' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
 
                 var source = res.data;
