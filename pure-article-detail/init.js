@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -90,7 +90,7 @@ function Detail() {
         this._loadDetailContent();
 
         // 加载阅读红包
-        // this._queryRedbag();
+        this._queryRedbag();
 
         // 绑定查看全文
         var that = this;
@@ -278,6 +278,44 @@ function Detail() {
         dom.appendChild(adScript);
     }
 
+    Detail.prototype._loadAllAd = function () {
+        console.log('_loadAllAd...');
+        var step = 0;
+        if (this.adArr.length !== 0) {
+
+            for (var i = 1; i < this.adWrapperDomArr.length; i++) {
+
+                this.adWrapperDomArr[i].isFill = true;
+                this.adWrapperDomArr[i].innerHTML = '';
+                this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+                console.log(this.adArr[step]);
+
+                // this.adWrapperDomArr[i].isExposure = true;
+                // // 自有广告上报
+                // if (this.adArr[step].type === 'owner') {
+                //     this._ownerExposureReport(this.adArr[step].params);
+                // } else {
+                //     // 
+                //     // 曝光上报
+                //     this._exposureReport({
+                //         b1: this.adArr[step].type,
+                //         b2: this.adArr[step].id + '#' + window.location.host
+                //     });
+
+                //     // MTA曝光上报
+                //     MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                // }
+                console.log('this.adArr.length', this.adArr.length);
+                // 步进器自增或重置
+                // if (++step >= detail.adArr.length) {
+                //     step = 0;
+                // }
+                ++step;
+            }
+        }
+    }
+
     /**
      * 阅赚广告JS生成
      */
@@ -390,6 +428,7 @@ function Detail() {
                 that._ownerClickReport(that.adArr[index].params);
             });
         }
+        console.log('this.adWrapperDomArr', this.adWrapperDomArr);
     }
 
     /**
@@ -401,7 +440,7 @@ function Detail() {
 
         // 如果adArr为空，不插入广告位
         console.log(this.adArr.length);
-        if (this.adArr.length > 1) {
+        if (this.adArr.length > 0) {
             // 列表头补充一个 ad
             rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
         }
@@ -409,7 +448,7 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 2; i < length; i++) {
+        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 1; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -468,6 +507,7 @@ function Detail() {
         var params = {
             method: 'GET',
             url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            // url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:82' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
 
                 var source = res.data;
@@ -476,15 +516,15 @@ function Detail() {
                     that._getOwnerAd();
                 } else {
                     // source.jsAdsSource = 'xs';
-                    if (source.jsAdsIdArray.length <= 3) {
-                        that._getOwnerAd2Fill(source);
-                    } else {
-                        source.jsAdsIdArray = source.jsAdsIdArray.concat(source.jsAdsIdArray);
-                        if (source.jsAdsIdArray.length > 8) {
-                            source.jsAdsIdArray = source.jsAdsIdArray.slice(0, 8);
-                        }
-                        that._response2Object(source.jsAdsSource, source);
-                    }
+                    // if (source.jsAdsIdArray.length <= 3) {
+                    //     that._getOwnerAd2Fill(source);
+                    // } else {
+                    //     source.jsAdsIdArray = source.jsAdsIdArray.concat(source.jsAdsIdArray);
+                    //     if (source.jsAdsIdArray.length > 8) {
+                    //         source.jsAdsIdArray = source.jsAdsIdArray.slice(0, 8);
+                    //     }
+                    that._response2Object(source.jsAdsSource, source);
+                    // }
                 }
             }
         };
@@ -572,6 +612,9 @@ function Detail() {
 
                         that._bindAdDom();
 
+                        // 一次性加载所有广告
+                        that._loadAllAd();
+                        console.log(that.adWrapperDomArr);
                         var guessLikeListDomImgs = that.guessLikeListDom.querySelectorAll('img');
                         that.likeListImgArr = guessLikeListDomImgs;
                     }
@@ -907,7 +950,8 @@ function Detail() {
                 var _clientHeight = document.documentElement.clientHeight;
 
                 for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
-                    if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isFill) {
+                    if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isExposure) {
+
                         if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
                             detail.adWrapperDomArr[i].isFill = true;
                             detail.adWrapperDomArr[i].isExposure = true;
@@ -921,10 +965,11 @@ function Detail() {
                                 b1: 'sg'
                             });
                         } else {
-                            detail.adWrapperDomArr[i].isFill = true;
-                            detail.adWrapperDomArr[i].innerHTML = '';
-                            detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
-
+                            // detail.adWrapperDomArr[i].isFill = true;
+                            // detail.adWrapperDomArr[i].innerHTML = '';
+                            // detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
+                            console.log(step);
+                            console.log(detail.adArr);
                             console.log(detail.adArr[step]);
 
                             detail.adWrapperDomArr[i].isExposure = true;
