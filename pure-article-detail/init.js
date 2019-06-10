@@ -90,7 +90,7 @@ function Detail() {
         this._loadDetailContent();
 
         // 加载阅读红包
-        this._queryRedbag();
+        // this._queryRedbag();
 
         // 绑定查看全文
         var that = this;
