@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -218,6 +218,25 @@ function Detail() {
                 }
 
                 break;
+            case 'yn':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'yn';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//un.wwlolbs.com/yn/moblie.min.js';
+                    paramsObj['yn'] = 'codeId=' + res.jsAdsIdArray[i].split('#')[0] + '&node=false&adStyle=emf';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -261,6 +280,9 @@ function Detail() {
                 break;
             case 'wx':
                 adScript = this._genXSAdScript(data.params);
+                break;
+            case 'yn':
+                adScript = this._genYNAdScript(data.params);
                 break;
             case 'owner':
                 dom.setAttribute('index', index);
@@ -349,6 +371,17 @@ function Detail() {
         // script.async = true;
         // script.defer = "defer";
         script.setAttribute('smua', params.smua);
+        script.src = params.url;
+        return script;
+    }
+    /**
+     * 赢纳广告JS生成
+     */
+    Detail.prototype._genYNAdScript = function (params) {
+        var script = document.createElement("script");
+        // script.async = true;
+        // script.defer = "defer";
+        script.dataset.yn = params.yn;
         script.src = params.url;
         return script;
     }
@@ -507,7 +540,7 @@ function Detail() {
         var params = {
             method: 'GET',
             url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
-            // url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:82' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            // url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:81' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
 
                 var source = res.data;
@@ -515,7 +548,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // source.jsAdsSource = 'xs';
+                    // source.jsAdsSource = 'yn';
                     // if (source.jsAdsIdArray.length <= 3) {
                     //     that._getOwnerAd2Fill(source);
                     // } else {
