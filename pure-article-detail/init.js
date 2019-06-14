@@ -49,7 +49,7 @@ function Detail() {
     Detail.prototype._init = function () {
 
         // 清空缓存
-        this.clearStorage();
+        // this.clearStorage();
 
         // location search 存储
         var search = window.location.search.split('?')[1];
