@@ -241,6 +241,9 @@ function Detail() {
             case 'xs':
                 adScript = this._genXSAdScript(data.params);
                 break;
+            case 'yn':
+                adScript = this._genYNAdScript(data.params);
+                break;
             default:
                 console.log('没有匹配的广告商家～');
                 break;
@@ -283,6 +286,18 @@ function Detail() {
         // script.async = true;
         // script.defer = "defer";
         script.setAttribute('smua', params.smua);
+        script.src = params.url;
+        return script;
+    }
+
+    /**
+     * 赢纳广告JS生成
+     */
+    Detail.prototype._genYNAdScript = function (params) {
+        var script = document.createElement("script");
+        // script.async = true;
+        // script.defer = "defer";
+        script.dataset.yn = params.yn;
         script.src = params.url;
         return script;
     }
