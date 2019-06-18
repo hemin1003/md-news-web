@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -33,6 +33,7 @@ function Detail() {
     this.likeList = [];
     this.isLoadGuessLikeList = false;
     this.adWrapperDomArr = [];
+    this.isLoadNextAdWrapperDom = false;
     this.toastDom = null;
     this.imgArr = [];
     this.likeListImgArr = [];
@@ -241,10 +242,6 @@ function Detail() {
                 break;
         }
 
-        console.log('---------当前 adArr ---------');
-        console.log(rstAdArr);
-        console.log('---------当前 adArr ---------');
-
         this.adArr = this.adArr.concat(rstAdArr);
 
         console.log('---------当前 adArr ---------');
@@ -300,40 +297,66 @@ function Detail() {
         dom.appendChild(adScript);
     }
 
-    Detail.prototype._loadAllAd = function () {
+    Detail.prototype._loadAllAd = function (next) {
         console.log('_loadAllAd...');
         var step = 0;
         if (this.adArr.length !== 0) {
+            console.log('this.adArr.length', this.adArr.length);
+            console.log('this.adWrapperDomArr.length', this.adWrapperDomArr.length);
+            if (!next) {
+                for (var i = 0; i < this.adWrapperDomArr.length / 2; i++) {
 
-            for (var i = 0; i < this.adWrapperDomArr.length; i++) {
+                    this.adWrapperDomArr[i].isFill = true;
+                    this.adWrapperDomArr[i].innerHTML = '';
+                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
 
-                this.adWrapperDomArr[i].isFill = true;
-                this.adWrapperDomArr[i].innerHTML = '';
-                this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+                    console.log('step', step);
+                    console.log(this.adArr[step]);
 
-                console.log(this.adArr[step]);
+                    this.adWrapperDomArr[i].isExposure = true;
+                    // 自有广告上报
+                    if (this.adArr[step].type === 'owner') {
+                        this._ownerExposureReport(this.adArr[step].params);
+                    } else {
+                        // 
+                        // 曝光上报
+                        this._exposureReport({
+                            b1: this.adArr[step].type,
+                            b2: this.adArr[step].id + '#' + window.location.host
+                        });
 
-                // this.adWrapperDomArr[i].isExposure = true;
-                // // 自有广告上报
-                // if (this.adArr[step].type === 'owner') {
-                //     this._ownerExposureReport(this.adArr[step].params);
-                // } else {
-                //     // 
-                //     // 曝光上报
-                //     this._exposureReport({
-                //         b1: this.adArr[step].type,
-                //         b2: this.adArr[step].id + '#' + window.location.host
-                //     });
+                        // MTA曝光上报
+                        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                    }
+                    ++step;
+                }
+            } else {
+                for (var i = this.adWrapperDomArr.length / 2; i < this.adWrapperDomArr.length; i++) {
 
-                //     // MTA曝光上报
-                //     MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                // }
-                console.log('this.adArr.length', this.adArr.length);
-                // 步进器自增或重置
-                // if (++step >= detail.adArr.length) {
-                //     step = 0;
-                // }
-                ++step;
+                    this.adWrapperDomArr[i].isFill = true;
+                    this.adWrapperDomArr[i].innerHTML = '';
+                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+                    console.log('step', step);
+                    console.log(this.adArr[step]);
+
+                    this.adWrapperDomArr[i].isExposure = true;
+                    // 自有广告上报
+                    if (this.adArr[step].type === 'owner') {
+                        this._ownerExposureReport(this.adArr[step].params);
+                    } else {
+                        // 
+                        // 曝光上报
+                        this._exposureReport({
+                            b1: this.adArr[step].type,
+                            b2: this.adArr[step].id + '#' + window.location.host
+                        });
+
+                        // MTA曝光上报
+                        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                    }
+                    ++step;
+                }
             }
         }
     }
@@ -448,20 +471,10 @@ function Detail() {
 
             // 绑定点击事件
             this.adWrapperDomArr[i].addEventListener('click', function (e) {
-                console.log(e);
-                console.log(e.target);
-                console.log(e.target.value);
-                console.log(e.currentTarget);
-                console.log(e.currentTarget.getAttribute('index'));
                 var index = parseInt(e.currentTarget.getAttribute('index'), 10);
-                // console.log(this.adWrapperDomArr[i]);
-                // console.log(this.adWrapperDomArr[i].getAttribute('index'));
-                // e.getAttribute();
-                console.log(that.adArr);
                 that._ownerClickReport(that.adArr[index].params);
             });
         }
-        console.log('this.adWrapperDomArr', this.adWrapperDomArr);
     }
 
     /**
@@ -472,8 +485,7 @@ function Detail() {
         var rstTemplate = '';
 
         // 如果adArr为空，不插入广告位
-        console.log(this.adArr.length);
-        if (this.adArr.length > 0) {
+        if (this.adArr.length * 2 > 1) {
             // 列表头补充一个 ad
             rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
         }
@@ -481,7 +493,7 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length - 1; i < length; i++) {
+        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length * 2 - 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -515,15 +527,6 @@ function Detail() {
                     '</a>';
             }
 
-            // 如果adArr为空，不插入广告位
-            // if (this.adArr.length !== 0) {
-            //     // 每3个插入一个广告
-            //     if (--step === 0) {
-            //         step = 3;
-            //         rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
-            //     }
-            // }
-
             // 按广告数量，插入广告位，最多8个
             if (adLen > 0 && --step === 0) {
                 --adLen;
@@ -548,16 +551,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // source.jsAdsSource = 'yn';
-                    // if (source.jsAdsIdArray.length <= 3) {
-                    //     that._getOwnerAd2Fill(source);
-                    // } else {
-                    //     source.jsAdsIdArray = source.jsAdsIdArray.concat(source.jsAdsIdArray);
-                    //     if (source.jsAdsIdArray.length > 8) {
-                    //         source.jsAdsIdArray = source.jsAdsIdArray.slice(0, 8);
-                    //     }
                     that._response2Object(source.jsAdsSource, source);
-                    // }
                 }
             }
         };
@@ -647,7 +641,7 @@ function Detail() {
 
                         // 一次性加载所有广告
                         that._loadAllAd();
-                        console.log(that.adWrapperDomArr);
+
                         var guessLikeListDomImgs = that.guessLikeListDom.querySelectorAll('img');
                         that.likeListImgArr = guessLikeListDomImgs;
                     }
@@ -688,7 +682,7 @@ function Detail() {
         var that = this;
         var baseInfo = this.base;
         var random = this._random(10);
-        console.log(window.location.href);
+
         var formData = new FormData();
         formData.append('access_token', baseInfo.access_token);
         formData.append('platfrom', baseInfo.platfrom);
@@ -982,52 +976,48 @@ function Detail() {
                 // 广告位懒加载
                 var _clientHeight = document.documentElement.clientHeight;
 
-                for (var i = 0; i < detail.adWrapperDomArr.length; i++) {
-                    if (detail.adWrapperDomArr[i].getBoundingClientRect().top <= _clientHeight && !detail.adWrapperDomArr[i].isExposure) {
+                if (detail.adWrapperDomArr[1].getBoundingClientRect().top <= _clientHeight && !detail.isLoadNextAdWrapperDom) {
+                    detail.isLoadNextAdWrapperDom = true;
+                    detail._loadAllAd(detail.isLoadNextAdWrapperDom);
 
-                        if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
-                            detail.adWrapperDomArr[i].isFill = true;
-                            detail.adWrapperDomArr[i].isExposure = true;
-                            detail._exposureReport({
-                                b1: 'bd'
-                            });
-                        } else if (detail.adWrapperDomArr[i].dataset.type === 'sg') {
-                            detail.adWrapperDomArr[i].isFill = true;
-                            detail.adWrapperDomArr[i].isExposure = true;
-                            detail._exposureReport({
-                                b1: 'sg'
-                            });
-                        } else {
-                            // detail.adWrapperDomArr[i].isFill = true;
-                            // detail.adWrapperDomArr[i].innerHTML = '';
-                            // detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
-                            console.log(step);
-                            console.log(detail.adArr);
-                            console.log(detail.adArr[step]);
+                    // if (detail.adWrapperDomArr[i].dataset.type === 'bd') {
+                    //     detail.adWrapperDomArr[i].isFill = true;
+                    //     detail.adWrapperDomArr[i].isExposure = true;
+                    //     detail._exposureReport({
+                    //         b1: 'bd'
+                    //     });
+                    // } else if (detail.adWrapperDomArr[i].dataset.type === 'sg') {
+                    //     detail.adWrapperDomArr[i].isFill = true;
+                    //     detail.adWrapperDomArr[i].isExposure = true;
+                    //     detail._exposureReport({
+                    //         b1: 'sg'
+                    //     });
+                    // } else {
+                    //     // detail.adWrapperDomArr[i].isFill = true;
+                    //     // detail.adWrapperDomArr[i].innerHTML = '';
+                    //     // detail._loadAd(detail.adWrapperDomArr[i], detail.adArr[step], step);
 
-                            detail.adWrapperDomArr[i].isExposure = true;
-                            // 自有广告上报
-                            if (detail.adArr[step].type === 'owner') {
-                                detail._ownerExposureReport(detail.adArr[step].params);
-                            } else {
-                                // 
-                                // 曝光上报
-                                detail._exposureReport({
-                                    b1: detail.adArr[step].type,
-                                    b2: detail.adArr[step].id + '#' + window.location.host
-                                });
+                    //     detail.adWrapperDomArr[i].isExposure = true;
+                    //     // 自有广告上报
+                    //     if (detail.adArr[step].type === 'owner') {
+                    //         detail._ownerExposureReport(detail.adArr[step].params);
+                    //     } else {
+                    //         // 
+                    //         // 曝光上报
+                    //         detail._exposureReport({
+                    //             b1: detail.adArr[step].type,
+                    //             b2: detail.adArr[step].id + '#' + window.location.host
+                    //         });
 
-                                // MTA曝光上报
-                                MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                            }
-                            console.log('detail.adArr.length', detail.adArr.length);
-                            // 步进器自增或重置
-                            // if (++step >= detail.adArr.length) {
-                            //     step = 0;
-                            // }
-                            ++step;
-                        }
-                    }
+                    //         // MTA曝光上报
+                    //         MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+                    //     }
+                    //     // 步进器自增或重置
+                    //     // if (++step >= detail.adArr.length) {
+                    //     //     step = 0;
+                    //     // }
+                    //     ++step;
+                    // }
                 }
             }
 

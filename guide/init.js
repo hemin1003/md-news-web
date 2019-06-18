@@ -172,6 +172,25 @@ function Detail() {
                 }
 
                 break;
+            case 'yn':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'yn';
+                    tmpObj['id'] = res[i].split('#')[0];
+                    tmpObj['reportId'] = res[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//un.wwlolbs.com/yn/moblie.min.js';
+                    paramsObj['yn'] = 'codeId=' + res[i].split('#')[0] + '&node=false&adStyle=emf';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
