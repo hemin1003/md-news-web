@@ -325,6 +325,10 @@ function Detail() {
             formData.append('b1', params.b1);
         }
 
+        if (params.b2) {
+            formData.append('b2', params.b2);
+        }
+
         return formData;
     }
 
@@ -452,12 +456,23 @@ function Detail() {
         //         b1: detail.adArr[2].type
         //     });
         // }
-        if (!detail.adArr[1].isExposure) {
-            detail.adArr[1].isExposure = true;
-            detail._exposureReport({
-                b1: 'sg'
-            });
-        }
+        // if (!detail.adArr[1].isExposure) {
+        //     detail.adArr[1].isExposure = true;
+        //     detail._exposureReport({
+        //         b1: 'sg'
+        //     });
+        // }
 
     }
+
+    // 头部，尾部搜狗广告，直接上报
+    detail._exposureReport({
+        b1: 'sg',
+        b2: 1042684
+    });
+
+    detail._exposureReport({
+        b1: 'sg',
+        b2: 1042639
+    });
 }())
