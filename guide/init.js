@@ -241,6 +241,12 @@ function Detail() {
             case 'xs':
                 adScript = this._genXSAdScript(data.params);
                 break;
+            case 'pp':
+                adScript = this._genXSAdScript(data.params);
+                break;
+            case 'wx':
+                adScript = this._genXSAdScript(data.params);
+                break;
             case 'yn':
                 adScript = this._genYNAdScript(data.params);
                 break;
