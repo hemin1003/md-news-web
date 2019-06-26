@@ -97,6 +97,26 @@ function Detail() {
                     rstAdArr.push(tmpObj);
                 }
                 break;
+            case 'yz':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['id'] = res[i];
+                    tmpObj['type'] = 'yz';
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//cdn.ipadview.com/jssdk/combo.bundle.js';
+                    paramsObj['code'] = res[i];
+                    paramsObj['product'] = 20035;
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    console.log(tmpObj);
+
+                    rstAdArr.push(tmpObj);
+                }
+                break;
             case 'xs':
                 for (var i in res) {
                     var tmpObj = {};

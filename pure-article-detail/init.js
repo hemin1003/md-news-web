@@ -145,6 +145,26 @@ function Detail() {
                     rstAdArr.push(tmpObj);
                 }
                 break;
+            case 'yz':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'yz';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//cdn.ipadview.com/jssdk/combo.bundle.js';
+                    paramsObj['code'] = res.jsAdsIdArray[i].split('#')[0];
+                    paramsObj['product'] = 20035;
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             case 'xs':
                 for (var i in res.jsAdsIdArray) {
                     var tmpObj = {};
