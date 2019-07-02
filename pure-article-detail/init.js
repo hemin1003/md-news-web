@@ -258,6 +258,25 @@ function Detail() {
                 }
 
                 break;
+            case 'ynn':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'ynn';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//un.mamipush.com/yn/moblie.min.js';
+                    paramsObj['yn'] = 'codeId=' + res.jsAdsIdArray[i].split('#')[0] + '&node=false&adStyle=emf';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -300,6 +319,9 @@ function Detail() {
                 break;
             case 'yn':
                 adScript = this._genYNAdScript(data.params);
+                break;
+            case 'ynn':
+                adScript = this._genYNNAdScript(data.params);
                 break;
             case 'owner':
                 dom.setAttribute('index', index);
@@ -421,6 +443,18 @@ function Detail() {
      * 赢纳广告JS生成
      */
     Detail.prototype._genYNAdScript = function (params) {
+        var script = document.createElement("script");
+        // script.async = true;
+        // script.defer = "defer";
+        script.dataset.yn = params.yn;
+        script.src = params.url;
+        return script;
+    }
+
+    /**
+     * 新赢纳广告JS生成
+     */
+    Detail.prototype._genYNNAdScript = function (params) {
         var script = document.createElement("script");
         // script.async = true;
         // script.defer = "defer";
@@ -572,6 +606,13 @@ function Detail() {
                     that._getOwnerAd();
                 } else {
                     that._response2Object(source.jsAdsSource, source);
+                    // that._response2Object('ynn', {
+                    //     domain: "115.29.66.197:81",
+                    //     jsAdsIdArray: [
+                    //         '13021#fabetgroup.mobi'
+                    //     ],
+                    //     jsAdsSource: 'ynn'
+                    // });
                 }
             }
         };
