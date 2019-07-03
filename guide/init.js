@@ -211,6 +211,25 @@ function Detail() {
                 }
 
                 break;
+            case 'ynn':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'ynn';
+                    tmpObj['id'] = res[i].split('#')[0];
+                    tmpObj['reportId'] = res[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//un.mamipush.com/yn/moblie.min.js';
+                    paramsObj['yn'] = 'codeId=' + res[i].split('#')[0] + '&node=false&adStyle=emf';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -270,6 +289,9 @@ function Detail() {
             case 'yn':
                 adScript = this._genYNAdScript(data.params);
                 break;
+            case 'ynn':
+                adScript = this._genYNNAdScript(data.params);
+                break;
             default:
                 console.log('没有匹配的广告商家～');
                 break;
@@ -320,6 +342,18 @@ function Detail() {
      * 赢纳广告JS生成
      */
     Detail.prototype._genYNAdScript = function (params) {
+        var script = document.createElement("script");
+        // script.async = true;
+        // script.defer = "defer";
+        script.dataset.yn = params.yn;
+        script.src = params.url;
+        return script;
+    }
+
+    /**
+     * 新赢纳广告JS生成
+     */
+    Detail.prototype._genYNNAdScript = function (params) {
         var script = document.createElement("script");
         // script.async = true;
         // script.defer = "defer";
