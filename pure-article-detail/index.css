@@ -505,16 +505,22 @@ a {
 }
 
 .redbag {
-    margin: 2vw 0;
+    margin: 2vw auto 0;
+    padding: 1vw 0;
+    width: 90vw;
     text-align: center;
     color: #eeeeee;
+    background-color: #FE4A23;
+    background-image: linear-gradient(32deg, #ff7e32, #FE4A23);
+    border-radius: 20px;
 }
 
 .redbag .icon {
     display: inline-block;
     vertical-align: top;
+    margin-top: 1px;
     width: 7.8vw;
-    height: 7.8vw;
+    height: 7vw;
 }
 
 .redbag .text {
@@ -524,7 +530,7 @@ a {
     line-height: 7.8vw;
     font-family: PingFang-SC-Semibold;
     font-size: 15px;
-    color: #FE4A23;
+    color: #ffffff;
 }
 
 .ad-wrapper {

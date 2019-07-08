@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -539,15 +539,15 @@ function Detail() {
         var rstTemplate = '';
 
         // 如果adArr为空，不插入广告位
-        if (this.adArr.length * 2 > 1) {
-            // 列表头补充一个 ad
-            rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
-        }
+        // if (this.adArr.length * 2 > 1) {
+        //     // 列表头补充一个 ad
+        //     rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+        // }
 
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        for (var i = 0, length = list.length, step = 3, adLen = this.adArr.length * 2 - 2; i < length; i++) {
+        for (var i = 0, length = list.length, step = 1, adLen = this.adArr.length * 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -584,7 +584,7 @@ function Detail() {
             // 按广告数量，插入广告位，最多8个
             if (adLen > 0 && --step === 0) {
                 --adLen;
-                step = 3;
+                step = 2;
                 rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
             }
         }
