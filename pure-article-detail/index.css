@@ -506,7 +506,6 @@ a {
 
 .redbag {
     margin: 2vw auto 0;
-    padding: 1vw 0;
     width: 90vw;
     text-align: center;
     color: #eeeeee;
@@ -519,7 +518,7 @@ a {
     display: inline-block;
     vertical-align: top;
     margin-top: 1px;
-    width: 7.8vw;
+    width: 7vw;
     height: 7vw;
 }
 
