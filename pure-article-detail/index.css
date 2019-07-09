@@ -534,10 +534,11 @@ a {
 .ad-wrapper {
     min-height: 19.24vw;
     background-color: #eeeeee;
+    overflow: hidden;
 }
 
 .toast {
-    /* display: none; */
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
