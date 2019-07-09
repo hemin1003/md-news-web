@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -590,8 +590,8 @@ function Detail() {
         var base = that.base;
         var params = {
             method: 'GET',
-            url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
-            // url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:81' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            // url: that.restUrl + 'queryJsAdsSource?domain=' + window.location.host + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
+            url: that.restUrl + 'queryJsAdsSource?domain=' + '115.29.66.197:81' + '&channel=article-detail-h5' + '&versionCode=' + that.version + '&phoneNum=' + base.clientId,
             callback: function (res) {
 
                 var source = res.data;
@@ -760,7 +760,8 @@ function Detail() {
                     that.toastDom.childNodes[3].innerHTML = '+' + res.data.gold + '金币';
                     // that.toastDom.innerHTML = '恭喜获得 ' + 20 + ' 阅读金币';
                     that.toastDom.style.display = 'block';
-                    that.redbagDom.innerHTML = '我也是有底线的';
+                    // that.redbagDom.innerHTML = '我也是有底线的';
+                    that.redbagDom.style.display = 'none';
                     setTimeout(function () {
                         that.toastDom.style.display = 'none';
                     }, 1500);
