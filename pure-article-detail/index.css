@@ -525,8 +525,7 @@ a {
 .redbag .text {
     display: inline-block;
     vertical-align: top;
-    height: 7.8vw;
-    line-height: 7.8vw;
+    line-height: 1.2;
     font-family: PingFang-SC-Semibold;
     font-size: 15px;
     color: #ffffff;
@@ -538,20 +537,26 @@ a {
 }
 
 .toast {
-    display: none;
+    /* display: none; */
     position: fixed;
-    bottom: 26vw;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 30vw;
     color: #ffffff;
     font-family: HelveticaNeue;
     font-size: 5.2vw;
     color: #FFE633;
     text-align: left;
-    padding: 3.12vw 5.2vw;
+    /* padding: 3.12vw 5.2vw; */
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 22px;
     transition: all 0.3s ease-in;
+    background-image: url("./toast-bg.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
 }
 
 .toast .icon {
@@ -559,6 +564,15 @@ a {
     vertical-align: top;
     width: 6.5vw;
     height: 6.5vw;
+}
+
+.toast .text {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translate(-50%, 0);
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .clearfix {

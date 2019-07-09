@@ -760,7 +760,8 @@ function Detail() {
                     that.toastDom.childNodes[3].innerHTML = '+' + res.data.gold + '金币';
                     // that.toastDom.innerHTML = '恭喜获得 ' + 20 + ' 阅读金币';
                     that.toastDom.style.display = 'block';
-                    that.redbagDom.innerHTML = '我也是有底线的';
+                    // that.redbagDom.innerHTML = '我也是有底线的';
+                    that.redbagDom.style.display = 'none';
                     setTimeout(function () {
                         that.toastDom.style.display = 'none';
                     }, 1500);
