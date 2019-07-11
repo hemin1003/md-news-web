@@ -540,7 +540,7 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length : this.adArr.length * 2;
+        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 1 : this.adArr.length * 2 - 1;
         for (var i = 0, length = list.length, step = 1; i < length - 5; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
