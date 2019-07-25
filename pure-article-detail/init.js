@@ -105,6 +105,17 @@ function Detail() {
         this.redbagDom.addEventListener('click', function () {
             that._doRedbagAward();
         });
+
+        // 初始化完，默认上报
+        this._exposureReport({
+            b1: 'zm',
+            b2: '31241#' + window.location.host
+        });
+
+        this._exposureReport({
+            b1: 'zm',
+            b2: '31242#' + window.location.host
+        });
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -541,7 +552,7 @@ function Detail() {
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
         var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 1 : this.adArr.length * 2 - 1;
-        for (var i = 0, length = list.length, step = 1; i < length - 5; i++) {
+        for (var i = 0, length = list.length, step = 1; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
