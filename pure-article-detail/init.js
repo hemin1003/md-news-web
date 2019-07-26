@@ -541,17 +541,18 @@ function Detail() {
         var list = this.likeList;
         var rstTemplate = '';
 
-        // 如果adArr为空，不插入广告位
-        // if (this.adArr.length * 2 > 1) {
-        //     // 列表头补充一个 ad
-        //     rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
-        // }
-
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 1 : this.adArr.length * 2 - 1;
-        for (var i = 0, length = list.length, step = 1; i < length; i++) {
+        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
+
+        // 如果adArr为空，不插入广告位
+        if (adLen + 1 > 0) {
+            // 列表头补充一个 ad
+            rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+        }
+
+        for (var i = 0, length = list.length, step = 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -585,7 +586,7 @@ function Detail() {
                     '</a>';
             }
 
-            // 按广告数量，插入广告位，最多8个
+            // 按广告数量，插入广告位
             if (adLen > 0 && --step === 0) {
                 --adLen;
                 step = 2;
