@@ -14,12 +14,12 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://apitest.ytoutiao.net';
     this.reportUrl = 'http://and.ytoutiao.net';
-    // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
-    // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
+    // this.queryrRedbagUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    // this.doRedbagAwardUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
     this.doRedbagAwardUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.headerAdDom = null;
@@ -112,10 +112,10 @@ function Detail() {
             b2: '31241#' + window.location.host
         });
 
-        this._exposureReport({
-            b1: 'zm',
-            b2: '31242#' + window.location.host
-        });
+        // this._exposureReport({
+        //     b1: 'zm',
+        //     b2: '31242#' + window.location.host
+        // });
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -355,7 +355,7 @@ function Detail() {
         var step = 0;
         if (this.adArr.length !== 0) {
             if (!next) {
-                for (var i = 0; i < this.adWrapperDomArr.length / 2; i++) {
+                for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
 
                     this.adWrapperDomArr[i].isFill = true;
                     this.adWrapperDomArr[i].innerHTML = '';
@@ -379,8 +379,7 @@ function Detail() {
                     ++step;
                 }
             } else {
-                for (var i = this.adWrapperDomArr.length / 2; i < this.adWrapperDomArr.length; i++) {
-
+                for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
                     this.adWrapperDomArr[i].isFill = true;
                     this.adWrapperDomArr[i].innerHTML = '';
                     this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
@@ -610,6 +609,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
+                    // source.jsAdsSource = 'zm';
                     that._response2Object(source.jsAdsSource, source);
                 }
             }
