@@ -13,11 +13,11 @@
 
 function Detail() {
     this.base = {};
-    this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
+    this.restUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://apitest.ytoutiao.net';
-    this.reportUrl = 'http://and.ytoutiao.net';
+    this.reportUrl = 'http://apitest.ytoutiao.net';
+    // this.reportUrl = 'http://and.ytoutiao.net';
     // this.queryrRedbagUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
     // this.doRedbagAwardUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
@@ -654,7 +654,8 @@ function Detail() {
         var id = that.search2Obj().id;
         var params = {
             method: 'GET',
-            url: 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/getDetailById?id=' + id,
+            // url: 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/getDetailById?id=' + id,
+            url: 'http://139.129.228.28:9095/yfax-news-api/api/htt/getDetailById?id=' + id,
             callback: function (res) {
                 that.contentDom.innerHTML = res.data.content;
 
