@@ -14,12 +14,12 @@
 function Detail() {
     this.base = {};
     this.restUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/';
-    // this.restUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/';
+    // this.restUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/';
     this.likeUrl = 'http://incallnews.ytoutiao.net/yfax-news-api/api/htt/';
-    // this.reportUrl = 'http://182.92.82.188';
+    // this.reportUrl = 'http://apitest.ytoutiao.net';
     this.reportUrl = 'http://and.ytoutiao.net';
-    // this.queryrRedbagUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/queryIsShowRedpaper';
-    // this.doRedbagAwardUrl = 'http://182.92.82.188/yfax-htt-api/api/htt/doRedpaperAward';
+    // this.queryrRedbagUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
+    // this.doRedbagAwardUrl = 'http://apitest.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.queryrRedbagUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/queryIsShowRedpaper';
     this.doRedbagAwardUrl = 'http://and.ytoutiao.net/yfax-htt-api/api/htt/doRedpaperAward';
     this.headerAdDom = null;
@@ -112,10 +112,10 @@ function Detail() {
             b2: '31241#' + window.location.host
         });
 
-        this._exposureReport({
-            b1: 'zm',
-            b2: '31242#' + window.location.host
-        });
+        // this._exposureReport({
+        //     b1: 'zm',
+        //     b2: '31242#' + window.location.host
+        // });
     }
 
     Detail.prototype._getContentMountNode = function () {
@@ -355,7 +355,7 @@ function Detail() {
         var step = 0;
         if (this.adArr.length !== 0) {
             if (!next) {
-                for (var i = 0; i < this.adWrapperDomArr.length / 2; i++) {
+                for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
 
                     this.adWrapperDomArr[i].isFill = true;
                     this.adWrapperDomArr[i].innerHTML = '';
@@ -379,8 +379,7 @@ function Detail() {
                     ++step;
                 }
             } else {
-                for (var i = this.adWrapperDomArr.length / 2; i < this.adWrapperDomArr.length; i++) {
-
+                for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
                     this.adWrapperDomArr[i].isFill = true;
                     this.adWrapperDomArr[i].innerHTML = '';
                     this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
@@ -542,17 +541,18 @@ function Detail() {
         var list = this.likeList;
         var rstTemplate = '';
 
-        // 如果adArr为空，不插入广告位
-        // if (this.adArr.length * 2 > 1) {
-        //     // 列表头补充一个 ad
-        //     rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
-        // }
-
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 1 : this.adArr.length * 2 - 1;
-        for (var i = 0, length = list.length, step = 1; i < length; i++) {
+        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
+
+        // 如果adArr为空，不插入广告位
+        if (adLen + 1 > 0) {
+            // 列表头补充一个 ad
+            rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+        }
+
+        for (var i = 0, length = list.length, step = 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -586,7 +586,7 @@ function Detail() {
                     '</a>';
             }
 
-            // 按广告数量，插入广告位，最多8个
+            // 按广告数量，插入广告位
             if (adLen > 0 && --step === 0) {
                 --adLen;
                 step = 2;
@@ -610,6 +610,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
+                    // source.jsAdsSource = 'zm';
                     that._response2Object(source.jsAdsSource, source);
                 }
             }
