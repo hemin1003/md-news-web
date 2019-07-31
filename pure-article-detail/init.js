@@ -654,8 +654,8 @@ function Detail() {
         var id = that.search2Obj().id;
         var params = {
             method: 'GET',
-            // url: 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/getDetailById?id=' + id,
-            url: 'http://139.129.228.28:9095/yfax-news-api/api/htt/getDetailById?id=' + id,
+            url: 'http://wnews.ytoutiao.net/yfax-news-api/api/htt/getDetailById?id=' + id,
+            // url: 'http://139.129.228.28:9095/yfax-news-api/api/htt/getDetailById?id=' + id,
             callback: function (res) {
                 that.contentDom.innerHTML = res.data.content;
 
