@@ -117,6 +117,8 @@ $(function() {
 				success:function(res) {
 					if(res.code == 200) {
 						$(".article").html(res.data.content);
+						// 处理 【点击这里】 的gif
+						$(".go_download img").attr("src", $(".go_download img").data('src'));
 						that.configFn();
 						that.ajaxDomain();
 						that.ajaxFn(1);
