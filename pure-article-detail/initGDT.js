@@ -373,7 +373,7 @@ function Detail() {
                 adScript = this._genOwnerAdDom(data.params);
                 break;
             case 'gdt':
-                var flag = index - 1;
+                var flag = index + 1;
                 window.TencentGDT.NATIVE.renderAd(data.params, 'ad_' + flag);
                 return;
             default:
