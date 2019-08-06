@@ -447,24 +447,23 @@ function Detail() {
 
                 this.adWrapperDomArr[i].isFill = true;
                 this.adWrapperDomArr[i].innerHTML = '';
-                this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+                this._loadAd(this.adWrapperDomArr[i], this.adArr[i], i);
 
                 this.adWrapperDomArr[i].isExposure = true;
                 // 自有广告上报
-                if (this.adArr[step].type === 'owner') {
+                if (this.adArr[i].type === 'owner') {
                     // 自有广告的上报，还是跟随屏幕出入
-                    // this._ownerExposureReport(this.adArr[step].params);
+                    // this._ownerExposureReport(this.adArr[i].params);
                 } else {
                     // 曝光上报
                     this._exposureReport({
-                        b1: this.adArr[step].type,
-                        b2: this.adArr[step].id + '#' + window.location.host
+                        b1: this.adArr[i].type,
+                        b2: this.adArr[i].id + '#' + window.location.host
                     });
 
                     // MTA曝光上报
                     // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
                 }
-                ++step;
             }
         }
     }
