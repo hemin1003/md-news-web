@@ -394,53 +394,77 @@ function Detail() {
         console.log(this.adArr);
         var step = 0;
         if (this.adArr.length !== 0) {
-            if (!next) {
-                for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
+            // if (!next) {
+            //     for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
 
-                    this.adWrapperDomArr[i].isFill = true;
-                    this.adWrapperDomArr[i].innerHTML = '';
-                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+            //         this.adWrapperDomArr[i].isFill = true;
+            //         this.adWrapperDomArr[i].innerHTML = '';
+            //         this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
 
-                    this.adWrapperDomArr[i].isExposure = true;
-                    // 自有广告上报
-                    if (this.adArr[step].type === 'owner') {
-                        // 自有广告的上报，还是跟随屏幕出入
-                        // this._ownerExposureReport(this.adArr[step].params);
-                    } else {
-                        // 曝光上报
-                        this._exposureReport({
-                            b1: this.adArr[step].type,
-                            b2: this.adArr[step].id + '#' + window.location.host
-                        });
+            //         this.adWrapperDomArr[i].isExposure = true;
+            //         // 自有广告上报
+            //         if (this.adArr[step].type === 'owner') {
+            //             // 自有广告的上报，还是跟随屏幕出入
+            //             // this._ownerExposureReport(this.adArr[step].params);
+            //         } else {
+            //             // 曝光上报
+            //             this._exposureReport({
+            //                 b1: this.adArr[step].type,
+            //                 b2: this.adArr[step].id + '#' + window.location.host
+            //             });
 
-                        // MTA曝光上报
-                        // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                    }
-                    ++step;
+            //             // MTA曝光上报
+            //             // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+            //         }
+            //         ++step;
+            //     }
+            // } else {
+            //     for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
+            //         this.adWrapperDomArr[i].isFill = true;
+            //         this.adWrapperDomArr[i].innerHTML = '';
+            //         this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+            //         this.adWrapperDomArr[i].isExposure = true;
+            //         // 自有广告上报
+            //         if (this.adArr[step].type === 'owner') {
+            //             // 自有广告的上报，还是跟随屏幕出入
+            //             // this._ownerExposureReport(this.adArr[step].params);
+            //         } else {
+            //             // 曝光上报
+            //             this._exposureReport({
+            //                 b1: this.adArr[step].type,
+            //                 b2: this.adArr[step].id + '#' + window.location.host
+            //             });
+
+            //             // MTA曝光上报
+            //             // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+            //         }
+            //         ++step;
+            //     }
+            // }
+
+            for (var i = 0; i < this.adWrapperDomArr.length; i++) {
+
+                this.adWrapperDomArr[i].isFill = true;
+                this.adWrapperDomArr[i].innerHTML = '';
+                this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+                this.adWrapperDomArr[i].isExposure = true;
+                // 自有广告上报
+                if (this.adArr[step].type === 'owner') {
+                    // 自有广告的上报，还是跟随屏幕出入
+                    // this._ownerExposureReport(this.adArr[step].params);
+                } else {
+                    // 曝光上报
+                    this._exposureReport({
+                        b1: this.adArr[step].type,
+                        b2: this.adArr[step].id + '#' + window.location.host
+                    });
+
+                    // MTA曝光上报
+                    // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
                 }
-            } else {
-                for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
-                    this.adWrapperDomArr[i].isFill = true;
-                    this.adWrapperDomArr[i].innerHTML = '';
-                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
-
-                    this.adWrapperDomArr[i].isExposure = true;
-                    // 自有广告上报
-                    if (this.adArr[step].type === 'owner') {
-                        // 自有广告的上报，还是跟随屏幕出入
-                        // this._ownerExposureReport(this.adArr[step].params);
-                    } else {
-                        // 曝光上报
-                        this._exposureReport({
-                            b1: this.adArr[step].type,
-                            b2: this.adArr[step].id + '#' + window.location.host
-                        });
-
-                        // MTA曝光上报
-                        // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                    }
-                    ++step;
-                }
+                ++step;
             }
         }
     }
@@ -585,7 +609,7 @@ function Detail() {
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
         // var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
-        var adLen = this.adArr[0].type === 'owner' || this.adArr[0].type === 'gdt' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
+        var adLen = this.adArr[0].type === 'owner' || this.adArr[0].type === 'gdt' ? this.adArr.length - 2 : this.adArr.length - 2;
 
         // 如果adArr为空，不插入广告位
         if (adLen + 1 > 0) {
@@ -1143,7 +1167,7 @@ function Detail() {
                     // js广告，滚动里面只是第二波加载
                     if (detail.adWrapperDomArr[1].getBoundingClientRect().top <= _clientHeight && !detail.isLoadNextAdWrapperDom) {
                         detail.isLoadNextAdWrapperDom = true;
-                        detail._loadAllAd(detail.isLoadNextAdWrapperDom);
+                        // detail._loadAllAd(detail.isLoadNextAdWrapperDom);
                     }
                 }
 
