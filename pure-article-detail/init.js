@@ -38,6 +38,7 @@ function Detail() {
     this.imgArr = [];
     this.likeListImgArr = [];
     this.adArr = [];
+    this.gdtAdArr = [];
     this.eventId = {
         exposure: 10000039,
         click: 10000031
@@ -87,8 +88,26 @@ function Detail() {
         this.redbagDom = document.querySelector('.redbag');
         this.toastDom = document.querySelector('.toast');
 
-        // 加载详情
-        this._loadDetailContent();
+        // 加载广点通
+        var that;
+        this._getGDT(function (res) {
+            if (res && res.constructor === Array) {
+                that.gdtAdArr = res;
+            }
+            // var testArr = [
+            //     { tid: "yvdvjtds2ygiy01", advertisement_id: "148644644", placement_id: "4060273523495873", item: 0 },
+            //     { tid: "yvdvjtds2ygiy02", advertisement_id: "132484218", placement_id: "4060273523495873", item: 1 },
+            //     { tid: "yvdvjtds2ygiy03", advertisement_id: "142157386", placement_id: "4060273523495873", item: 2 },
+            //     { tid: "yvdvjtds2ygiy04", advertisement_id: "145359103", placement_id: "4060273523495873", item: 3 },
+            //     { tid: "yvdvjtds2ygiy05", advertisement_id: "131006664", placement_id: "4060273523495873", item: 4 },
+            //     { tid: "yvdvjtds2ygiy06", advertisement_id: "144537703", placement_id: "4060273523495873", item: 5 },
+            //     { tid: "yvdvjtds2ygiy07", advertisement_id: "111676853", placement_id: "4060273523495873", item: 6 },
+            //     { tid: "yvdvjtds2ygiy08", advertisement_id: "148347770", placement_id: "4060273523495873", item: 7 }
+            // ];
+            // that.gdtAdArr = testArr;
+            // 加载详情
+            that._loadDetailContent();
+        });
 
         // 加载阅读红包
         this._queryRedbag();
@@ -107,10 +126,10 @@ function Detail() {
         });
 
         // 初始化完，默认上报
-//         this._exposureReport({
-//             b1: 'zm',
-//             b2: '31241#' + window.location.host
-//         });
+        // this._exposureReport({
+        //     b1: 'zm',
+        //     b2: '31241#' + window.location.host
+        // });
 
         // this._exposureReport({
         //     b1: 'zm',
@@ -288,6 +307,21 @@ function Detail() {
                 }
 
                 break;
+            case 'gdt':
+                for (var i in res) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'gdt';
+                    tmpObj['id'] = res[i].placement_id;
+                    tmpObj['reportId'] = res[i].placement_id;
+                    tmpObj['params'] = res[i];
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -338,6 +372,10 @@ function Detail() {
                 dom.setAttribute('index', index);
                 adScript = this._genOwnerAdDom(data.params);
                 break;
+            case 'gdt':
+                var flag = index + 1;
+                window.TencentGDT.NATIVE.renderAd(data.params, 'ad_' + flag);
+                return;
             default:
                 console.log('没有匹配的广告商家～');
                 break;
@@ -352,55 +390,81 @@ function Detail() {
 
     Detail.prototype._loadAllAd = function (next) {
         console.log('_loadAllAd...');
+        console.log(this.adWrapperDomArr.length);
+        console.log(this.adArr);
         var step = 0;
         if (this.adArr.length !== 0) {
-            if (!next) {
-                for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
+            // if (!next) {
+            //     for (var i = 0; i < Math.floor(this.adWrapperDomArr.length / 2); i++) {
 
-                    this.adWrapperDomArr[i].isFill = true;
-                    this.adWrapperDomArr[i].innerHTML = '';
-                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+            //         this.adWrapperDomArr[i].isFill = true;
+            //         this.adWrapperDomArr[i].innerHTML = '';
+            //         this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
 
-                    this.adWrapperDomArr[i].isExposure = true;
-                    // 自有广告上报
-                    if (this.adArr[step].type === 'owner') {
-                        // 自有广告的上报，还是跟随屏幕出入
-                        // this._ownerExposureReport(this.adArr[step].params);
-                    } else {
-                        // 曝光上报
-                        this._exposureReport({
-                            b1: this.adArr[step].type,
-                            b2: this.adArr[step].id + '#' + window.location.host
-                        });
+            //         this.adWrapperDomArr[i].isExposure = true;
+            //         // 自有广告上报
+            //         if (this.adArr[step].type === 'owner') {
+            //             // 自有广告的上报，还是跟随屏幕出入
+            //             // this._ownerExposureReport(this.adArr[step].params);
+            //         } else {
+            //             // 曝光上报
+            //             this._exposureReport({
+            //                 b1: this.adArr[step].type,
+            //                 b2: this.adArr[step].id + '#' + window.location.host
+            //             });
 
-                        // MTA曝光上报
-                        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                    }
-                    ++step;
+            //             // MTA曝光上报
+            //             // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+            //         }
+            //         ++step;
+            //     }
+            // } else {
+            //     for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
+            //         this.adWrapperDomArr[i].isFill = true;
+            //         this.adWrapperDomArr[i].innerHTML = '';
+            //         this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+            //         this.adWrapperDomArr[i].isExposure = true;
+            //         // 自有广告上报
+            //         if (this.adArr[step].type === 'owner') {
+            //             // 自有广告的上报，还是跟随屏幕出入
+            //             // this._ownerExposureReport(this.adArr[step].params);
+            //         } else {
+            //             // 曝光上报
+            //             this._exposureReport({
+            //                 b1: this.adArr[step].type,
+            //                 b2: this.adArr[step].id + '#' + window.location.host
+            //             });
+
+            //             // MTA曝光上报
+            //             // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
+            //         }
+            //         ++step;
+            //     }
+            // }
+
+            for (var i = 0; i < this.adWrapperDomArr.length; i++) {
+
+                this.adWrapperDomArr[i].isFill = true;
+                this.adWrapperDomArr[i].innerHTML = '';
+                this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
+
+                this.adWrapperDomArr[i].isExposure = true;
+                // 自有广告上报
+                if (this.adArr[step].type === 'owner') {
+                    // 自有广告的上报，还是跟随屏幕出入
+                    // this._ownerExposureReport(this.adArr[step].params);
+                } else {
+                    // 曝光上报
+                    this._exposureReport({
+                        b1: this.adArr[step].type,
+                        b2: this.adArr[step].id + '#' + window.location.host
+                    });
+
+                    // MTA曝光上报
+                    // MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
                 }
-            } else {
-                for (var i = Math.floor(this.adWrapperDomArr.length / 2); i < this.adWrapperDomArr.length; i++) {
-                    this.adWrapperDomArr[i].isFill = true;
-                    this.adWrapperDomArr[i].innerHTML = '';
-                    this._loadAd(this.adWrapperDomArr[i], this.adArr[step], step);
-
-                    this.adWrapperDomArr[i].isExposure = true;
-                    // 自有广告上报
-                    if (this.adArr[step].type === 'owner') {
-                        // 自有广告的上报，还是跟随屏幕出入
-                        // this._ownerExposureReport(this.adArr[step].params);
-                    } else {
-                        // 曝光上报
-                        this._exposureReport({
-                            b1: this.adArr[step].type,
-                            b2: this.adArr[step].id + '#' + window.location.host
-                        });
-
-                        // MTA曝光上报
-                        MtaH5.clickStat('pure_article_detail_exposure', { 'xsu3729957': 'true' });
-                    }
-                    ++step;
-                }
+                ++step;
             }
         }
     }
@@ -544,15 +608,16 @@ function Detail() {
         var baseInfo = this.base;
         var adsParamJson = this.obj2str(baseInfo.adsParamJson);
         var encodeAdsParamJson = encodeURIComponent(adsParamJson);
-        var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
+        // var adLen = this.adArr[0].type === 'owner' ? this.adArr.length - 2 : this.adArr.length * 2 - 2;
+        var adLen = this.adArr[0].type === 'owner' || this.adArr[0].type === 'gdt' ? this.adArr.length - 2 : this.adArr.length - 2;
 
         // 如果adArr为空，不插入广告位
         if (adLen + 1 > 0) {
             // 列表头补充一个 ad
-            rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+            rstTemplate += '<div class="ad-wrapper" id="ad_2"><img src="./blank.png" alt="blank" width="100%"></div>'
         }
 
-        for (var i = 0, length = list.length, step = 2; i < length; i++) {
+        for (var i = 0, length = list.length, step = 2, adStep = 3; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
@@ -590,7 +655,8 @@ function Detail() {
             if (adLen > 0 && --step === 0) {
                 --adLen;
                 step = 2;
-                rstTemplate += '<div class="ad-wrapper"><img src="./blank.png" alt="blank" width="100%"></div>'
+                rstTemplate += '<div class="ad-wrapper" id="ad_' + adStep + '"><img src="./blank.png" alt="blank" width="100%"></div>'
+                ++adStep;
             }
         }
         return rstTemplate;
@@ -610,8 +676,9 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // source.jsAdsSource = 'zm';
+                    // source.jsAdsSource = 'wx';
                     that._response2Object(source.jsAdsSource, source);
+                    that._response2Object('gdt', that.gdtAdArr);
                 }
             }
         };
@@ -624,6 +691,7 @@ function Detail() {
             method: 'GET',
             url: that.restUrl + 'adserving?' + that.obj2str(that.base.adsParamJson),
             callback: function (res) {
+                that._response2Object('gdt', that.gdtAdArr);
                 that._response2Object('owner', res.data);
             }
         };
@@ -647,6 +715,21 @@ function Detail() {
             }
         };
         that.request(params);
+    }
+
+    Detail.prototype._getGDT = function (callback) {
+        var that = this;
+        // 加载广点通广告
+        TencentGDT.push({
+            app_id: '1107944044',
+            placement_id: '4060273523495873',// 必须为字符串
+            type: 'native',
+            count: 10, // 拉取广告的数量，必填，默认是3，最高支持10
+            onComplete: function (res) { // 拉取完广告的回调函数，必填。
+                console.log(res);
+                callback && callback(res);
+            }
+        });
     }
 
     Detail.prototype._loadDetailContent = function () {
@@ -701,7 +784,7 @@ function Detail() {
                         that._bindAdDom();
 
                         // 如果不是自有广告，一次性加载所有JS广告
-                        if (that.adArr[0].type !== 'owner') {
+                        if (that.adArr[0].type !== 'owner' || that.adArr[0].type !== 'gdt') {
                             that._loadAllAd();
                         }
 
@@ -1083,7 +1166,7 @@ function Detail() {
                     // js广告，滚动里面只是第二波加载
                     if (detail.adWrapperDomArr[1].getBoundingClientRect().top <= _clientHeight && !detail.isLoadNextAdWrapperDom) {
                         detail.isLoadNextAdWrapperDom = true;
-                        detail._loadAllAd(detail.isLoadNextAdWrapperDom);
+                        // detail._loadAllAd(detail.isLoadNextAdWrapperDom);
                     }
                 }
 
