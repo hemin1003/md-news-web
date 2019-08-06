@@ -107,10 +107,10 @@ function Detail() {
         });
 
         // 初始化完，默认上报
-        this._exposureReport({
-            b1: 'zm',
-            b2: '31241#' + window.location.host
-        });
+//         this._exposureReport({
+//             b1: 'zm',
+//             b2: '31241#' + window.location.host
+//         });
 
         // this._exposureReport({
         //     b1: 'zm',
