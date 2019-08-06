@@ -92,19 +92,19 @@ function Detail() {
         var that;
         this._getGDT(function (res) {
             if (res && res.constructor === Array) {
-                that.gdtAdArr = testArr;
+                that.gdtAdArr = res;
             }
-            var testArr = [
-                { tid: "yvdvjtds2ygiy01", advertisement_id: "148644644", placement_id: "4060273523495873", item: 0 },
-                { tid: "yvdvjtds2ygiy02", advertisement_id: "132484218", placement_id: "4060273523495873", item: 1 },
-                { tid: "yvdvjtds2ygiy03", advertisement_id: "142157386", placement_id: "4060273523495873", item: 2 },
-                { tid: "yvdvjtds2ygiy04", advertisement_id: "145359103", placement_id: "4060273523495873", item: 3 },
-                { tid: "yvdvjtds2ygiy05", advertisement_id: "131006664", placement_id: "4060273523495873", item: 4 },
-                { tid: "yvdvjtds2ygiy06", advertisement_id: "144537703", placement_id: "4060273523495873", item: 5 },
-                { tid: "yvdvjtds2ygiy07", advertisement_id: "111676853", placement_id: "4060273523495873", item: 6 },
-                { tid: "yvdvjtds2ygiy08", advertisement_id: "148347770", placement_id: "4060273523495873", item: 7 }
-            ];
-            that.gdtAdArr = testArr;
+            // var testArr = [
+            //     { tid: "yvdvjtds2ygiy01", advertisement_id: "148644644", placement_id: "4060273523495873", item: 0 },
+            //     { tid: "yvdvjtds2ygiy02", advertisement_id: "132484218", placement_id: "4060273523495873", item: 1 },
+            //     { tid: "yvdvjtds2ygiy03", advertisement_id: "142157386", placement_id: "4060273523495873", item: 2 },
+            //     { tid: "yvdvjtds2ygiy04", advertisement_id: "145359103", placement_id: "4060273523495873", item: 3 },
+            //     { tid: "yvdvjtds2ygiy05", advertisement_id: "131006664", placement_id: "4060273523495873", item: 4 },
+            //     { tid: "yvdvjtds2ygiy06", advertisement_id: "144537703", placement_id: "4060273523495873", item: 5 },
+            //     { tid: "yvdvjtds2ygiy07", advertisement_id: "111676853", placement_id: "4060273523495873", item: 6 },
+            //     { tid: "yvdvjtds2ygiy08", advertisement_id: "148347770", placement_id: "4060273523495873", item: 7 }
+            // ];
+            // that.gdtAdArr = testArr;
             // 加载详情
             that._loadDetailContent();
         });
@@ -697,7 +697,6 @@ function Detail() {
     Detail.prototype._getGDT = function (callback) {
         var that = this;
         // 加载广点通广告
-        // console.log(window.GDT_AD);
         TencentGDT.push({
             app_id: '1107944044',
             placement_id: '4060273523495873',// 必须为字符串
