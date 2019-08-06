@@ -613,10 +613,10 @@ function Detail() {
         // 如果adArr为空，不插入广告位
         if (adLen + 1 > 0) {
             // 列表头补充一个 ad
-            rstTemplate += '<div class="ad-wrapper" id="ad_2"><img src="./blank.png" alt="blank" width="100%"></div>'
+            rstTemplate += '<div class="ad-wrapper" id="ad_1"><img src="./blank.png" alt="blank" width="100%"></div>'
         }
 
-        for (var i = 0, length = list.length, step = 2, adStep = 3; i < length; i++) {
+        for (var i = 0, length = list.length, step = 2, adStep = 2; i < length; i++) {
             var newId = list[i].url.split('?')[1].split('=')[1];
             baseInfo.id = newId;
             // 解决 undefined 错误
