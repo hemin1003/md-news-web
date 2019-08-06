@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test 5</title>
+    <!-- <script src="./vconsole.min.js"></script>
+    <script>
+        var vConsole = new VConsole();
+    </script> -->
+</head>
+
+
+<body>
+    <div id="containerId_1"></div>
+    <p>------这里是分割线------</p>
+    <div id="containerId_2"></div>
+    <p>------这里是分割线------</p>
+    <div id="containerId_3"></div>
+
+    <script type="text/javascript">
+        window.TencentGDT = window.TencentGDT || [];
+        TencentGDT.push({
+            app_id: '1107944044',
+            placement_id: '4060273523495873',// 必须为字符串
+            type: 'native',
+            count: 10, // 拉取广告的数量，必填，默认是3，最高支持10
+            onComplete: function (res) { // 拉取完广告的回调函数，必填。
+                console.log(res);
+                if (res && res.constructor === Array) {
+                    console.log(res);
+
+                    // 原生模板广告位调用 window.TencentGDT.NATIVE.renderAd(res[0], 'containerId') 进行模板广告的渲染
+                    window.TencentGDT.NATIVE.renderAd(res[0], 'containerId_1')
+                    window.TencentGDT.NATIVE.renderAd(res[1], 'containerId_2')
+                    window.TencentGDT.NATIVE.renderAd(res[2], 'containerId_3')
+                } else {
+                    // 此次回调中没有广告信息，开发者自行决定是否填充自己的广告
+                }
+            }
+        });
+
+        (function () {
+            var doc = document,
+                h = doc.getElementsByTagName('head')[0],
+                s = doc.createElement('script');
+            s.async = true;
+            s.src = '//qzs.qq.com/qzone/biz/res/i.js';
+            h && h.insertBefore(s, h.firstChild);
+        })();
+    </script>
+</body>
+
+</html>
