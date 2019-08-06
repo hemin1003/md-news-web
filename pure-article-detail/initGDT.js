@@ -652,7 +652,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    source.jsAdsSource = 'zm';
+                    // source.jsAdsSource = 'zm';
                     that._response2Object(source.jsAdsSource, source);
                     console.log(that.gdtAdArr);
                     that._response2Object('gdt', that.gdtAdArr);
