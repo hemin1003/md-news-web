@@ -719,9 +719,19 @@ function Detail() {
     Detail.prototype._getGDT = function (callback) {
         var that = this;
         // 加载广点通广告
+        // TencentGDT.push({
+        //     app_id: '1107944044',
+        //     placement_id: '4060273523495873',// 必须为字符串
+        //     type: 'native',
+        //     count: 10, // 拉取广告的数量，必填，默认是3，最高支持10
+        //     onComplete: function (res) { // 拉取完广告的回调函数，必填。
+        //         console.log(res);
+        //         callback && callback(res);
+        //     }
+        // });
         TencentGDT.push({
-            app_id: '1107944044',
-            placement_id: '4060273523495873',// 必须为字符串
+            app_id: '1109646539',
+            placement_id: '6010780003150497',// 必须为字符串
             type: 'native',
             count: 10, // 拉取广告的数量，必填，默认是3，最高支持10
             onComplete: function (res) { // 拉取完广告的回调函数，必填。
