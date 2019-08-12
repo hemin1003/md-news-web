@@ -230,6 +230,25 @@ function Detail() {
                 }
 
                 break;
+            case 'yg':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'yg';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i].split('#')[0] + '&h=85';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -291,6 +310,9 @@ function Detail() {
                 break;
             case 'ynn':
                 adScript = this._genYNNAdScript(data.params);
+                break;
+            case 'yg':
+                adScript = this._genXSAdScript(data.params);
                 break;
             default:
                 console.log('没有匹配的广告商家～');
