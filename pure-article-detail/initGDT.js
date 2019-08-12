@@ -322,6 +322,25 @@ function Detail() {
                 }
 
                 break;
+            case 'yg':
+                for (var i in res.jsAdsIdArray) {
+                    var tmpObj = {};
+                    tmpObj['type'] = 'yg';
+                    tmpObj['id'] = res.jsAdsIdArray[i].split('#')[0];
+                    tmpObj['reportId'] = res.jsAdsIdArray[i];
+                    var paramsObj = {};
+
+                    paramsObj['url'] = '//www.smucdn.com/smu0/o.js';
+                    paramsObj['smua'] = 'd=m&s=b&u=' + res.jsAdsIdArray[i].split('#')[0] + '&h=85';
+                    tmpObj['params'] = paramsObj;
+
+                    tmpObj['isExposure'] = false;
+                    tmpObj['isClick'] = false;
+
+                    rstAdArr.push(tmpObj);
+                }
+
+                break;
             default:
                 break;
         }
@@ -376,6 +395,9 @@ function Detail() {
                 var flag = index + 1;
                 window.TencentGDT.NATIVE.renderAd(data.params, 'ad_' + flag);
                 return;
+            case 'yg':
+                adScript = this._genXSAdScript(data.params);
+                break;
             default:
                 console.log('没有匹配的广告商家～');
                 break;
@@ -676,7 +698,7 @@ function Detail() {
                     // 请求自有
                     that._getOwnerAd();
                 } else {
-                    // source.jsAdsSource = 'wx';
+                    // source.jsAdsSource = 'yg';
                     that._response2Object(source.jsAdsSource, source);
                     that._response2Object('gdt', that.gdtAdArr);
                 }
