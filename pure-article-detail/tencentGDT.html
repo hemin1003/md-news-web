@@ -5,22 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>test 5</title>
+    <title>test GDT</title>
     <!-- <script src="./vconsole.min.js"></script>
     <script>
         var vConsole = new VConsole();
     </script> -->
+    <style>
+        .container {
+            margin-bottom: 10px;
+            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .guide-tip {
+            padding-bottom: 5px;
+            font-size: 4vw;
+            text-align: center;
+        }
+    </style>
 </head>
 
 
 <body>
-    <div id="containerId_1"></div>
-    <p>------这里是分割线------</p>
-    <div id="containerId_2"></div>
-    <p>------这里是分割线------</p>
-    <div id="containerId_3"></div>
+    <div class="container">
+        <div id="containerId_1"></div>
+        <div class="guide-tip">⬆加载广告⬆</div>
+    </div>
+    <div class="container">
+        <div id="containerId_2"></div>
+        <div class="guide-tip">⬆加载广告⬆</div>
+    </div>
+    <div class="container">
+        <div id="containerId_3"></div>
+        <div class="guide-tip">⬆加载广告⬆</div>
+    </div>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         window.TencentGDT = window.TencentGDT || [];
         TencentGDT.push({
             app_id: '1107944044',
@@ -41,6 +61,38 @@
                 }
             }
         });
+
+        (function () {
+            var doc = document,
+                h = doc.getElementsByTagName('head')[0],
+                s = doc.createElement('script');
+            s.async = true;
+            s.src = '//qzs.qq.com/qzone/biz/res/i.js';
+            h && h.insertBefore(s, h.firstChild);
+        })();
+    </script> -->
+
+    <script type="text/javascript">
+        window.TencentGDT = window.TencentGDT || [];
+        TencentGDT.push({
+            app_id: '1109646539',
+            placement_id: '6010780003150497',// 必须为字符串
+            type: 'native',
+            count: 3, // 拉取广告的数量，必填，默认是3，最高支持10
+            onComplete: function (res) { // 拉取完广告的回调函数，必填。
+                if (res && res.constructor === Array) {
+                    // 原生模板广告位调用 window.TencentGDT.NATIVE.renderAd(res[0], 'containerId') 进行模板广告的渲染
+                    window.TencentGDT.NATIVE.renderAd(res[0], 'containerId_1')
+                    window.TencentGDT.NATIVE.renderAd(res[1], 'containerId_2')
+                    window.TencentGDT.NATIVE.renderAd(res[2], 'containerId_3')
+                } else {
+                    // 此次回调中没有广告信息，开发者自行决定是否填充自己的广告
+                }
+            }
+        });
+
+        // 拉取广告
+        //window.TencentGDT.NATIVE.loadAd(placement_id)
 
         (function () {
             var doc = document,
